@@ -1,0 +1,98 @@
+<c-container [fluid]="true">
+  <c-card>
+    <!-- <c-card-header class="text-bg-dark">
+      <strong>MEDICIONES</strong>
+    </c-card-header> -->
+    <c-card-body>
+      <p class="mb-2"><b><u>Filtros</u></b></p>
+      <c-row class="mb-2">
+        <c-col sm="1">
+          Desde:
+        </c-col>
+        <c-col sm="2">
+          <input type="date" class="form-control form-control-sm">
+        </c-col>
+        <c-col sm="1">
+          Hasta:
+        </c-col>
+        <c-col sm="2">
+          <input type="date" class="form-control form-control-sm">
+        </c-col>
+      </c-row>
+      <c-row>
+        <c-col sm="1">
+          Pila:
+        </c-col>
+        <c-col sm="2">
+          <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+            <option selected>-- Seleccione --</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+          </select>
+        </c-col>
+        <c-col sm="1">
+          Paño:
+        </c-col>
+        <c-col sm="2">
+          <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+            <option selected>-- Seleccione --</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+          </select>
+        </c-col>
+      </c-row>
+      <hr>
+      <c-row class="mb-2">
+        <c-col sm="10">         
+        </c-col>     
+        <c-col sm="2" class="text-right">
+          <input type="text" class="form-control form-control-sm" placeholder="Filtro...">
+        </c-col>
+      </c-row>      
+      <c-row>
+        <c-col sm="12">          
+          <table class="table table-striped table-bordered">
+            <thead class="table-dark">
+              <tr>
+                <th scope="col">Fecha/Hora</th>
+                <th scope="col">Pila</th>
+                <th scope="col">Paño</th>
+                <th scope="col">Nodo</th>
+                <th scope="col">Oxigeno</th>
+                <th scope="col">Variable 2</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>12-08-12 19:00</td>
+                <td>Pila1</td>
+                <td>Paño1</td>
+                <td>Nodo1</td>
+                <td>0.5</td>
+                <td>1.3</td>
+              </tr>
+              <tr>
+                <td>12-08-12 20:00</td>
+                <td>Pila1</td>
+                <td>Paño1</td>
+                <td>Nodo2</td>
+                <td>0.3</td>
+                <td>1.5</td>
+              </tr>
+              <tr>
+                <td>12-08-12 22:00</td>
+                <td>Pila1</td>
+                <td>Paño1</td>
+                <td>Nodo3</td>
+                <td>1.1</td>
+                <td>2.0</td>
+              </tr>
+            </tbody>
+          </table>
+        </c-col>
+      </c-row>
+    </c-card-body>
+  </c-card>
+</c-container>

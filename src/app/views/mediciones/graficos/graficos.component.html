@@ -1,0 +1,23 @@
+<c-container>
+    <c-card>
+        <c-card-header>
+            <strong>Graficos</strong>
+        </c-card-header>
+        <c-card-body>
+            <c-row>
+                <c-col sm="12">
+
+                    <c-row>
+                        <c-col>
+                            <b>Mediciones / Pila 1 / Paño 1 / 12-08-2022</b>
+                            <hr>
+                        </c-col>
+                    </c-row>
+                    <canvas baseChart [data]="barChartData" [options]="barChartOptions" [type]="barChartType">
+                    </canvas>
+
+                </c-col>
+            </c-row>
+        </c-card-body>
+    </c-card>
+</c-container>
