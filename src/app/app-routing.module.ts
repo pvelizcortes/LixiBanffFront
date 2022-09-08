@@ -6,12 +6,13 @@ import { Page404Component } from './views/pages/page404/page404.component';
 import { Page500Component } from './views/pages/page500/page500.component';
 import { LoginComponent } from './views/pages/login/login.component';
 import { RegisterComponent } from './views/pages/register/register.component';
+import {AuthGuard} from './services/auth.guard';
 
 const routes: Routes = [
-  {
+  {    
     path: '',
     redirectTo: 'dashboard',
-    pathMatch: 'full'
+    pathMatch: 'full'  
   },
   {
     path: '',
@@ -22,11 +23,13 @@ const routes: Routes = [
     children: [
       {
         path: 'dashboard',
+        canActivate:[AuthGuard],
         loadChildren: () =>
           import('./views/dashboard/dashboard.module').then((m) => m.DashboardModule)
       },
       {
         path: 'mediciones',
+        canActivate:[AuthGuard],
         loadChildren: () =>
           import('./views/mediciones/mediciones.module').then((m) => m.MedicionesModule)
       },
@@ -100,7 +103,7 @@ const routes: Routes = [
     path: 'login',
     component: LoginComponent,
     data: {
-      title: 'Login Page'
+      title: 'Login LixiBanff'
     }
   },
   {

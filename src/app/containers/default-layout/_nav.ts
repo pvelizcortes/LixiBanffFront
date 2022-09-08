@@ -16,6 +16,11 @@ export const navItems: INavData[] = [
     iconComponent: { name: 'cil-chart-pie' },
     children: [
       {
+        name: 'Real Time',
+        url: '/mediciones/real-time',
+        iconComponent: { name: 'cil-cloud-download' }
+      },
+      {
         name: 'Listado de Mediciones',
         url: '/mediciones/listado',
         iconComponent: { name: 'cil-list' }

@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { GraficosComponent } from './graficos/graficos.component';
 import { ListadoComponent } from './listado/listado.component';
+import { RealTimeComponent } from './real-time/real-time.component';
 import { ReportesComponent } from './reportes/reportes.component';
 
 const routes: Routes = [
@@ -16,7 +17,14 @@ const routes: Routes = [
         path: '',
         pathMatch: 'full',
         redirectTo: 'mediciones'
-      },     
+      },   
+      {
+        path: 'real-time',
+        component: RealTimeComponent,
+        data: {
+          title: 'Medición en tiempo Real'
+        }
+      },  
       {
         path: 'listado',
         component: ListadoComponent,

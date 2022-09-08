@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.router.events.subscribe((evt) => {
+    this.router.events.subscribe((evt) => {  
       if (!(evt instanceof NavigationEnd)) {
         return;
       }

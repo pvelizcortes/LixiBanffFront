@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 import { DashboardChartsData, IChartProps } from './dashboard-charts-data';
-import { HttpClient } from '@angular/common/http';
+
 
 interface IUser {
   name: string;
@@ -23,7 +23,7 @@ interface IUser {
   styleUrls: ['dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  constructor(private chartsData: DashboardChartsData, private http: HttpClient) {
+  constructor(private chartsData: DashboardChartsData) {
   }
 
   public users: IUser[] = [
@@ -114,7 +114,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.initCharts();
-    this.getNodeInfo();
+   
   }
 
   initCharts(): void {
@@ -125,13 +125,5 @@ export class DashboardComponent implements OnInit {
     this.trafficRadioGroup.setValue({ trafficRadio: value });
     this.chartsData.initMainChart(value);
     this.initCharts();
-  }
-
-  getNodeInfo(){
-    const headers = { 'Authorization': 'Bearer NNSXS.DE4ZZPPCS6ASYTQU3JMFXLZ6XH56H4YRKRUPTBA.UFQZMKII5O7IIZVZXSVI2KJHTE7S3TUXZPVKAJA72KJREZVMYCOA', 'Accept': 'text/event-stream' }
-    this.http.get('https://nam1.cloud.thethings.network/api/v3/as/applications/nododesarrollo/packages/storage/uplink_message?limit=10', { headers })
-    .subscribe(data => {
-        console.log(data);
-    })
-  }
+  }  
 }

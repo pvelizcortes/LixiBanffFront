@@ -1,0 +1,24 @@
+<c-card>
+    <c-card-body>
+        <c-row>
+            <c-col sm="6">
+                <h4 class="card-title mb-0" id="traffic">
+                    Chart
+                    <hr>
+                </h4>
+                <p><b>Nodo: {{nodeName}}</b></p>
+                <p><b>Id: {{nodeId}}</b></p>
+                <p><b>Mac: {{ nodeMac}}</b></p>
+                <canvas baseChart [data]="barChartData" [options]="barChartOptions" [type]="barChartType">
+                </canvas>
+            </c-col>
+            <c-col sm="6">
+                <h4 class="card-title mb-0" id="traffic">
+                    Raw Data
+                </h4>
+                <hr>
+                <div [innerHTML]="data"></div>
+            </c-col>
+        </c-row>
+    </c-card-body>
+</c-card>
