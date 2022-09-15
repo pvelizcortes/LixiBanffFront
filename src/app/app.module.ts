@@ -46,6 +46,12 @@ import {
 
 import { IconModule, IconSetService } from '@coreui/icons-angular';
 import { NgChartsModule } from 'ng2-charts';
+import { NodosComponent } from './views/configuration/nodos/nodos.component';
+import { PilasComponent } from './views/configuration/pilas/pilas.component';
+import { PanosComponent } from './views/configuration/panos/panos.component';
+import { ClientesComponent } from './views/configuration/clientes/clientes.component';
+import { DashboardComponent } from './views/configuration/dashboard/dashboard.component';
+import { UsersComponent } from './views/users/users.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -58,7 +64,7 @@ const APP_CONTAINERS = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, ...APP_CONTAINERS],
+  declarations: [AppComponent, ...APP_CONTAINERS, NodosComponent, PilasComponent, PanosComponent, ClientesComponent, DashboardComponent, UsersComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

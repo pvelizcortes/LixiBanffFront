@@ -47,23 +47,23 @@ export class RealTimeComponent implements OnInit {
   getNodeInfo() {
     const headers = { 'Authorization': 'Bearer NNSXS.EVSQSDGLJJ6ZI7S2ZDGS26TWALZWFHOHDYKG4JQ.E4KFBAZU25TRZDR3N6QI6P76OK5SPW2RXABUV7HC4QU33S3YMJKA', 'Accept': 'text/event-stream' }
     this.http.get('https://nam1.cloud.thethings.network/api/v3/as/applications/nododesarrollo/packages/storage/uplink_message?limit=10', { headers })
-      .subscribe(data => {       
-        const parsed = JSON.parse(JSON.stringify(data));
-        console.log(parsed);
+      .subscribe(data => {  
+        console.log(data);     
+        
+        // const parsed = JSON.parse(JSON.stringify(data));
+       
 
-        this.nodeName = parsed.result.end_device_ids.application_ids.application_id;
-        this.nodeId = parsed.result.end_device_ids.device_id;
-        this.nodeMac = parsed.result.end_device_ids.dev_addr;
+        // this.nodeName = parsed.result.end_device_ids.application_ids.application_id;
+        // this.nodeId = parsed.result.end_device_ids.device_id;
+        // this.nodeMac = parsed.result.end_device_ids.dev_addr;       
 
-        var thenum = parsed.result.uplink_message.decoded_payload.value;       
-
-        this.barChartData = {
-          labels: [ parsed.result.received_at ],
-          datasets: [
-            { data: [ 20 ], label: 'o2' }           
-          ]
-        };
-        this.data = JSON.stringify(data);
+        // this.barChartData = {
+        //   labels: [ parsed.result.received_at ],
+        //   datasets: [
+        //     { data: [ 20 ], label: 'o2' }           
+        //   ]
+        // };
+      
       })
   }
 
