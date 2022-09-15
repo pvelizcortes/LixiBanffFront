@@ -1,9 +1,9 @@
 <c-card>
     <c-card-body>
         <c-row>
-            <c-col sm="6">
+            <c-col sm="12">
                 <h4 class="card-title mb-0" id="traffic">
-                    Chart
+                    Grafico
                     <hr>
                 </h4>
                 <p><b>Nodo: {{nodeName}}</b></p>
@@ -12,12 +12,32 @@
                 <canvas baseChart [data]="barChartData" [options]="barChartOptions" [type]="barChartType">
                 </canvas>
             </c-col>
-            <c-col sm="6">
+            <c-col>
+                <br>
+                <hr>
+                <br>
+            </c-col>
+            <c-col sm="12">
                 <h4 class="card-title mb-0" id="traffic">
-                    Raw Data
+                    Listado:
                 </h4>
                 <hr>
-                <div [innerHTML]="data"></div>
+                <table class="table table-sm table-stripped">
+                    <thead>
+                        <tr>
+                            <th><b>Fecha</b></th>
+                            <th><b>Sensor</b></th>
+                            <th><b>Valor</b></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of objFinal">
+                            <td>{{item.fecha | date:'dd/MM/yyyy hh:mm'}}</td>
+                            <td>{{item.sensor}}</td>
+                            <td>{{item.valor}}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </c-col>
         </c-row>
     </c-card-body>

@@ -11,6 +11,7 @@ import { ReportesComponent } from './reportes/reportes.component';
 import { MedicionesRoutingModule } from './mediciones-routing.module';
 
 import { NgChartsModule } from 'ng2-charts';
+import { DatePipe } from '@angular/common';
 
 import {
   ButtonGroupModule,
@@ -56,6 +57,9 @@ import { RealTimeComponent } from './real-time/real-time.component';
     NavbarModule,
     NgChartsModule,
     HttpClientModule
+  ],
+  providers:[
+    DatePipe
   ]
 })
 export class MedicionesModule {
