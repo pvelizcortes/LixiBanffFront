@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { DocsComponentsModule } from '@docs-components/docs-components.module';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -56,7 +56,8 @@ import { RealTimeComponent } from './real-time/real-time.component';
     NavModule,
     NavbarModule,
     NgChartsModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers:[
     DatePipe

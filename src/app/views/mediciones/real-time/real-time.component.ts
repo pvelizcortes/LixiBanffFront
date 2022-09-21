@@ -5,6 +5,7 @@ import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { DatePipe } from '@angular/common';
 
 export interface IData {
+  id?: string;
   fecha?: any;
   sensor?: any;
   valor?: any;
@@ -36,47 +37,45 @@ export class RealTimeComponent implements OnInit {
       legend: {
         display: true,
       },
-      
+
     }
   };
-  public barChartType: ChartType = 'bar';
 
-  public barChartData: ChartData<'bar'> = {
-    labels: [],
-    datasets: []
-  };
-
-  public data: Array<any> = [];
-  public objFinal: Array<IData> = [];
-  public objChart: Array<IChartData> = [];
 
   constructor(private http: HttpClient, private datePipe: DatePipe) { }
 
-  nodeName = '';
-  nodeId = '';
-  nodeMac = '';
+  chartActive = '-- seleccione --';
+  NodosArray = ['-- seleccione --', 'eui-70b3d57ed005507c', 'eui-70b3d57ed0055345', 'eui-70b3d57ed00555f1'];
+  objFinal: Array<IData> = [];
+  objFiltered: Array<IData> = [];
+  barChartType: ChartType = 'bar';
+
+  barChartData: ChartData<'bar'> = {
+    labels: [],
+    datasets: []
+  };
 
   ngOnInit(): void {
     this.getNodeInfo();
   }
 
+  // Get all node Info
   getNodeInfo() {
     const headers = { 'Authorization': 'Bearer NNSXS.EVSQSDGLJJ6ZI7S2ZDGS26TWALZWFHOHDYKG4JQ.E4KFBAZU25TRZDR3N6QI6P76OK5SPW2RXABUV7HC4QU33S3YMJKA', 'Accept': 'text/plain' }
-    this.http.get('https://nam1.cloud.thethings.network/api/v3/as/applications/nododesarrollo/packages/storage/uplink_message?limit=10', { headers, responseType: 'text' })
+    this.http.get('https://nam1.cloud.thethings.network/api/v3/as/applications/nododesarrollo/packages/storage/uplink_message?limit=30', { headers, responseType: 'text' })
       .subscribe(data => {
         var jsonArray = data.split('\n');
         jsonArray.forEach(x => {
           if (x.length > 2) {
             try {
               const parsedValue = JSON.parse(x.trim());
-              this.nodeName = parsedValue.result.end_device_ids.application_ids.application_id;
-              this.nodeId = parsedValue.result.end_device_ids.device_id;
-              this.nodeMac = parsedValue.result.end_device_ids.dev_addr;
+              let id = parsedValue.result.end_device_ids.device_id;
               let fecha = parsedValue.result.received_at;
               let sensor = parsedValue.result.uplink_message.decoded_payload.sensor;
               let valor = parsedValue.result.uplink_message.decoded_payload.value;
 
               this.objFinal.push({
+                id: id,
                 fecha: fecha,
                 sensor: sensor,
                 valor: valor
@@ -87,48 +86,51 @@ export class RealTimeComponent implements OnInit {
             }
           }
         });
-
-        var Fechitas = this.objFinal.map(x => {
-          return  this.datePipe.transform(x.fecha,'dd-MM-yyyy hh:mm');          
-        });
-
-        // let sensores = this.objFinal.map(x => {
-        //   return x.sensor;
-        // });
-
-        let uniqueFechitas = [...new Set(Fechitas)];
-
-        var arrayTemp1: any = [];
-        var arrayTemp2: any = [];
-        var arrayTemp3: any = [];
-        var arrayTemp4: any = [];
-        var arrayTemp5: any = [];
-        var arrayTemp6: any = [];
-        
-        this.objFinal.forEach(x => {
-          arrayTemp1.push(x.sensor == 'temp 1' ? x.valor : 0);
-          arrayTemp2.push(x.sensor == 'temp 2' ? x.valor : 0);
-          arrayTemp3.push(x.sensor == 'temp 3' ? x.valor : 0);
-          arrayTemp4.push(x.sensor == 'CO2 1' ? x.valor : 0);
-          arrayTemp5.push(x.sensor == 'CO2 2' ? x.valor : 0);
-          arrayTemp6.push(x.sensor == 'CO2 3' ? x.valor : 0);
-        });
-
-        this.barChartData = {
-          labels: Fechitas,
-          datasets: [
-            { data: arrayTemp1, label: 'temp 1' },
-            { data: arrayTemp2, label: 'temp 2' },
-            { data: arrayTemp3, label: 'temp 3' },
-            { data: arrayTemp4, label: 'CO2 1' },
-            { data: arrayTemp5, label: 'CO2 2' },
-            { data: arrayTemp6, label: 'CO2 3' }
-          ]
-        };
-
       })
   }
 
+  nodeChange(nodeId: string) {
+    this.filterValuesNode(nodeId);
+  }
 
+  // Filter all date with Node Id
+  filterValuesNode(nodeId: string) {
+    this.objFiltered = this.objFinal.filter(x => {
+      return x.id == nodeId;
+    });
 
+    console.log(this.objFiltered);
+
+    var Fechitas = this.objFiltered.map(x => {
+      return this.datePipe.transform(x.fecha, 'dd-MM-yyyy hh:mm');
+    });
+
+    var arrayTemp1: any = [];
+    var arrayTemp2: any = [];
+    var arrayTemp3: any = [];
+    var arrayTemp4: any = [];
+    var arrayTemp5: any = [];
+    var arrayTemp6: any = [];
+
+    this.objFiltered.forEach(x => {
+      arrayTemp1.push(x.sensor == 'temp 1' ? x.valor : 0);
+      arrayTemp2.push(x.sensor == 'temp 2' ? x.valor : 0);
+      arrayTemp3.push(x.sensor == 'temp 3' ? x.valor : 0);
+      arrayTemp4.push(x.sensor == 'CO2 1' || x.sensor == 'O2 1'  ? x.valor : 0);
+      arrayTemp5.push(x.sensor == 'CO2 2' || x.sensor == 'O2 2' ? x.valor : 0);
+      arrayTemp6.push(x.sensor == 'CO2 3' || x.sensor == 'O2 3' ? x.valor : 0);
+    });
+
+    this.barChartData = {
+      labels: Fechitas,
+      datasets: [
+        { data: arrayTemp1, label: 'TEMP 1' },
+        { data: arrayTemp2, label: 'TEMP 2' },
+        { data: arrayTemp3, label: 'TEMP 3' },
+        { data: arrayTemp4, label: nodeId == 'eui-70b3d57ed005507c' || nodeId == 'eui-70b3d57ed00555f1'  ? 'O2 1' : 'CO2 1' },
+        { data: arrayTemp5, label: nodeId == 'eui-70b3d57ed005507c' || nodeId == 'eui-70b3d57ed00555f1'  ? 'O2 2' : 'CO2 2' },
+        { data: arrayTemp6, label: nodeId == 'eui-70b3d57ed005507c' || nodeId == 'eui-70b3d57ed00555f1'  ? 'O2 3' : 'CO2 3' },
+      ]
+    };
+  }
 }
