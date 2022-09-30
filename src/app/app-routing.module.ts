@@ -22,6 +22,12 @@ const routes: Routes = [
     },
     children: [
       {
+        path: 'admin',
+        canActivate:[AuthGuard],
+        loadChildren: () =>
+          import('./views/admin/admin.module').then((m) => m.AdminModule)
+      },
+      {
         path: 'dashboard',
         canActivate:[AuthGuard],
         loadChildren: () =>

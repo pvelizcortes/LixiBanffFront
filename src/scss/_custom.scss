@@ -1,2 +1,28 @@
-// Here you can add other styles
+// global class
+.text-right {
+    text-align: right !important;
+}
 
+.ml-2 {
+    margin-left: 2em;
+}
+
+// Mat Table Styles
+.custom-table {
+    border: 1px solid lightgray;
+}
+
+.table-header-row {
+    height: 30px !important;
+    background-color: darkslategray;
+    vertical-align: middle;
+}
+
+.table-header-text {
+    font-weight: bold;
+    color: white !important;
+}
+
+.mat-sort-header-arrow {
+    color: white !important;
+}

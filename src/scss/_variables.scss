@@ -318,11 +318,11 @@ $spacers: (
 //
 // Style anchor elements.
 
-// $link-color:                              $primary;
-// $link-decoration:                         underline;
-// $link-shade-percentage:                   20%;
-// $link-hover-color:                        shift-color($link-color, $link-shade-percentage);
-// $link-hover-decoration:                   null;
+ $link-color:                              gray;
+ $link-decoration:                         none;
+ $link-shade-percentage:                   20%;
+ $link-hover-color:                        shift-color($link-color, $link-shade-percentage);
+ $link-hover-decoration:                   null;
 
 // $stretched-link-pseudo-element:           after;
 // $stretched-link-z-index:                  1;
@@ -440,7 +440,7 @@ $spacers: (
 
 // stylelint-disable value-keyword-case
 // $font-family-sans-serif:      system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-// $font-family-monospace:       SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+ $font-family-monospace:       SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 // stylelint-enable value-keyword-case
 // $font-family-base:            var(--#{$variable-prefix}font-sans-serif);
 // $font-family-code:            var(--#{$variable-prefix}font-monospace);
@@ -1397,7 +1397,7 @@ $spacers: (
 
 // Header
 // scss-docs-start header-variables
- $header-min-height:             1rem;
+ $header-min-height:             0.8rem;
 // $header-padding-y:              $spacer / 4;
 // $header-padding-x:              $spacer / 4;
 // $header-brand-font-size:        $font-size-lg;
@@ -1482,7 +1482,7 @@ $breadcrumb-margin-bottom:          0;
 // $breadcrumb-bg:                     unset;
 // $breadcrumb-divider-color:          $gray-600;
 // $breadcrumb-active-color:           $gray-600;
-// $breadcrumb-divider:                quote("/");
+ $breadcrumb-divider:                quote(">");
 // $breadcrumb-divider-flipped:        $breadcrumb-divider;
 // $breadcrumb-border-radius:          null;
 // scss-docs-end breadcrumb-variables

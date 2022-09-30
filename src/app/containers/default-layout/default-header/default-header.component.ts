@@ -14,8 +14,9 @@ export class DefaultHeaderComponent extends HeaderComponent {
   public newMessages = new Array(4)
   public newTasks = new Array(5)
   public newNotifications = new Array(5)
+  userName = localStorage.getItem('loginUser');
 
   constructor(private classToggler: ClassToggleService) {
-    super();
+    super();   
   }
 }

@@ -4,6 +4,9 @@
   class="d-print-none sidebar sidebar-fixed"
   id="sidebar"
   visible
+  narrow="true"
+  unfoldable="true"
+  colorScheme="light"
 >
   <c-sidebar-brand
     [brandFull]="{
@@ -24,7 +27,7 @@
     <perfect-scrollbar [config]="perfectScrollbarConfig">
   <!--  [perfectScrollbar]="perfectScrollbarConfig"-->
   <c-sidebar-nav
-    [navItems]="navItems"
+    [navItems]="navItems"   
   >
   </c-sidebar-nav>
     </perfect-scrollbar>
@@ -36,7 +39,7 @@
 </c-sidebar>
 
 <!--main-->
-<div class="wrapper d-flex flex-column min-vh-100 bg-light dark:bg-transparent">
+<div class="wrapper d-flex flex-column min-vh-100 dark:bg-transparent">
   <!--app-header-->
   <app-default-header class="mb-4 d-print-none header header-sticky" position="sticky" sidebarId="sidebar"></app-default-header>
   <!--app-body-->

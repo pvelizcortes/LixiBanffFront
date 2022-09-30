@@ -23,7 +23,7 @@ import {
   DefaultLayoutComponent,
 } from './containers';
 
-import {
+import {  
   AvatarModule,
   BadgeModule,
   BreadcrumbModule,
@@ -53,6 +53,7 @@ import { ClientesComponent } from './views/configuration/clientes/clientes.compo
 import { DashboardComponent } from './views/configuration/dashboard/dashboard.component';
 import { UsersComponent } from './views/users/users.component';
 
+
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
 };
@@ -65,7 +66,7 @@ const APP_CONTAINERS = [
 
 @NgModule({
   declarations: [AppComponent, ...APP_CONTAINERS, NodosComponent, PilasComponent, PanosComponent, ClientesComponent, DashboardComponent, UsersComponent],
-  imports: [
+  imports: [    
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -92,7 +93,7 @@ const APP_CONTAINERS = [
     BadgeModule,
     ListGroupModule,
     CardModule,
-    NgChartsModule,
+    NgChartsModule    
   ],
   providers: [
     {

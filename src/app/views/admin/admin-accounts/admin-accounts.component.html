@@ -1,1 +1,48 @@
-<p>admin-accounts works!</p>
+<c-container fluid>
+    <c-row>   
+        <c-col sm="6" class="mb-2">
+            <b><svg cIcon size="md" name="cil-chevron-right"></svg> {{_title}}</b>
+            <button cButton color="dark" variant="outline" class="btn btn-sm ml-2">{{_createName}}</button>
+        </c-col>
+        <hr>
+        <c-col sm="12" class="text-right">
+            <c-col sm="2" class="offset-sm-10">
+                <input matInput cFormControl class="mb-2" placeholder="{{_searchText}}" type="text"
+                    (keyup)="applyFilter($event)" />
+            </c-col>
+        </c-col>
+        <c-col sm="12">
+            <ng-container>
+                <table mat-table [dataSource]="dataSource" matSort #tableSort="matSort" class="table custom-table">
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell mat-sort-header *matHeaderCellDef class="table-header-text">Id</th>
+                        <td mat-cell *matCellDef="let item"><b>{{ item.id }}</b></td>
+                    </ng-container>
+                    <ng-container matColumnDef="nombre">
+                        <th mat-header-cell mat-sort-header *matHeaderCellDef class="table-header-text">Nombre</th>
+                        <td mat-cell *matCellDef="let item">{{ item.nombre }}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="apellido">
+                        <th mat-header-cell mat-sort-header *matHeaderCellDef class="table-header-text">Apellido</th>
+                        <td mat-cell *matCellDef="let item">{{ item.apellido }}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="edad">
+                        <th mat-header-cell mat-sort-header *matHeaderCellDef class="table-header-text">Edad</th>
+                        <td mat-cell *matCellDef="let item">{{ item.edad }}</td>
+                    </ng-container>
+
+                    <tr mat-header-row class="table-header-row" *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let item; columns: displayedColumns"></tr>
+
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell text-center" [attr.colspan]="displayedColumns.length">
+                            <b>{{_noSearchResults}}</b>
+                        </td>
+                    </tr>
+
+                </table>
+                <mat-paginator [pageSizeOptions]="_pageSizeOptions" showFirstLastButtons></mat-paginator>
+            </ng-container>
+        </c-col>
+    </c-row>
+</c-container>
