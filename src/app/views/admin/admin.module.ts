@@ -6,9 +6,14 @@ import { FormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { MatTableExporterModule } from 'mat-table-exporter';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatDialogModule } from "@angular/material/dialog";
+import { MatButtonModule } from '@angular/material/button'
 
 // Components
-import { AdminAccountsComponent } from './admin-accounts/admin-accounts.component';
+import { AdminClientsComponent } from './admin-clients/admin-clients.component';
 // Routing
 import { AdminRoutingModule } from './admin-routing.module';
 // Pipes
@@ -26,15 +31,20 @@ import {
   NavModule,
   SharedModule,
   UtilitiesModule,
-  TableModule
+  TableModule,
+  ModalModule,
+  
 } from '@coreui/angular';
 
 import { IconModule } from '@coreui/icons-angular';
+import { AdminClientsFormComponent } from './admin-clients/admin-clients-form/admin-clients-form.component';
+
 
 @NgModule({
-  declarations: [
-    AdminAccountsComponent,
-    SearchFilterPipe
+  declarations: [ 
+    SearchFilterPipe,
+    AdminClientsComponent,
+    AdminClientsFormComponent
   ],
   imports: [
     CommonModule,
@@ -57,7 +67,13 @@ import { IconModule } from '@coreui/icons-angular';
     TableModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatTableExporterModule,
+    MatTooltipModule,
+    ModalModule, 
+    MatFormFieldModule,
+    MatDialogModule,
+    MatButtonModule
   ]
 })
 export class AdminModule {
