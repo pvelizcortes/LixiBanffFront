@@ -1,7 +1,46 @@
-<h1 mat-dialog-title>Hi {{data.nombre}}</h1>
-<div mat-dialog-content>
-  <p>What's your favorite animal {{data.nombre}}?</p>  
-</div>
-<div mat-dialog-actions align="end">  
-  <button cButton color="primary" variant="outline" (click)="closeMe()">Guardar</button>
+<div class="container">
+  <h1 mat-dialog-title>{{_title}}</h1>
+  <div mat-dialog-content>
+
+    <form [formGroup]="queryForm" class="form-row" (ngSubmit)="onSubmit()">
+      <mat-form-field class="col-sm-4 px-2">
+        <mat-label>Nombre</mat-label>
+        <input matInput formControlName="nombreCliente">
+        <mat-error *ngIf="queryForm.controls['nombreCliente'].hasError('required')">
+          Ingrese un nombre.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col-sm-4 px-2">
+        <mat-label>Correo</mat-label>
+        <input matInput formControlName="correoCliente" email>
+        <mat-error *ngIf="queryForm.controls['correoCliente'].hasError('required')">
+          Ingrese un correo.
+        </mat-error>
+        <mat-error *ngIf="queryForm.controls['correoCliente'].hasError('email')">
+          Ingrese un correo válido.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col-sm-4 px-2">
+        <mat-label>Telefono</mat-label>
+        <input matInput formControlName="telefonoCliente">       
+      </mat-form-field>
+
+      <mat-form-field class="col-sm-12 px-2">
+        <mat-label>Dirección</mat-label>
+        <input matInput formControlName="direccionCliente">       
+      </mat-form-field>
+
+      <mat-form-field class="col-sm-12 px-2">
+        <mat-label>Descripción</mat-label>
+        <input matInput formControlName="descripcionCliente">       
+      </mat-form-field>
+    </form>
+  </div>
+  <hr>
+  <div mat-dialog-actions align="end">
+    <button cButton color="warning" (click)="onSubmit()" class="mr-1">{{_saveButtonName}}</button>
+    <button cButton color="light" (click)="closeMe()">{{_closeButtonName}}</button>
+  </div>
 </div>

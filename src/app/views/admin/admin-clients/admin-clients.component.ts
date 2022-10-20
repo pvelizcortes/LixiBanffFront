@@ -1,19 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { GlobalConstants } from '../../../constants/global-constants';
-
 // Models
-import { Accounts } from '../../../shared/accounts';
-
+import { Client } from '../../../shared/client';
 // Mat Table
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableExporterModule } from 'mat-table-exporter';
-
 // Dialog
 import { MatDialog } from '@angular/material/dialog';
-import { AdminClientsFormComponent } from './admin-clients-form/admin-clients-form.component'
-
+import { AdminClientsFormComponent } from './admin-clients-form/admin-clients-form.component';
 // Export PDF
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable';
@@ -32,21 +28,20 @@ export class AdminClientsComponent implements OnInit {
   _pageSizeOptions: number[] = GlobalConstants.pageSizeOptions;
   _noSearchResults: string = GlobalConstants.noSearchResults;
   _showModal: boolean = false;
-
   // Mat Table
+  displayedColumns: string[] = ['id', 'nombre', 'apellido', 'edad', 'actions'];
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild('tableSort') tableSort = new MatSort();
-
-  // Table Properties
-  displayedColumns: string[] = ['id', 'nombre', 'apellido', 'edad', 'actions'];
-
-  // For TESTING
-  tableData: Accounts[] = [
-    { id: 1, nombre: 'Pablo 1', apellido: 'Veliz 1', edad: 10 },
-    { id: 2, nombre: 'Pablo 2', apellido: 'Veliz 2', edad: 20 },
-    { id: 3, nombre: 'Pablo 3', apellido: 'Veliz 3', edad: 30 },
-    { id: 4, nombre: 'Pablo 4', apellido: 'Veliz 4', edad: 40 }    
+  // For testing
+  tableData: Client[] = [
+    { ClienteId: 1, NombreCliente: 'Pablo 1', CorreoCliente: 'Veliz 1', Active: true },
+    { ClienteId: 2, NombreCliente: 'Pablo 2', CorreoCliente: 'Veliz 2', Active: true },
+    { ClienteId: 3, NombreCliente: 'Pablo 3', CorreoCliente: 'Veliz 3', Active: true },
+    { ClienteId: 1, NombreCliente: 'Pablo 1', CorreoCliente: 'Veliz 1', Active: true },
+    { ClienteId: 2, NombreCliente: 'Pablo 2', CorreoCliente: 'Veliz 2', Active: true },
+    { ClienteId: 3, NombreCliente: 'Pablo 3', CorreoCliente: 'Veliz 3', Active: true },
+    { ClienteId: 4, NombreCliente: 'Pablo 4', CorreoCliente: 'Veliz 4', Active: true }
   ];
 
   constructor(public dialog: MatDialog) {
@@ -71,16 +66,12 @@ export class AdminClientsComponent implements OnInit {
     doc.save(this._title + '.pdf')
   }
 
-  openDialog(item: Accounts): void {
+  openDialog(item?: Client): void {
     const dialogRef = this.dialog.open(AdminClientsFormComponent, {
-      data: item,
-      width: '100%',
-      position: { top: '3%' }
+      data: item, width: '100%', position: { top: '8vh' }
     });
+    dialogRef.afterClosed().subscribe(result => {
 
-    dialogRef.afterClosed().subscribe(result => { 
-      console.log(result);
     });
   }
-
 }

@@ -9,8 +9,10 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
 import { MatDialogModule } from "@angular/material/dialog";
-import { MatButtonModule } from '@angular/material/button'
+import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
 
 // Components
 import { AdminClientsComponent } from './admin-clients/admin-clients.component';
@@ -73,7 +75,9 @@ import { AdminClientsFormComponent } from './admin-clients/admin-clients-form/ad
     ModalModule, 
     MatFormFieldModule,
     MatDialogModule,
-    MatButtonModule
+    MatButtonModule,
+    MatSelectModule,
+    MatInputModule
   ]
 })
 export class AdminModule {
