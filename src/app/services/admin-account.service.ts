@@ -1,58 +1,41 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { GlobalConstants } from '../constants/global-constants';
+
+import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
+// Model
+import { Client } from '../shared/client';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class AdminAccountService {
+  myAppUrl: string;
+  principalUrl: string = '/api/Cliente/';
 
+  // Form Properties
   errorMessages: any;
-
   formRules = {
     nonEmpty: '^[a-zA-Z0-9]+([_ -]?[a-zA-Z0-9])*$',
     usernameMin: 5,
     passwordMin: 6,
     passwordPattern: '(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,}'
   };
-
   formErrors = {
-    tableSearch: '',
-    // lastName: '',
-    // username: '',
-    // email: '',
-    // password: '',
-    // confirmPassword: '',
-    // accept: false,
+    tableSearch: ''
   };
 
-  constructor() {
-    this.errorMessages = {
-      tableSearch: {
-        required: 'First name is required',
-      },
-      // lastName: {
-      //   required: 'Last name is required',
-      // },
-      // username: {
-      //   required: 'Username is required',
-      //   minLength: `Username must be ${this.formRules.usernameMin} characters or more`,
-      //   pattern: 'Must contain letters and/or numbers, no trailing spaces'
-      // },
-      // email: {
-      //   required: 'required',
-      //   email: 'Invalid email address',
-      // },
-      // password: {
-      //   required: 'Password is required',
-      //   pattern: 'Password must contain: numbers, uppercase and lowercase letters',
-      //   minLength: `Password must be at least ${this.formRules.passwordMin} characters`
-      // },
-      // confirmPassword: {
-      //   required: 'Password confirmation is required',
-      //   passwordMismatch: 'Passwords must match'
-      // },
-      // accept: {
-      //   requiredTrue: 'You have to accept our Terms and Conditions'
-      // },
-    };
+  constructor(private http: HttpClient) {
+    this.myAppUrl = environment.endpoint;   
+  }
+
+  getList(): Observable<any>{
+    return this.http.get(this.myAppUrl + this.principalUrl + 'GetListClient');
+  }
+
+  saveClient(cliente : Client): Observable<any>{
+    return this.http.post(this.myAppUrl + this.principalUrl + 'SaveClient', cliente);
   }
 }

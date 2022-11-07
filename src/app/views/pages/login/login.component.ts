@@ -14,11 +14,10 @@ export class LoginComponent {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private fb: FormBuilder,
     private loginService: LoginService
   ) {
     loginService.removeLocalStorge();
-    this.loginForm = this.fb.group({
+    this.loginForm = this.formBuilder.group({
       userName: ['', Validators.required],
       password: ['', Validators.required]
     });
@@ -37,6 +36,7 @@ export class LoginComponent {
       },
       error: (error) => {           
         this.loginForm.reset();
+        alert('Usuario / Contraseña Incorrectos.');
       }
     });     
   }

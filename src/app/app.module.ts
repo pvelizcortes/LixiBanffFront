@@ -3,7 +3,11 @@ import { HashLocationStrategy, LocationStrategy, PathLocationStrategy } from '@a
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ToastrModule } from 'ngx-toastr';
+
+// Interceptors
+import { AddTokenInterceptor } from '../app/helpers/add-token.interceptor'
 
 import {
   PERFECT_SCROLLBAR_CONFIG,
@@ -95,7 +99,10 @@ const APP_CONTAINERS = [
     ListGroupModule,
     CardModule,
     NgChartsModule,
-    HttpClientModule
+    HttpClientModule,
+    ToastrModule.forRoot({
+      positionClass :'toast-top-right'
+    })
   ],
   providers: [
     {
@@ -106,6 +113,7 @@ const APP_CONTAINERS = [
       provide: PERFECT_SCROLLBAR_CONFIG,
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG,
     },
+    { provide: HTTP_INTERCEPTORS, useClass: AddTokenInterceptor, multi: true },
     IconSetService,
     Title
   ],

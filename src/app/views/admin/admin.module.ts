@@ -21,6 +21,8 @@ import { AdminRoutingModule } from './admin-routing.module';
 // Pipes
 import { SearchFilterPipe } from 'src/app/pipes/search-filter.pipe';
 
+
+
 import {
   ButtonGroupModule,
   ButtonModule,
@@ -34,7 +36,7 @@ import {
   SharedModule,
   UtilitiesModule,
   TableModule,
-  ModalModule,
+  ModalModule 
   
 } from '@coreui/angular';
 
@@ -77,7 +79,7 @@ import { AdminClientsFormComponent } from './admin-clients/admin-clients-form/ad
     MatDialogModule,
     MatButtonModule,
     MatSelectModule,
-    MatInputModule
+    MatInputModule   
   ]
 })
 export class AdminModule {

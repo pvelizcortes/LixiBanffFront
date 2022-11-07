@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { GlobalConstants } from '../../../constants/global-constants';
 // Models
 import { Client } from '../../../shared/client';
+// Services
+import { AdminAccountService } from '../../../services/admin-account.service'
 // Mat Table
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -35,24 +37,36 @@ export class AdminClientsComponent implements OnInit {
   @ViewChild('tableSort') tableSort = new MatSort();
   // For testing
   tableData: Client[] = [
-    { ClienteId: 1, NombreCliente: 'Pablo 1', CorreoCliente: 'Veliz 1', Active: true },
-    { ClienteId: 2, NombreCliente: 'Pablo 2', CorreoCliente: 'Veliz 2', Active: true },
-    { ClienteId: 3, NombreCliente: 'Pablo 3', CorreoCliente: 'Veliz 3', Active: true },
-    { ClienteId: 1, NombreCliente: 'Pablo 1', CorreoCliente: 'Veliz 1', Active: true },
-    { ClienteId: 2, NombreCliente: 'Pablo 2', CorreoCliente: 'Veliz 2', Active: true },
-    { ClienteId: 3, NombreCliente: 'Pablo 3', CorreoCliente: 'Veliz 3', Active: true },
-    { ClienteId: 4, NombreCliente: 'Pablo 4', CorreoCliente: 'Veliz 4', Active: true }
+    { clienteId: 1, nombreCliente: 'Pablo 1', correoCliente: 'Veliz 1', active: true },
+    { clienteId: 2, nombreCliente: 'Pablo 2', correoCliente: 'Veliz 2', active: true },
+    { clienteId: 3, nombreCliente: 'Pablo 3', correoCliente: 'Veliz 3', active: true },
+    { clienteId: 1, nombreCliente: 'Pablo 1', correoCliente: 'Veliz 1', active: true },
+    { clienteId: 2, nombreCliente: 'Pablo 2', correoCliente: 'Veliz 2', active: true },
+    { clienteId: 3, nombreCliente: 'Pablo 3', correoCliente: 'Veliz 3', active: true },
+    { clienteId: 4, nombreCliente: 'Pablo 4', correoCliente: 'Veliz 4', active: true }
   ];
 
-  constructor(public dialog: MatDialog) {
+  constructor(public dialog: MatDialog,
+    private _service: AdminAccountService) {
   }
 
   ngOnInit(): void {
-    this.dataSource.data = this.tableData;
-    this.dataSource.paginator = this.paginator;
+    this.getList();
   }
   ngAfterViewInit() {
     this.dataSource.sort = this.tableSort;
+  }
+
+  getList(filterParam?: object) {
+    if (filterParam) {
+
+    }
+    else {
+      this._service.getList().subscribe(data => {        
+        this.dataSource.data = data;
+        this.dataSource.paginator = this.paginator;
+      });
+    }
   }
 
   applyFilter(event: Event) {

@@ -1,11 +1,11 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
 
 import { GlobalConstants } from '../../../../constants/global-constants';
 import { Client } from 'src/app/shared/client';
-
-import { AdminClientsFormService } from './admin-clients-form.service'
+import { AdminAccountService } from '../../../../services/admin-account.service';
 
 @Component({
   selector: 'app-admin-clients-form',
@@ -20,6 +20,7 @@ export class AdminClientsFormComponent implements OnInit {
   _entity: string = 'Cliente';
   _saveButtonName: string = GlobalConstants.saveButtonName;
   _closeButtonName: string = GlobalConstants.closeButtonName;
+  _isNew: boolean = true;
   // Form
   queryForm: FormGroup;
 
@@ -27,37 +28,50 @@ export class AdminClientsFormComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<AdminClientsFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Client,
     private formBuilder: FormBuilder,
-    private _service: AdminClientsFormService) {
-
+    private _service: AdminAccountService,
+    private toastr: ToastrService) {
+    this.CreateForm();
     data ? this.Editing(data) : this.Creating();
+  }
+  ngOnInit(): void {
+   
+  }
+  CreateForm() {
     this.queryForm = this.formBuilder.group({
       clienteId: [0],
-      nombreCliente: ['', Validators.required],
-      correoCliente: ['', Validators.required, Validators.email],
+      nombreCliente: ['', [Validators.required]],
+      correoCliente: ['', [Validators.required, Validators.email, Validators.min(5)]],
       telefonoCliente: [''],
       direccionCliente: [''],
       descripcionCliente: [''],
       active: [true]
     });
   }
-
-  ngOnInit(): void {
-  }
-
   Creating() {
     this._title = 'Creando nuevo ' + this._entity;
   }
-
   Editing(_obj: Client) {
+    this._isNew = false;
     this.dataObject = Object.assign({}, _obj);
-    this._title = 'Editando ' + this._entity + ': ' + this.dataObject.NombreCliente;
+    this._title = 'Editando ' + this._entity + ': ' + this.dataObject.nombreCliente;    
+    this.queryForm.patchValue(
+      {
+        nombreCliente: this.dataObject.nombreCliente,
+        clienteId: this.dataObject.clienteId,
+        correoCliente: this.dataObject.correoCliente,
+        telefonoCliente: this.dataObject.telefonoCliente,
+        direccionCliente: this.dataObject.direccionCliente,
+        descripcionCliente: this.dataObject.descripcionCliente,
+        active: this.dataObject.active
+      }
+    )
   }
-
   onSubmit(): void {
-    const query = <Client>this.queryForm.getRawValue();
-    this._service.getControlSummary(query)
+    const formValues = <Client>this.queryForm.getRawValue();
+    this._service.saveClient(formValues).subscribe(data => {
+      this.toastr.success(data.message, 'Mantenedor de Clientes:');
+    });    
   }
-
   closeMe() {
     this.dialogRef.close(this.dataObject);
   }

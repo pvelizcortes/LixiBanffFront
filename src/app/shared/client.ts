@@ -1,10 +1,10 @@
 export interface Client {
-    ClienteId: number,
-    NombreCliente: string,
-    CorreoCliente?: string,
-    TelefonoCliente?: string,
-    DireccionCliente?: string,
-    DescripcionCliente?: string,
-    CreateDate?: Date,
-    Active: boolean,
+    clienteId: number,
+    nombreCliente: string,
+    correoCliente?: string,
+    telefonoCliente?: string,
+    direccionCliente?: string,
+    descripcionCliente?: string,
+    createDate?: Date,
+    active: boolean,
 }
