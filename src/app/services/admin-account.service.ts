@@ -35,7 +35,15 @@ export class AdminAccountService {
     return this.http.get(this.myAppUrl + this.principalUrl + 'GetListClient');
   }
 
+  createClient(cliente : Client): Observable<any>{
+    return this.http.post(this.myAppUrl + this.principalUrl + 'CreateClient', cliente);
+  }
+
   saveClient(cliente : Client): Observable<any>{
     return this.http.post(this.myAppUrl + this.principalUrl + 'SaveClient', cliente);
+  }
+
+  deleteClient(clienteId : number): Observable<any>{
+    return this.http.post(this.myAppUrl + this.principalUrl + 'DeleteClient', clienteId);
   }
 }

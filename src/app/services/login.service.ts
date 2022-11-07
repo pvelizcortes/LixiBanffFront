@@ -13,7 +13,7 @@ export class LoginService {
   loginValidate: string = '/api/Login/Validate';
 
   constructor(private http: HttpClient) {
-    this.myAppUrl = environment.endpoint;   
+    this.myAppUrl = environment.endpoint;
   }
 
   login(usuario: Usuario): Observable<any> {
@@ -24,11 +24,11 @@ export class LoginService {
     localStorage.setItem('token', data);
   }
 
-  isLogged(){
+  isLogged() {
     const token = localStorage.getItem('token');
-    return token != undefined;   
+    return token != undefined;
   }
-  
+
   getTokenDecoded(): any {
     const helper = new JwtHelperService();
     const token = localStorage.getItem('token');
@@ -40,5 +40,9 @@ export class LoginService {
 
   removeLocalStorge(): void {
     localStorage.removeItem('token');
+  }
+
+  getToken(): any {
+    return localStorage.getItem('token');
   }
 }

@@ -68,9 +68,18 @@ export class AdminClientsFormComponent implements OnInit {
   }
   onSubmit(): void {
     const formValues = <Client>this.queryForm.getRawValue();
-    this._service.saveClient(formValues).subscribe(data => {
-      this.toastr.success(data.message, 'Mantenedor de Clientes:');
-    });    
+    if (this._isNew){
+      this._service.createClient(formValues).subscribe(data => {
+        this.toastr.success(data.message, 'Mantenedor de Clientes:');
+        this.closeMe();
+      });   
+    }
+    else{
+      this._service.saveClient(formValues).subscribe(data => {
+        this.toastr.success(data.message, 'Mantenedor de Clientes:');
+        this.closeMe();
+      });   
+    }     
   }
   closeMe() {
     this.dialogRef.close(this.dataObject);

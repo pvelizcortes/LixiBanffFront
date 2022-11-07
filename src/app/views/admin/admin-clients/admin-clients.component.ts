@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { GlobalConstants } from '../../../constants/global-constants';
+import { ToastrService } from 'ngx-toastr';
 // Models
 import { Client } from '../../../shared/client';
 // Services
@@ -31,7 +32,7 @@ export class AdminClientsComponent implements OnInit {
   _noSearchResults: string = GlobalConstants.noSearchResults;
   _showModal: boolean = false;
   // Mat Table
-  displayedColumns: string[] = ['id', 'nombre', 'apellido', 'edad', 'actions'];
+  displayedColumns: string[] = ['id', 'nombre', 'apellido', 'activo', 'actions'];
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild('tableSort') tableSort = new MatSort();
@@ -47,7 +48,8 @@ export class AdminClientsComponent implements OnInit {
   ];
 
   constructor(public dialog: MatDialog,
-    private _service: AdminAccountService) {
+    private _service: AdminAccountService,
+    private toastr: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -62,7 +64,7 @@ export class AdminClientsComponent implements OnInit {
 
     }
     else {
-      this._service.getList().subscribe(data => {        
+      this._service.getList().subscribe(data => {
         this.dataSource.data = data;
         this.dataSource.paginator = this.paginator;
       });
@@ -85,7 +87,14 @@ export class AdminClientsComponent implements OnInit {
       data: item, width: '100%', position: { top: '8vh' }
     });
     dialogRef.afterClosed().subscribe(result => {
+      this.getList();
+    });
+  }
 
+  deleteRow(item: Client): void {
+    this._service.deleteClient(item.clienteId).subscribe(data => {
+      this.toastr.success(data.message, 'Mantenedor de Clientes:');
+      this.getList();
     });
   }
 }
