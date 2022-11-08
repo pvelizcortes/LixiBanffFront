@@ -5,6 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
+import { MatDialogModule } from "@angular/material/dialog";
 
 // Interceptors
 import { AddTokenInterceptor } from '../app/helpers/add-token.interceptor'
@@ -46,7 +47,7 @@ import {
   SharedModule,
   SidebarModule,
   TabsModule,
-  UtilitiesModule,
+  UtilitiesModule  
 } from '@coreui/angular';
 
 import { IconModule, IconSetService } from '@coreui/icons-angular';
@@ -57,6 +58,7 @@ import { PanosComponent } from './views/configuration/panos/panos.component';
 import { ClientesComponent } from './views/configuration/clientes/clientes.component';
 import { DashboardComponent } from './views/configuration/dashboard/dashboard.component';
 import { UsersComponent } from './views/users/users.component';
+import { ConfirmationTemplateComponent } from './services/confirmationTemplate/confirmation-template/confirmation-template.component';
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -70,7 +72,7 @@ const APP_CONTAINERS = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, ...APP_CONTAINERS, NodosComponent, PilasComponent, PanosComponent, ClientesComponent, DashboardComponent, UsersComponent],
+  declarations: [AppComponent, ...APP_CONTAINERS, NodosComponent, PilasComponent, PanosComponent, ClientesComponent, DashboardComponent, UsersComponent, ConfirmationTemplateComponent],
   imports: [    
     BrowserModule,
     BrowserAnimationsModule,
@@ -101,8 +103,10 @@ const APP_CONTAINERS = [
     NgChartsModule,
     HttpClientModule,
     ToastrModule.forRoot({
-      positionClass :'toast-top-right'
-    })
+      positionClass :'toast-bottom-right'
+    }),
+    MatDialogModule
+    
   ],
   providers: [
     {

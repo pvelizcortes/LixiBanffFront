@@ -36,7 +36,8 @@ import {
   SharedModule,
   UtilitiesModule,
   TableModule,
-  ModalModule 
+  ModalModule,
+  AlertModule
   
 } from '@coreui/angular';
 
@@ -79,7 +80,8 @@ import { AdminClientsFormComponent } from './admin-clients/admin-clients-form/ad
     MatDialogModule,
     MatButtonModule,
     MatSelectModule,
-    MatInputModule   
+    MatInputModule,
+    AlertModule
   ]
 })
 export class AdminModule {

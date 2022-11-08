@@ -1,0 +1,16 @@
+<h1 mat-dialog-title>{{title}}</h1>
+<div mat-dialog-content>
+    <p>{{description}}</p>
+</div>
+<div mat-dialog-actions>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <button cButton size="lg" color="primary" (click)="cerrarDialogo(true)">Si</button>
+            </div>
+            <div class="col-sm-6">
+                <button cButton size="lg" color="secondary" (click)="cerrarDialogo(false)">No</button>    
+            </div>
+        </div>
+    </div>    
+</div>

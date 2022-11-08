@@ -4,12 +4,13 @@ import { ToastrService } from 'ngx-toastr';
 // Models
 import { Client } from '../../../shared/client';
 // Services
-import { AdminAccountService } from '../../../services/admin-account.service'
+import { AdminAccountService } from '../../../services/admin-account.service';
+import { ConfirmationService } from '../../../services/confirmation.service';
 // Mat Table
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatTableExporterModule } from 'mat-table-exporter';
+import { MatTableExporterModule } from 'mat-table-exporter'; // No Borrar
 // Dialog
 import { MatDialog } from '@angular/material/dialog';
 import { AdminClientsFormComponent } from './admin-clients-form/admin-clients-form.component';
@@ -25,30 +26,22 @@ import autoTable from 'jspdf-autotable';
 
 export class AdminClientsComponent implements OnInit {
   // Principal Properties
-  _title: string = 'Mantenedor de Clientes';
+  _entity: string = 'Cliente';
+  _title: string = 'Mantenedor de ' + this._entity;
   _createName: string = GlobalConstants.createButtonName;
   _searchText: string = GlobalConstants.searchPlaceHolder;
   _pageSizeOptions: number[] = GlobalConstants.pageSizeOptions;
   _noSearchResults: string = GlobalConstants.noSearchResults;
   _showModal: boolean = false;
   // Mat Table
-  displayedColumns: string[] = ['id', 'nombre', 'apellido', 'activo', 'actions'];
+  displayedColumns: string[] = ['clienteId', 'nombreCliente', 'correoCliente', 'active', 'actions'];
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild('tableSort') tableSort = new MatSort();
-  // For testing
-  tableData: Client[] = [
-    { clienteId: 1, nombreCliente: 'Pablo 1', correoCliente: 'Veliz 1', active: true },
-    { clienteId: 2, nombreCliente: 'Pablo 2', correoCliente: 'Veliz 2', active: true },
-    { clienteId: 3, nombreCliente: 'Pablo 3', correoCliente: 'Veliz 3', active: true },
-    { clienteId: 1, nombreCliente: 'Pablo 1', correoCliente: 'Veliz 1', active: true },
-    { clienteId: 2, nombreCliente: 'Pablo 2', correoCliente: 'Veliz 2', active: true },
-    { clienteId: 3, nombreCliente: 'Pablo 3', correoCliente: 'Veliz 3', active: true },
-    { clienteId: 4, nombreCliente: 'Pablo 4', correoCliente: 'Veliz 4', active: true }
-  ];
 
   constructor(public dialog: MatDialog,
     private _service: AdminAccountService,
+    private _confirm: ConfirmationService,
     private toastr: ToastrService) {
   }
 
@@ -91,10 +84,16 @@ export class AdminClientsComponent implements OnInit {
     });
   }
 
-  deleteRow(item: Client): void {
-    this._service.deleteClient(item.clienteId).subscribe(data => {
-      this.toastr.success(data.message, 'Mantenedor de Clientes:');
-      this.getList();
-    });
+  async deleteRow(item: Client): Promise<void> {
+    const resp = await this._confirm.confirmation('Desactivar', `¿Está seguro de desactivar al ${this._entity} seleccionado?`)
+    if (resp) {
+      this._service.deleteClient(item.clienteId).subscribe(data => {
+        this.toastr.success(data.message, this._title);
+        this.getList();
+      });
+    }
+    else {
+      this.toastr.warning('Acción cancelada por el usuario', this._title);
+    }
   }
 }

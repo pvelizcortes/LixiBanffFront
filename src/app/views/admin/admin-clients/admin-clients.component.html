@@ -29,32 +29,33 @@
                         <th mat-header-cell mat-sort-header *matHeaderCellDef class="table-header-text"
                             style="width:10%;">ACTIONS</th>
                         <td mat-cell *matCellDef="let item" class="text-center p-2">
-                            <button cButton color="warning" class="btn btn-sm" (click)="openDialog(item);"
-                                matTooltip="EDITAR REGISTRO"><svg cIcon size="xs" name="cil-pen"></svg></button>
-                            <button cButton color="danger" class="btn btn-sm" (click)="deleteRow(item);"
-                                matTooltip="ELIMINAR REGISTRO"><svg cIcon size="xs" name="cil-x"></svg></button>
+                            <button cButton color="warning" (click)="openDialog(item);" matTooltip="EDITAR REGISTRO">
+                                <i class="fa-solid fa-edit"></i></button>
+                            <button cButton color="danger" class="ml-1" (click)="deleteRow(item);"
+                                matTooltip="ELIMINAR REGISTRO">
+                                <i class="fa-solid fa-close text-white"></i></button>
                         </td>
                     </ng-container>
-                    <ng-container matColumnDef="id">
+                    <ng-container matColumnDef="clienteId">
                         <th mat-header-cell mat-sort-header *matHeaderCellDef class="table-header-text"
-                            style="width:1.2em;">ID</th>
+                            style="width:1.2em;">id</th>
                         <td mat-cell *matCellDef="let item" class="p-2 vert-td text-right"><b>{{ item.clienteId }}</b>
                         </td>
                     </ng-container>
-                    <ng-container matColumnDef="nombre">
+                    <ng-container matColumnDef="nombreCliente">
                         <th mat-header-cell mat-sort-header *matHeaderCellDef class="table-header-text">NOMBRE</th>
                         <td mat-cell *matCellDef="let item" class="p-2 vert-td">{{ item.nombreCliente }}</td>
                     </ng-container>
-                    <ng-container matColumnDef="apellido">
+                    <ng-container matColumnDef="correoCliente">
                         <th mat-header-cell mat-sort-header *matHeaderCellDef class="table-header-text">CORREO</th>
                         <td mat-cell *matCellDef="let item" class="p-2 vert-td">{{ item.correoCliente }}</td>
                     </ng-container>
-                    <ng-container matColumnDef="activo">
+                    <ng-container matColumnDef="active">
                         <th mat-header-cell mat-sort-header *matHeaderCellDef class="table-header-text text-center"
                             style="width:1.2em;">ACTIVO</th>
                         <td mat-cell *matCellDef="let item" class="p-2 vert-td text-center">
-                            <i
-                                class="fa-solid {{ item.active ? 'fa-user-check text-success' : 'fa-user-large-slash text-danger' }}"></i>
+                            <i class="fa-solid {{ item.active ? 'fa-user-check text-success' : 'fa-user-large-slash text-danger' }}"></i>
+                            <span [hidden]="true">{{item.active}}</span>
                         </td>
                     </ng-container>
                     <tr mat-header-row class="table-header-row" *matHeaderRowDef="displayedColumns"></tr>

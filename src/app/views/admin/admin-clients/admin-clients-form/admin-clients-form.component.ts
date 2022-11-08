@@ -66,22 +66,32 @@ export class AdminClientsFormComponent implements OnInit {
       }
     )
   }
+  
+  activar(){
+    const formValues = <Client>this.queryForm.getRawValue();
+    formValues.active = true;
+    this._service.saveClient(formValues).subscribe(data => {
+      this.toastr.success(`${this._entity} activado con éxito.`, `Mantenedor de ${this._entity}:`);
+      this.closeMe();
+    });  
+  }
+
   onSubmit(): void {
     const formValues = <Client>this.queryForm.getRawValue();
     if (this._isNew){
       this._service.createClient(formValues).subscribe(data => {
-        this.toastr.success(data.message, 'Mantenedor de Clientes:');
+        this.toastr.success(data.message, `Mantenedor de ${this._entity}:`);
         this.closeMe();
       });   
     }
     else{
       this._service.saveClient(formValues).subscribe(data => {
-        this.toastr.success(data.message, 'Mantenedor de Clientes:');
+        this.toastr.success(data.message, `Mantenedor de ${this._entity}:`);
         this.closeMe();
       });   
     }     
   }
   closeMe() {
     this.dialogRef.close(this.dataObject);
-  }
+  } 
 }
