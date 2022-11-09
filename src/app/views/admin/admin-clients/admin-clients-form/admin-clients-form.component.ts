@@ -34,13 +34,13 @@ export class AdminClientsFormComponent implements OnInit {
     data ? this.Editing(data) : this.Creating();
   }
   ngOnInit(): void {
-   
+
   }
   CreateForm() {
     this.queryForm = this.formBuilder.group({
       clienteId: [0],
       nombreCliente: ['', [Validators.required]],
-      correoCliente: ['', [Validators.required, Validators.email, Validators.min(5)]],
+      correoCliente: ['', [Validators.required, Validators.email]],
       telefonoCliente: [''],
       direccionCliente: [''],
       descripcionCliente: [''],
@@ -48,12 +48,12 @@ export class AdminClientsFormComponent implements OnInit {
     });
   }
   Creating() {
-    this._title = 'Creando nuevo ' + this._entity;
+    this._title = 'Creando nuevo ' + this._entity;    
   }
   Editing(_obj: Client) {
     this._isNew = false;
     this.dataObject = Object.assign({}, _obj);
-    this._title = 'Editando ' + this._entity + ': ' + this.dataObject.nombreCliente;    
+    this._title = 'Editando ' + this._entity + ': ' + this.dataObject.nombreCliente;
     this.queryForm.patchValue(
       {
         nombreCliente: this.dataObject.nombreCliente,
@@ -64,34 +64,43 @@ export class AdminClientsFormComponent implements OnInit {
         descripcionCliente: this.dataObject.descripcionCliente,
         active: this.dataObject.active
       }
-    )
+    );
+    this.DisableInputs();
   }
-  
-  activar(){
+  DisableInputs(){
+    this.queryForm.get('nombreCliente')?.disable();
+  }
+
+  activar() {
     const formValues = <Client>this.queryForm.getRawValue();
     formValues.active = true;
     this._service.saveClient(formValues).subscribe(data => {
       this.toastr.success(`${this._entity} activado con éxito.`, `Mantenedor de ${this._entity}:`);
       this.closeMe();
-    });  
+    });
   }
 
   onSubmit(): void {
-    const formValues = <Client>this.queryForm.getRawValue();
-    if (this._isNew){
-      this._service.createClient(formValues).subscribe(data => {
-        this.toastr.success(data.message, `Mantenedor de ${this._entity}:`);
-        this.closeMe();
-      });   
+    if (this.queryForm.valid) {
+      const formValues = <Client>this.queryForm.getRawValue();
+      if (this._isNew) {
+        this._service.createClient(formValues).subscribe(data => {
+          this.toastr.success(data.message, `Mantenedor de ${this._entity}:`);
+          this.closeMe();
+        });
+      }
+      else {
+        this._service.saveClient(formValues).subscribe(data => {
+          this.toastr.success(data.message, `Mantenedor de ${this._entity}:`);
+          this.closeMe();
+        });
+      }
     }
     else{
-      this._service.saveClient(formValues).subscribe(data => {
-        this.toastr.success(data.message, `Mantenedor de ${this._entity}:`);
-        this.closeMe();
-      });   
-    }     
+      this.queryForm.markAllAsTouched();
+    }
   }
   closeMe() {
     this.dialogRef.close(this.dataObject);
-  } 
+  }
 }

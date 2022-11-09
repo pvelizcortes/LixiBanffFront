@@ -41,21 +41,14 @@ export const navItems: INavData[] = [
     title: true,
     name: 'Configuracion'
   },
-  {  
+  {
     name: 'Mi Perfil',
     url: '/configuracion/mi-perfil',
     iconComponent: { name: 'cil-user' }
-  }, 
-  {  
-    name: 'Administrador',
-    url: '/admin',
-    iconComponent: { name: 'cil-shield-alt' },
-    children: [
-      {
-        name: 'Clientes',
-        url: '/admin/clients',
-        iconComponent: { name: 'cil-star' }
-      }
-    ]
-  }  
+  },
+  {
+    name: 'Clientes',
+    url: '/admin/clients',
+    iconComponent: { name: 'cil-star' }
+  },
 ];

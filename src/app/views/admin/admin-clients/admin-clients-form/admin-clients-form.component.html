@@ -12,7 +12,7 @@
 
       <mat-form-field class="col-sm-4 px-2">
         <mat-label>Correo</mat-label>
-        <input matInput formControlName="correoCliente" email>
+        <input matInput formControlName="correoCliente" email required>
         <mat-error *ngIf="queryForm.controls['correoCliente'].hasError('required')">
           Ingrese un correo.
         </mat-error>
