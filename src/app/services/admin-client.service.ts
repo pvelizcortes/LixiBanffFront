@@ -10,7 +10,7 @@ import { Client } from '../shared/client';
   providedIn: 'root'
 })
 
-export class AdminAccountService {
+export class AdminClientService {
   myAppUrl: string;
   principalUrl: string = '/api/Cliente/';
 
@@ -31,18 +31,18 @@ export class AdminAccountService {
   }
 
   getList(): Observable<any>{
-    return this.http.get(this.myAppUrl + this.principalUrl + 'GetListClient');
+    return this.http.get(this.myAppUrl + this.principalUrl + 'GetList');
   }
 
-  createClient(cliente : Client): Observable<any>{
-    return this.http.post(this.myAppUrl + this.principalUrl + 'CreateClient', cliente);
+  create(_obj : Client): Observable<any>{
+    return this.http.post(this.myAppUrl + this.principalUrl + 'Create', _obj);
   }
 
-  saveClient(cliente : Client): Observable<any>{
-    return this.http.post(this.myAppUrl + this.principalUrl + 'SaveClient', cliente);
+  save(_obj : Client): Observable<any>{
+    return this.http.post(this.myAppUrl + this.principalUrl + 'Save', _obj);
   }
 
-  deleteClient(clienteId : number): Observable<any>{
-    return this.http.post(this.myAppUrl + this.principalUrl + 'DeleteClient', clienteId);
+  delete(_identity_id : number): Observable<any>{
+    return this.http.post(this.myAppUrl + this.principalUrl + 'Delete', _identity_id);
   }
 }

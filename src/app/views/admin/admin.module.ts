@@ -13,15 +13,15 @@ import { MatInputModule } from "@angular/material/input";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
+import { IconModule } from '@coreui/icons-angular';
 
 // Components
 import { AdminClientsComponent } from './admin-clients/admin-clients.component';
+import { AdminClientsFormComponent } from './admin-clients/admin-clients-form/admin-clients-form.component';
 // Routing
 import { AdminRoutingModule } from './admin-routing.module';
 // Pipes
 import { SearchFilterPipe } from 'src/app/pipes/search-filter.pipe';
-
-
 
 import {
   ButtonGroupModule,
@@ -37,13 +37,8 @@ import {
   UtilitiesModule,
   TableModule,
   ModalModule,
-  AlertModule
-  
+  AlertModule  
 } from '@coreui/angular';
-
-import { IconModule } from '@coreui/icons-angular';
-import { AdminClientsFormComponent } from './admin-clients/admin-clients-form/admin-clients-form.component';
-
 
 @NgModule({
   declarations: [ 

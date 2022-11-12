@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 // Models
 import { Client } from '../../../shared/client';
 // Services
-import { AdminAccountService } from '../../../services/admin-account.service';
+import { AdminClientService } from '../../../services/admin-client.service';
 import { ConfirmationService } from '../../../services/confirmation.service';
 // Mat Table
 import { MatTableDataSource } from '@angular/material/table';
@@ -34,13 +34,13 @@ export class AdminClientsComponent implements OnInit {
   _noSearchResults: string = GlobalConstants.noSearchResults;
   _showModal: boolean = false;
   // Mat Table
-  displayedColumns: string[] = ['clienteId', 'nombreCliente', 'correoCliente', 'active', 'actions'];
+  displayedColumns: string[] = ['nombreCliente', 'correoCliente', 'descripcionCliente', 'active', 'actions'];
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild('tableSort') tableSort = new MatSort();
 
   constructor(public dialog: MatDialog,
-    private _service: AdminAccountService,
+    private _service: AdminClientService,
     private _confirm: ConfirmationService,
     private toastr: ToastrService) {
   }
@@ -87,7 +87,7 @@ export class AdminClientsComponent implements OnInit {
   async deleteRow(item: Client): Promise<void> {
     const resp = await this._confirm.confirmation('Desactivar', `¿Está seguro de desactivar al ${this._entity} seleccionado?`)
     if (resp) {
-      this._service.deleteClient(item.clienteId).subscribe(data => {
+      this._service.delete(item.clienteId).subscribe(data => {
         this.toastr.success(data.message, this._title);
         this.getList();
       });
