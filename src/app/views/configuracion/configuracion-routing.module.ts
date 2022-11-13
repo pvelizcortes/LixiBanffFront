@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+// Components
 import { MiPerfilComponent } from './mi-perfil/mi-perfil.component';
+import { PilaComponent } from './pila/pila.component';
 
 const routes: Routes = [
   {
@@ -20,6 +22,13 @@ const routes: Routes = [
         component: MiPerfilComponent,
         data: {
           title: 'Mi Perfil'
+        }
+      },
+      {
+        path: 'pila',
+        component: PilaComponent,
+        data: {
+          title: 'Pila'
         }
       }
     ]

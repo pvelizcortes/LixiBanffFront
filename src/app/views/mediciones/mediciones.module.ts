@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { DocsComponentsModule } from '@docs-components/docs-components.module';
 import { HttpClientModule } from '@angular/common/http';
 
 import { GraficosComponent } from './graficos/graficos.component';
@@ -50,7 +49,6 @@ import { RealTimeComponent } from './real-time/real-time.component';
     SharedModule,
     FormModule,
     ReactiveFormsModule,
-    DocsComponentsModule,
     NavbarModule,
     CollapseModule,
     NavModule,

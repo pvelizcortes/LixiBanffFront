@@ -20,8 +20,6 @@ import { AdminClientsComponent } from './admin-clients/admin-clients.component';
 import { AdminClientsFormComponent } from './admin-clients/admin-clients-form/admin-clients-form.component';
 // Routing
 import { AdminRoutingModule } from './admin-routing.module';
-// Pipes
-import { SearchFilterPipe } from 'src/app/pipes/search-filter.pipe';
 
 import {
   ButtonGroupModule,
@@ -41,8 +39,7 @@ import {
 } from '@coreui/angular';
 
 @NgModule({
-  declarations: [ 
-    SearchFilterPipe,
+  declarations: [
     AdminClientsComponent,
     AdminClientsFormComponent
   ],

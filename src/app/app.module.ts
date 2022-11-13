@@ -32,6 +32,9 @@ import {
   DefaultLayoutComponent,
 } from './containers';
 
+// Pipes
+import { SearchFilterPipe } from 'src/app/pipes/search-filter.pipe';
+
 import {  
   AvatarModule,
   BadgeModule,
@@ -63,8 +66,12 @@ const APP_CONTAINERS = [
   DefaultLayoutComponent,
 ];
 
+const APP_PIPES = [
+  SearchFilterPipe
+]
+
 @NgModule({
-  declarations: [AppComponent, ...APP_CONTAINERS, ConfirmationTemplateComponent],
+  declarations: [AppComponent, ...APP_CONTAINERS, ConfirmationTemplateComponent, ...APP_PIPES],
   imports: [    
     BrowserModule,
     BrowserAnimationsModule,
