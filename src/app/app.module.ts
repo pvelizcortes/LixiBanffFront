@@ -6,6 +6,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { MatDialogModule } from "@angular/material/dialog";
+import { NgChartsModule } from 'ng2-charts';
+import { IconModule, IconSetService } from '@coreui/icons-angular';
 
 // Interceptors
 import { AddTokenInterceptor } from '../app/helpers/add-token.interceptor'
@@ -21,6 +23,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 // Import app component
 import { AppComponent } from './app.component';
+import { ConfirmationTemplateComponent } from './services/confirmationTemplate/confirmation-template/confirmation-template.component';
 
 // Import containers
 import {
@@ -50,17 +53,6 @@ import {
   UtilitiesModule  
 } from '@coreui/angular';
 
-import { IconModule, IconSetService } from '@coreui/icons-angular';
-import { NgChartsModule } from 'ng2-charts';
-import { NodosComponent } from './views/configuration/nodos/nodos.component';
-import { PilasComponent } from './views/configuration/pilas/pilas.component';
-import { PanosComponent } from './views/configuration/panos/panos.component';
-import { ClientesComponent } from './views/configuration/clientes/clientes.component';
-import { DashboardComponent } from './views/configuration/dashboard/dashboard.component';
-import { UsersComponent } from './views/users/users.component';
-import { ConfirmationTemplateComponent } from './services/confirmationTemplate/confirmation-template/confirmation-template.component';
-
-
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
 };
@@ -72,7 +64,7 @@ const APP_CONTAINERS = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, ...APP_CONTAINERS, NodosComponent, PilasComponent, PanosComponent, ClientesComponent, DashboardComponent, UsersComponent, ConfirmationTemplateComponent],
+  declarations: [AppComponent, ...APP_CONTAINERS, ConfirmationTemplateComponent],
   imports: [    
     BrowserModule,
     BrowserAnimationsModule,
