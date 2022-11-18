@@ -42,12 +42,9 @@ export class PanoFormComponent implements OnInit {
       posicionPano: [0, [Validators.required]],
       codigoPano: ['', [Validators.required]],
       nombrePano: ['', [Validators.required]],
-      cantidadPanos: [0],
       anchoPano: [0],
       largoPano: [0],
-      descripcionPano: [''],
-      ubicacionPano: [''],
-      latLongPano: [''],
+      descripcionPano: [''],   
       active: [true]
     });
   }
@@ -63,13 +60,10 @@ export class PanoFormComponent implements OnInit {
         panoId: this.dataObject.panoId,
         posicionPano: this.dataObject.posicionPano,
         codigoPano: this.dataObject.codigoPano,
-        nombrePano: this.dataObject.nombrePano,
-        cantidadPanos: this.dataObject.cantidadPanos,
+        nombrePano: this.dataObject.nombrePano,      
         anchoPano: this.dataObject.anchoPano,
         largoPano: this.dataObject.largoPano,
-        descripcionPano: this.dataObject.descripcionPano,
-        ubicacionPano: this.dataObject.ubicacionPano,
-        latLongPano: this.dataObject.latLongPano,
+        descripcionPano: this.dataObject.descripcionPano,       
         active: this.dataObject.active
       }
     );
