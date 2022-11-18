@@ -14,4 +14,9 @@ export class GlobalConstants {
     public static modalConfig: any = { width: '100%', position: { top: '3%' } };
     public static closeButtonName: string = "Cerrar";
     public static saveButtonName: string = "Guardar";
+
+    // Toastr Titles
+    public static successToast: string = "Acción completada:";
+    public static warningToast: string = "No se pudo completar la acción:";
+    public static errorToast: string = "Se ha producido un error:";
 }

@@ -4,15 +4,15 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 // Model
-import { Pila } from '../shared/pila';
+import { Pano } from '../shared/pano';
 
 @Injectable({
   providedIn: 'root'
 })
 
-export class PilaService {
+export class PanoService {
   myAppUrl: string;
-  principalUrl: string = '/api/Pila/';
+  principalUrl: string = '/api/Pano/';
 
   // Form Properties
   errorMessages: any;
@@ -34,7 +34,7 @@ export class PilaService {
     return this.http.get(this.myAppUrl + this.principalUrl + 'GetList');
   }
   
-  save(_obj : Pila, isNew : boolean): Observable<any>{
+  save(_obj : Pano, isNew : boolean): Observable<any>{
     if (isNew){
       return this.http.post(this.myAppUrl + this.principalUrl + 'Create', _obj);
     }

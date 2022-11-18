@@ -2,9 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { GlobalConstants } from '../../../constants/global-constants';
 import { UtilsService } from '../../../services/utils.service'
 // Models
-import { Pila } from '../../../shared/pila';
+import { Pano } from '../../../shared/Pano';
 // Services
-import { PilaService } from '../../../services/pila.service';
+import { PanoService } from '../../../services/pano.service';
 import { ConfirmationService } from '../../../services/confirmation.service';
 // Mat Table
 import { MatTableDataSource } from '@angular/material/table';
@@ -13,20 +13,20 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableExporterModule } from 'mat-table-exporter'; // No Borrar
 // Dialog
 import { MatDialog } from '@angular/material/dialog';
-import { PilaFormComponent } from './pila-form/pila-form.component';
+import { PanoFormComponent } from './pano-form/pano-form.component';
 // Export PDF
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable';
 
 @Component({
-  selector: 'app-pila',
-  templateUrl: './pila.component.html',
-  styleUrls: ['./pila.component.scss']
+  selector: 'app-pano',
+  templateUrl: './pano.component.html',
+  styleUrls: ['./pano.component.scss']
 })
 
-export class PilaComponent implements OnInit {
+export class PanoComponent implements OnInit {
   // Principal Properties
-  _entity: string = 'Pila';
+  _entity: string = 'Pano';
   _title: string = 'Mantenedor de ' + this._entity;
   _createName: string = GlobalConstants.createButtonName;
   _searchText: string = GlobalConstants.searchPlaceHolder;
@@ -34,13 +34,13 @@ export class PilaComponent implements OnInit {
   _noSearchResults: string = GlobalConstants.noSearchResults;
   _showModal: boolean = false;  
   // Mat Table
-  displayedColumns: string[] = ['codigoPila', 'nombrePila', 'descripcionPila', 'ubicacionPila', 'active', 'actions'];
+  displayedColumns: string[] = ['codigoPano', 'nombrePano', 'descripcionPano', 'ubicacionPano', 'active', 'actions'];
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild('tableSort') tableSort = new MatSort();
 
   constructor(public dialog: MatDialog,
-    private _service: PilaService,
+    private _service: PanoService,
     private _confirm: ConfirmationService,
     private _util: UtilsService) {
   }
@@ -79,8 +79,8 @@ export class PilaComponent implements OnInit {
     doc.save(this._title + '.pdf')
   }
 
-  openDialog(item?: Pila): void {
-    const dialogRef = this.dialog.open(PilaFormComponent, {
+  openDialog(item?: Pano): void {
+    const dialogRef = this.dialog.open(PanoFormComponent, {
       data: item, width: '100%', position: { top: '8vh' }
     });
     dialogRef.afterClosed().subscribe({
@@ -91,10 +91,10 @@ export class PilaComponent implements OnInit {
     });
   }
 
-  async deleteRow(item: Pila): Promise<void> {
+  async deleteRow(item: Pano): Promise<void> {
     const resp = await this._confirm.confirmation('Desactivar', `¿Está seguro de desactivar al ${this._entity} seleccionado?`)
     if (resp) {
-      this._service.delete(item.pilaId).subscribe({
+      this._service.delete(item.panoId).subscribe({
         next : (data) => {
           this._util.alertSuccess(data.message, this._title);
           this.getList();

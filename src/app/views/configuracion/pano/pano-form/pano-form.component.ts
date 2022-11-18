@@ -4,20 +4,20 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UtilsService } from '../../../../services/utils.service'
 
 import { GlobalConstants } from '../../../../constants/global-constants';
-import { Pila } from '../../../../shared/pila';
-import { PilaService } from '../../../../services/pila.service';
+import { Pano } from '../../../../shared/pano';
+import { PanoService } from '../../../../services/pano.service';
 
 @Component({
-  selector: 'app-pila-form',
-  templateUrl: './pila-form.component.html',
-  styleUrls: ['./pila-form.component.scss']
+  selector: 'app-pano-form',
+  templateUrl: './pano-form.component.html',
+  styleUrls: ['./pano-form.component.scss']
 })
 
-export class PilaFormComponent implements OnInit {
-  dataObject: Pila; // Principal Object
+export class PanoFormComponent implements OnInit {
+  dataObject: Pano; // Principal Object
   // Properties
   _title: string = '';
-  _entity: string = 'Pila';
+  _entity: string = 'Pano';
   _saveButtonName: string = GlobalConstants.saveButtonName;
   _closeButtonName: string = GlobalConstants.closeButtonName;
   _isNew: boolean = true;
@@ -25,10 +25,10 @@ export class PilaFormComponent implements OnInit {
   queryForm: FormGroup;
 
   // ** Constructor **
-  constructor(public dialogRef: MatDialogRef<PilaFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Pila,
+  constructor(public dialogRef: MatDialogRef<PanoFormComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: Pano,
     private formBuilder: FormBuilder,
-    private _service: PilaService,
+    private _service: PanoService,
     private _util: UtilsService) {
     this.CreateForm();
     data ? this.Editing(data) : this.Creating();
@@ -38,49 +38,49 @@ export class PilaFormComponent implements OnInit {
   }
   CreateForm() {
     this.queryForm = this.formBuilder.group({
-      pilaId: [0],
-      posicionPila: [0, [Validators.required]],
-      codigoPila: ['', [Validators.required]],
-      nombrePila: ['', [Validators.required]],
+      panoId: [0],
+      posicionPano: [0, [Validators.required]],
+      codigoPano: ['', [Validators.required]],
+      nombrePano: ['', [Validators.required]],
       cantidadPanos: [0],
-      anchoPila: [0],
-      largoPila: [0],
-      descripcionPila: [''],
-      ubicacionPila: [''],
-      latLongPila: [''],
+      anchoPano: [0],
+      largoPano: [0],
+      descripcionPano: [''],
+      ubicacionPano: [''],
+      latLongPano: [''],
       active: [true]
     });
   }
   Creating() {
     this._title = 'Creando nuevo ' + this._entity;
   }
-  Editing(_obj: Pila) {
+  Editing(_obj: Pano) {
     this._isNew = false;
     this.dataObject = Object.assign({}, _obj);
-    this._title = 'Editando ' + this._entity + ': ' + this.dataObject.nombrePila;
+    this._title = 'Editando ' + this._entity + ': ' + this.dataObject.nombrePano;
     this.queryForm.patchValue(
       {
-        pilaId: this.dataObject.pilaId,
-        posicionPila: this.dataObject.posicionPila,
-        codigoPila: this.dataObject.codigoPila,
-        nombrePila: this.dataObject.nombrePila,
+        panoId: this.dataObject.panoId,
+        posicionPano: this.dataObject.posicionPano,
+        codigoPano: this.dataObject.codigoPano,
+        nombrePano: this.dataObject.nombrePano,
         cantidadPanos: this.dataObject.cantidadPanos,
-        anchoPila: this.dataObject.anchoPila,
-        largoPila: this.dataObject.largoPila,
-        descripcionPila: this.dataObject.descripcionPila,
-        ubicacionPila: this.dataObject.ubicacionPila,
-        latLongPila: this.dataObject.latLongPila,
+        anchoPano: this.dataObject.anchoPano,
+        largoPano: this.dataObject.largoPano,
+        descripcionPano: this.dataObject.descripcionPano,
+        ubicacionPano: this.dataObject.ubicacionPano,
+        latLongPano: this.dataObject.latLongPano,
         active: this.dataObject.active
       }
     );
     this.DisableInputs();
   }
   DisableInputs() {
-    this.queryForm.get('codigoPila')?.disable();
+    this.queryForm.get('codigoPano')?.disable();
   }
 
   activar() {
-    const formValues = <Pila>this.queryForm.getRawValue();
+    const formValues = <Pano>this.queryForm.getRawValue();
     formValues.active = true;
     this._service.save(formValues, this._isNew).subscribe({
       next: (data) => {
@@ -93,7 +93,7 @@ export class PilaFormComponent implements OnInit {
 
   onSubmit(): void {
     if (this.queryForm.valid) {
-      const formValues = <Pila>this.queryForm.getRawValue();
+      const formValues = <Pano>this.queryForm.getRawValue();
       this._service.save(formValues, this._isNew).subscribe({
         next: (data) => {
           this._util.alertSuccess(data.message, `Mantenedor de ${this._entity}:`);
