@@ -44,12 +44,17 @@ export const navItems: INavData[] = [
   {
     name: 'Pila',
     url: '/configuracion/pila',
-    iconComponent: 'cil-star'
+    iconComponent: { name: 'cil-speedometer' }
   },
   {
     name: 'Pano',
     url: '/configuracion/pano',
-    iconComponent: 'cil-star'
+    iconComponent: { name: 'cil-speedometer' }
+  },
+  {
+    name: 'Nodo',
+    url: '/configuracion/nodo',
+    iconComponent: { name: 'cil-speedometer' }
   },
   {
     name: 'Clientes',

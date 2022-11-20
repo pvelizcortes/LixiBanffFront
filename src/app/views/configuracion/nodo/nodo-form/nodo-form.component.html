@@ -1,0 +1,91 @@
+<div class="container">
+  <h1 mat-dialog-title>{{_title}}</h1>
+  <div mat-dialog-content>
+    <form [formGroup]="queryForm" class="form-row" (ngSubmit)="onSubmit()">
+
+      <c-row>
+        <mat-form-field class="col-sm-4">
+          <mat-label><b>Pila</b></mat-label>
+          <mat-select formControlName="pilaId" (selectionChange)="PilaChange($event.value)">
+            <mat-option [value]="0" selected>-- Seleccione</mat-option>
+            <mat-option *ngFor="let option of _dataPila" [value]="option.id">
+              {{option.text}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="queryForm.controls['pilaId'].hasError('min')">
+            Seleccione una opción.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col-sm-4">
+          <mat-label><b>Pano</b></mat-label>
+          <mat-select formControlName="panoId">
+            <mat-option [value]="0" selected>-- Seleccione</mat-option>
+            <mat-option *ngFor="let option of _dataPano" [value]="option.id">
+              {{option.text}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="queryForm.controls['panoId'].hasError('min')">
+            Seleccione una opción.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col-sm-4">
+          <mat-label><b>Tipo de Nodo</b></mat-label>
+          <mat-select formControlName="tipoNodoId">
+            <mat-option [value]="0" selected>-- Seleccione</mat-option>
+            <mat-option *ngFor="let option of _dataTipoNodo" [value]="option.id">
+              {{option.text}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="queryForm.controls['tipoNodoId'].hasError('min')">
+            Seleccione una opción.
+          </mat-error>
+        </mat-form-field>
+      </c-row>
+      
+      <mat-form-field class="col-sm-3 px-2">
+        <mat-label>Posición</mat-label>
+        <input type="number" matInput formControlName="posicionNodo">      
+      </mat-form-field>    
+
+      <mat-form-field class="col-sm-4 px-2">
+        <mat-label>Codigo</mat-label>
+        <input matInput formControlName="codigoNodo">
+        <mat-error *ngIf="queryForm.controls['codigoNodo'].hasError('required')">
+          Ingrese un codigo.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col-sm-4 px-2">
+        <mat-label>Nombre</mat-label>
+        <input matInput formControlName="nombreNodo">
+        <mat-error *ngIf="queryForm.controls['nombreNodo'].hasError('required')">
+          Ingrese un nombre.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col-sm-4 px-2">
+        <mat-label>Mac</mat-label>
+        <input matInput formControlName="mac">
+        <mat-error *ngIf="queryForm.controls['mac'].hasError('required')">
+          Ingrese un nombre.
+        </mat-error>
+      </mat-form-field>
+
+      <c-col *ngIf="dataObject && !dataObject.active">
+        <c-alert color="danger" class="d-flex align-items-center">
+          <div><i class="fa-solid fa-circle-exclamation"></i>
+            Este {{ _entity }} se encuentra desactivado desea activarlo?
+            <button class="ml-1" cButton color="success" (click)="activar()" variant="outline">Activar</button>
+          </div>
+        </c-alert>
+      </c-col>
+    </form>
+  </div>
+
+  <div mat-dialog-actions align="end">
+    <button cButton color="warning" (click)="onSubmit()" class="mr-1">{{_saveButtonName}}</button>
+    <button cButton color="light" (click)="closeMe()">{{_closeButtonName}}</button>
+  </div>
+</div>
