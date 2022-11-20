@@ -14,24 +14,16 @@ export class PilaService {
   myAppUrl: string;
   principalUrl: string = '/api/Pila/';
 
-  // Form Properties
-  errorMessages: any;
-  formRules = {
-    nonEmpty: '^[a-zA-Z0-9]+([_ -]?[a-zA-Z0-9])*$',
-    usernameMin: 5,
-    passwordMin: 6,
-    passwordPattern: '(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,}'
-  };
-  formErrors = {
-    tableSearch: ''
-  };
-
   constructor(private http: HttpClient) {
     this.myAppUrl = environment.endpoint;   
   }
 
   getList(): Observable<any>{
     return this.http.get(this.myAppUrl + this.principalUrl + 'GetList');
+  }
+
+  getSelect(): Observable<any>{
+    return this.http.get(this.myAppUrl + this.principalUrl + 'GetSelect');
   }
   
   save(_obj : Pila, isNew : boolean): Observable<any>{

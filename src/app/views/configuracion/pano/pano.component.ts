@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { GlobalConstants } from '../../../constants/global-constants';
 import { UtilsService } from '../../../services/utils.service'
 // Models
-import { Pano } from '../../../shared/Pano';
+import { Pano } from '../../../shared/pano';
 // Services
 import { PanoService } from '../../../services/pano.service';
 import { ConfirmationService } from '../../../services/confirmation.service';
@@ -34,7 +34,7 @@ export class PanoComponent implements OnInit {
   _noSearchResults: string = GlobalConstants.noSearchResults;
   _showModal: boolean = false;  
   // Mat Table
-  displayedColumns: string[] = ['codigoPano', 'nombrePano', 'descripcionPano', 'ubicacionPano', 'active', 'actions'];
+  displayedColumns: string[] = ['codigoPano', 'nombrePano', 'descripcionPano', 'active', 'actions'];
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild('tableSort') tableSort = new MatSort();

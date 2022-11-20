@@ -3,54 +3,61 @@
   <div mat-dialog-content>
     <form [formGroup]="queryForm" class="form-row" (ngSubmit)="onSubmit()">
 
+      <c-row>
+        <mat-form-field class="col-sm-4">
+          <mat-label><b>Pila</b></mat-label>
+          <mat-select formControlName="pilaId">
+            <mat-option [value]="0" selected>-- Seleccione</mat-option>
+            <mat-option *ngFor="let option of _dataPila" [value]="option.id">
+              {{option.text}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="queryForm.controls['pilaId'].hasError('min')">
+            Seleccione una opción.
+          </mat-error>
+        </mat-form-field>
+      </c-row>
+
       <mat-form-field class="col-sm-3 px-2">
         <mat-label>Posición</mat-label>
-        <input type="number" matInput formControlName="posicionPila">
-        <mat-error *ngIf="queryForm.controls['posicionPila'].hasError('required')">
-          Ingrese una posición.
-        </mat-error>
+        <input type="number" matInput formControlName="posicionPano">      
       </mat-form-field>
 
       <mat-form-field class="col-sm-3 px-2">
-        <mat-label>Cantidad Paños</mat-label>
-        <input type="number" matInput formControlName="cantidadPanos">       
+        <mat-label>Ancho del Pano</mat-label>
+        <input type="number" matInput formControlName="anchoPano">
       </mat-form-field>
 
       <mat-form-field class="col-sm-3 px-2">
-        <mat-label>Ancho de la Pila</mat-label>
-        <input type="number" matInput formControlName="anchoPila">       
+        <mat-label>Largo del Pano</mat-label>
+        <input type="number" matInput formControlName="largoPano">
       </mat-form-field>
 
       <mat-form-field class="col-sm-3 px-2">
-        <mat-label>Largo de la Pila</mat-label>
-        <input type="number" matInput formControlName="largoPila">       
+        <mat-label>Cantidad Nodos</mat-label>
+        <input type="number" matInput formControlName="cantidadNodo">
       </mat-form-field>
 
       <mat-form-field class="col-sm-4 px-2">
         <mat-label>Codigo</mat-label>
-        <input matInput formControlName="codigoPila">
-        <mat-error *ngIf="queryForm.controls['codigoPila'].hasError('required')">
+        <input matInput formControlName="codigoPano">
+        <mat-error *ngIf="queryForm.controls['codigoPano'].hasError('required')">
           Ingrese un codigo.
         </mat-error>
-      </mat-form-field>   
+      </mat-form-field>
 
       <mat-form-field class="col-sm-8 px-2">
         <mat-label>Nombre</mat-label>
-        <input matInput formControlName="nombrePila">
-        <mat-error *ngIf="queryForm.controls['nombrePila'].hasError('required')">
+        <input matInput formControlName="nombrePano">
+        <mat-error *ngIf="queryForm.controls['nombrePano'].hasError('required')">
           Ingrese un nombre.
         </mat-error>
       </mat-form-field>
 
       <mat-form-field class="col-sm-6 px-2">
         <mat-label>Descripción</mat-label>
-        <input matInput formControlName="descripcionPila">
+        <input matInput formControlName="descripcionPano">
       </mat-form-field>
-
-      <mat-form-field class="col-sm-6 px-2">
-        <mat-label>Ubicación</mat-label>
-        <input matInput formControlName="ubicacionPila">
-      </mat-form-field>    
 
       <c-col *ngIf="dataObject && !dataObject.active">
         <c-alert color="danger" class="d-flex align-items-center">

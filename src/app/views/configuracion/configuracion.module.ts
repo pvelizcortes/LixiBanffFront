@@ -12,12 +12,16 @@ import { MatInputModule } from "@angular/material/input";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { IconModule } from '@coreui/icons-angular';
 
 // Components
 import { MiPerfilComponent } from './mi-perfil/mi-perfil.component';
 import { PilaComponent } from './pila/pila.component';
 import { PilaFormComponent } from './pila/pila-form/pila-form.component';
+
+import { PanoComponent } from './pano/pano.component';
+import { PanoFormComponent } from './pano/pano-form/pano-form.component';
 // Routing
 import { ConfiguracionRoutingModule } from './configuracion-routing.module';
 
@@ -42,7 +46,9 @@ import {
   declarations: [
     MiPerfilComponent,
     PilaComponent,
-    PilaFormComponent
+    PilaFormComponent,
+    PanoComponent,
+    PanoFormComponent
   ],
   imports: [
     CommonModule,
@@ -73,6 +79,7 @@ import {
     MatDialogModule,
     MatButtonModule,
     MatSelectModule,
+    NgxMatSelectSearchModule,
     MatInputModule,
     AlertModule
   ]

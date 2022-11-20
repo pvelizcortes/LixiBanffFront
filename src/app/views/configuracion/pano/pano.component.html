@@ -36,22 +36,18 @@
                                 <i class="fa-solid fa-close text-white"></i></button>
                         </td>
                     </ng-container>  
-                    <ng-container matColumnDef="codigoPila">
+                    <ng-container matColumnDef="codigoPano">
                         <th mat-header-cell mat-sort-header *matHeaderCellDef class="table-header-text">CODIGO</th>
-                        <td mat-cell *matCellDef="let item" class="p-2 vert-td"><b>{{ item.codigoPila }}</b></td>
+                        <td mat-cell *matCellDef="let item" class="p-2 vert-td"><b>{{ item.codigoPano }}</b></td>
                     </ng-container>                 
-                    <ng-container matColumnDef="nombrePila">
+                    <ng-container matColumnDef="nombrePano">
                         <th mat-header-cell mat-sort-header *matHeaderCellDef class="table-header-text">NOMBRE</th>
-                        <td mat-cell *matCellDef="let item" class="p-2 vert-td"><b>{{ item.nombrePila }}</b></td>
+                        <td mat-cell *matCellDef="let item" class="p-2 vert-td"><b>{{ item.nombrePano }}</b></td>
                     </ng-container>
-                    <ng-container matColumnDef="descripcionPila">
+                    <ng-container matColumnDef="descripcionPano">
                         <th mat-header-cell mat-sort-header *matHeaderCellDef class="table-header-text">DESCRIPCION</th>
-                        <td mat-cell *matCellDef="let item" class="p-2 vert-td">{{ item.descripcionPila }}</td>
+                        <td mat-cell *matCellDef="let item" class="p-2 vert-td">{{ item.descripcionPano }}</td>
                     </ng-container>
-                    <ng-container matColumnDef="ubicacionPila">
-                        <th mat-header-cell mat-sort-header *matHeaderCellDef class="table-header-text">UBICACION</th>
-                        <td mat-cell *matCellDef="let item" class="p-2 vert-td">{{ item.ubicacionPila }}</td>
-                    </ng-container>                 
                     <ng-container matColumnDef="active">
                         <th mat-header-cell mat-sort-header *matHeaderCellDef class="table-header-text text-center"
                             style="width:1.2em;">ACTIVO</th>
