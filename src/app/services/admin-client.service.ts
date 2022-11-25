@@ -34,6 +34,10 @@ export class AdminClientService {
     return this.http.get(this.myAppUrl + this.principalUrl + 'GetList');
   }
 
+  getSelect(): Observable<any> {
+    return this.http.get(this.myAppUrl + this.principalUrl + 'GetSelect');
+  }
+
   create(_obj : Client): Observable<any>{
     return this.http.post(this.myAppUrl + this.principalUrl + 'Create', _obj);
   }

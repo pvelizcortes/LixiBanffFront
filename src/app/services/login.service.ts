@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { Usuario } from '../shared/usuario';
+import { UsuarioDto, Users } from '../shared/users';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
@@ -16,7 +16,7 @@ export class LoginService {
     this.myAppUrl = environment.endpoint;
   }
 
-  login(usuario: Usuario): Observable<any> {
+  login(usuario: UsuarioDto): Observable<any> {
     return this.http.post(this.myAppUrl + this.loginValidate, usuario);
   }
 

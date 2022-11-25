@@ -6,6 +6,7 @@ import { MiPerfilComponent } from './mi-perfil/mi-perfil.component';
 import { PilaComponent } from './pila/pila.component';
 import { PanoComponent } from './pano/pano.component';
 import { NodoComponent } from './nodo/nodo.component';
+import { UsersComponent } from './users/users.component';
 
 const routes: Routes = [
   {
@@ -24,6 +25,13 @@ const routes: Routes = [
         component: MiPerfilComponent,
         data: {
           title: 'Mi Perfil'
+        }
+      },
+      {
+        path: 'usuarios',
+        component: UsersComponent,
+        data: {
+          title: 'Usuarios'
         }
       },
       {

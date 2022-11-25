@@ -61,4 +61,9 @@ export const navItems: INavData[] = [
     url: '/admin/clients',
     iconComponent: { name: 'cil-star' }
   },
+  {
+    name: 'Usuarios',
+    url: '/configuracion/usuarios',
+    iconComponent: { name: 'cil-user' }
+  },
 ];

@@ -1,0 +1,104 @@
+<div class="container">
+  <h1 mat-dialog-title>{{_title}}</h1>
+  <div mat-dialog-content>
+    <form [formGroup]="queryForm" class="form-row" (ngSubmit)="onSubmit()">
+      <c-row>
+        <mat-form-field class="col-sm-4 px-2">
+          <mat-label><b>Cliente</b></mat-label>
+          <mat-select formControlName="clienteId">
+            <mat-option [value]="0" selected>-- Seleccione</mat-option>
+            <mat-option *ngFor="let option of _dataCliente" [value]="option.id">
+              {{option.text}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="queryForm.controls['clienteId'].hasError('min')">
+            Seleccione una opción.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-sm-4 px-2">
+          <mat-label><b>Perfil</b></mat-label>
+          <mat-select formControlName="perfilId">
+            <mat-option [value]="0" selected>-- Seleccione</mat-option>
+            <mat-option *ngFor="let option of _dataPerfil" [value]="option.id">
+              {{option.text}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="queryForm.controls['perfilId'].hasError('min')">
+            Seleccione una opción.
+          </mat-error>
+        </mat-form-field>
+      </c-row>
+      <c-row>
+        <mat-form-field class="col-sm-4 px-2">
+          <mat-label>Nombre</mat-label>
+          <input matInput formControlName="nombreUsuario">
+          <mat-error *ngIf="queryForm.controls['nombreUsuario'].hasError('required')">
+            Ingrese un nombre.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col-sm-4 px-2">
+          <mat-label>Correo</mat-label>
+          <input matInput formControlName="correoUsuario" email required>
+          <mat-error *ngIf="queryForm.controls['correoUsuario'].hasError('required')">
+            Ingrese un correo.
+          </mat-error>
+          <mat-error *ngIf="queryForm.controls['correoUsuario'].hasError('email')">
+            Ingrese un correo válido.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col-sm-4 px-2">
+          <mat-label>Telefono</mat-label>
+          <input matInput formControlName="telefonoUsuario">
+        </mat-form-field>
+      </c-row>
+      <c-row>      
+        <mat-form-field class="col-sm-6 px-2">
+          <mat-label>Descripción</mat-label>
+          <input matInput formControlName="descripcionUsuario">
+        </mat-form-field>
+      </c-row>
+      <c-row>
+        <mat-form-field class="col-sm-4 px-2">
+          <mat-label>Contraseña</mat-label>
+          <input matInput formControlName="password" type="password">        
+          <mat-error *ngIf="queryForm.controls['password'].hasError('required')">
+            Ingrese una contraseña.
+          </mat-error>
+          <mat-error *ngIf="queryForm.controls['password'].hasError('min')">
+            La contraseña debe tener al menos 4 caracteres.
+          </mat-error>    
+        </mat-form-field>
+
+        <mat-form-field class="col-sm-4 px-2">
+          <mat-label>Repita Contraseña</mat-label>
+          <input matInput formControlName="password_check" type="password">
+          <mat-error *ngIf="queryForm.controls['password_check'].hasError('required')">
+            Ingrese una contraseña.
+          </mat-error>
+          <mat-error *ngIf="queryForm.controls['password_check'].hasError('min')">
+            La contraseña debe tener al menos 4 caracteres.
+          </mat-error>
+        </mat-form-field>
+        <div class="col-sm-4" *ngIf="!_isNew">
+          <a (click)="enablePassword();" class="btn btn-warning btn-sm">Cambiar Contraseña</a>
+        </div>
+      </c-row>
+
+      <c-col *ngIf="dataObject && !dataObject.active">
+        <c-alert color="danger" class="d-flex align-items-center">
+          <div><i class="fa-solid fa-circle-exclamation"></i>
+            Este {{ _entity }} se encuentra desactivado desea activarlo?
+            <button class="ml-1" cButton color="success" (click)="activar()" variant="outline">Activar</button>
+          </div>
+        </c-alert>
+      </c-col>
+    </form>
+  </div>
+
+  <div mat-dialog-actions align="end">
+    <button cButton color="warning" (click)="onSubmit()" class="mr-1">{{_saveButtonName}}</button>
+    <button cButton color="light" (click)="closeMe()">{{_closeButtonName}}</button>
+  </div>
+</div>

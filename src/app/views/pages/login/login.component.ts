@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Usuario } from '../../../shared/usuario';
+import { Users, UsuarioDto } from '../../../shared/users';
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/services/login.service';
 
@@ -24,7 +24,7 @@ export class LoginComponent {
   }
 
   onSubmit(form: any) {   
-    const usuario: Usuario = {
+    const usuario: UsuarioDto = {
       nombreUsuario: form.userName,
       password: form.password
     };

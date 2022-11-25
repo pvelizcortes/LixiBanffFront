@@ -26,6 +26,9 @@ import { PanoFormComponent } from './pano/pano-form/pano-form.component';
 
 import { NodoComponent } from './nodo/nodo.component';
 import { NodoFormComponent } from './nodo/nodo-form/nodo-form.component';
+
+import { UsersComponent } from './users/users.component';
+import { UsersFormComponent } from './users/users-form/users-form.component';
 // Routing
 import { ConfiguracionRoutingModule } from './configuracion-routing.module';
 
@@ -54,7 +57,9 @@ import {
     PanoComponent,
     PanoFormComponent,
     NodoComponent,
-    NodoFormComponent
+    NodoFormComponent,
+    UsersComponent,
+    UsersFormComponent
   ],
   imports: [
     CommonModule,

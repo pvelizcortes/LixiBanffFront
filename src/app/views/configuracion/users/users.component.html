@@ -1,0 +1,75 @@
+<c-container fluid>
+    <c-row>
+        <c-col sm="12">
+            <c-row>
+                <c-col sm="8">
+                    <svg cIcon size="md" name="cil-chevron-right"></svg> <b>{{_title}}</b> 
+                    <button cButton color="warning" class="btn btn-sm ml-2"
+                        (click)="openDialog();">{{_createName}}</button>
+                </c-col>
+                <c-col sm="2" class="text-right">
+                    <button cButton color="success" matTooltip="EXPORTAR EXCEL" variant="outline"
+                        class="btn btn-sm mr-1" (click)="exporter.exportTable('xlsx', {fileName:_title})"><svg cIcon
+                            size="md" name="cil-spreadsheet"></svg></button>
+                    <button cButton color="danger" matTooltip="EXPORTAR PDF" variant="outline" class="btn btn-sm"
+                        (click)="ExportPDF();"><svg cIcon size="md" name="cil-notes"></svg></button>
+                </c-col>
+                <c-col sm="2">
+                    <input cFormControl class="mb-2" placeholder="{{_searchText}}" type="text"
+                        (keyup)="applyFilter($event)" />
+                </c-col>
+            </c-row>
+        </c-col>
+        <c-col sm="12">
+            <ng-container>
+                <table mat-table [dataSource]="dataSource"
+                    class="table custom-table table-hover table-bordered table-sm" matTableExporter
+                    #exporter="matTableExporter" matSort #tableSort="matSort" id="principalTable" #principalTable>
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell mat-sort-header *matHeaderCellDef class="table-header-text"
+                            style="width:10%;">ACTIONS</th>
+                        <td mat-cell *matCellDef="let item" class="text-center p-2">
+                            <button cButton color="warning" (click)="openDialog(item);" matTooltip="EDITAR REGISTRO">
+                                <i class="fa-solid fa-edit"></i></button>
+                            <button cButton color="danger" class="ml-1" (click)="deleteRow(item);"
+                                matTooltip="ELIMINAR REGISTRO">
+                                <i class="fa-solid fa-close text-white"></i></button>
+                        </td>
+                    </ng-container>                   
+                    <ng-container matColumnDef="nombreUsuario">
+                        <th mat-header-cell mat-sort-header *matHeaderCellDef class="table-header-text">NOMBRE</th>
+                        <td mat-cell *matCellDef="let item" class="p-2 vert-td"><b>{{ item.nombreUsuario }}</b></td>
+                    </ng-container>
+                    <ng-container matColumnDef="cliente">
+                        <th mat-header-cell mat-sort-header="cliente" *matHeaderCellDef class="table-header-text">CLIENTE</th>
+                        <td mat-cell *matCellDef="let item" class="p-2 vert-td"><b>{{ item.cliente.nombreCliente }}</b></td>
+                    </ng-container>
+                    <ng-container matColumnDef="correoUsuario">
+                        <th mat-header-cell mat-sort-header *matHeaderCellDef class="table-header-text">CORREO</th>
+                        <td mat-cell *matCellDef="let item" class="p-2 vert-td">{{ item.correoUsuario }}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="descripcionUsuario">
+                        <th mat-header-cell mat-sort-header *matHeaderCellDef class="table-header-text">DESCRIPCION</th>
+                        <td mat-cell *matCellDef="let item" class="p-2 vert-td">{{ item.descripcionUsuario }}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="active">
+                        <th mat-header-cell mat-sort-header *matHeaderCellDef class="table-header-text text-center"
+                            style="width:1.2em;">ACTIVO</th>
+                        <td mat-cell *matCellDef="let item" class="p-2 vert-td text-center">
+                            <i class="fa-solid {{ item.active ? 'fa-user-check text-success' : 'fa-user-large-slash text-danger' }}"></i>
+                            <span [hidden]="true">{{item.active}}</span>
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row class="table-header-row" *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let item; columns: displayedColumns"></tr>
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell text-center" [attr.colspan]="displayedColumns.length">
+                            <b>{{_noSearchResults}}</b>
+                        </td>
+                    </tr>
+                </table>
+                <mat-paginator [pageSizeOptions]="_pageSizeOptions" showFirstLastButtons></mat-paginator>
+            </ng-container>
+        </c-col>
+    </c-row>
+</c-container>
