@@ -88,6 +88,20 @@ import {
   cilUserFemale,
   cilUserFollow,
   cilUserUnfollow,
+  cilZoom,
+  // custom
+  cilFlipToFront,
+  cilFlip,
+  cilGradient,
+  cilViewColumn,
+  cilViewStream,
+  cilWarning,
+  cilAddressBook,
+  cilAudio,
+  cilCog,
+  cilContact,
+  cilEqualizer,
+  cilUserPlus
 } from '@coreui/icons';
 
 export const iconSubset = {
@@ -180,6 +194,20 @@ export const iconSubset = {
   cilUserFemale,
   cilUserFollow,
   cilUserUnfollow,
+  cilZoom,
+  // custom
+  cilFlipToFront,
+  cilFlip,
+  cilGradient,
+  cilViewColumn,
+  cilViewStream,
+  cilWarning,
+  cilAddressBook,
+  cilAudio,
+  cilCog,
+  cilContact,
+  cilEqualizer,
+  cilUserPlus
 };
 
 export enum IconSubset {
@@ -215,7 +243,7 @@ export enum IconSubset {
   cilCalendar = 'cilCalendar',
   cilChart = 'cilChart',
   cilChartPie = 'cilChartPie',
-  cilCheck='cilCheck',
+  cilCheck = 'cilCheck',
   cilChevronLeft = 'cilChevronLeft',
   cilChevronRight = 'cilChevronRight',
   cilCloudDownload = 'cilCloudDownload',
@@ -272,4 +300,18 @@ export enum IconSubset {
   cilUserFemale = 'cilUserFemale',
   cilUserFollow = 'cilUserFollow',
   cilUserUnfollow = 'cilUserUnfollow',
+  cilZoom = 'cilZoom',
+   // custom
+  cilFlipToFront = 'cilFlipToFront',
+  cilFlip = 'cilFlip',
+  cilGradient = 'cilGradient',
+  cilViewColumn = 'cilViewColumn',
+  cilViewStream = 'cilViewStream',
+  cilWarning = 'cilWarning',
+  cilAddressBook = 'cilAddressBook',
+  cilAudio = 'cilAudio',
+  cilCog = 'cilCog',
+  cilContact = 'cilContact',
+  cilEqualizer = 'cilEqualizer',
+  cilUserPlus = 'cilUserPlus'
 }

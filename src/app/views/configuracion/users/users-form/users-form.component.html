@@ -1,5 +1,6 @@
 <div class="container">
-  <h1 mat-dialog-title>{{_title}}</h1>
+  <h1 mat-dialog-title><svg cIcon size="xl" name="cil-user-plus" class="icon-back-color-warning mr-1"></svg> {{_title}}</h1>
+  <hr>
   <div mat-dialog-content>
     <form [formGroup]="queryForm" class="form-row" (ngSubmit)="onSubmit()">
       <c-row>

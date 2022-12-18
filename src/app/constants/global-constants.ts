@@ -3,7 +3,7 @@ export class GlobalConstants {
     public static baseApiUrl: string = "http://localhost";
     
     // Mantenedor Constants
-    public static createButtonName: string = "+ Crear";
+    public static createButtonName: string = "+ Agregar";
 
     // Table Constants
     public static searchPlaceHolder: string = "Filtrar...";
@@ -19,4 +19,7 @@ export class GlobalConstants {
     public static successToast: string = "Acción completada:";
     public static warningToast: string = "No se pudo completar la acción:";
     public static errorToast: string = "Se ha producido un error:";
+
+    // 
+    public static lixibanffp4m : string = "AIzaSyB2Kls3RdCM6R3G5CUI_1-Z_hs5Sb5hlPw";
 }

@@ -34,7 +34,7 @@ export class NodoComponent implements OnInit {
   _noSearchResults: string = GlobalConstants.noSearchResults;
   _showModal: boolean = false;  
   // Mat Table
-  displayedColumns: string[] = ['codigoNodo', 'nombreNodo', 'descripcionNodo', 'active', 'actions'];
+  displayedColumns: string[] = ['codigoNodo', 'nombreNodo', 'mac', 'descripcionNodo', 'active', 'actions'];
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild('tableSort') tableSort = new MatSort();

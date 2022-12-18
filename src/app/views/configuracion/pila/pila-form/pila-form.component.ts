@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UtilsService } from '../../../../services/utils.service'
@@ -6,6 +6,8 @@ import { UtilsService } from '../../../../services/utils.service'
 import { GlobalConstants } from '../../../../constants/global-constants';
 import { Pila } from '../../../../shared/pila';
 import { PilaService } from '../../../../services/pila.service';
+
+import { } from 'googlemaps';
 
 @Component({
   selector: 'app-pila-form',
@@ -24,6 +26,10 @@ export class PilaFormComponent implements OnInit {
   // Form
   queryForm: FormGroup;
 
+  // Maps
+  @ViewChild('map') mapElement: any;
+  map: google.maps.Map;
+
   // ** Constructor **
   constructor(public dialogRef: MatDialogRef<PilaFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Pila,
@@ -34,8 +40,20 @@ export class PilaFormComponent implements OnInit {
     data ? this.Editing(data) : this.Creating();
   }
   ngOnInit(): void {
-
+    setTimeout(() => {                           // <<<---using ()=> syntax
+      this.CreateMap();
+    }, 2000);
   }
+
+  CreateMap() {
+    const mapProperties = {
+      center: new google.maps.LatLng(-33.43593980261049, -70.67106719480667), // Santiago
+      zoom: 8,
+      mapTypeId: google.maps.MapTypeId.HYBRID
+    };
+    this.map = new google.maps.Map(this.mapElement.nativeElement, mapProperties);
+  }  
+
   CreateForm() {
     this.queryForm = this.formBuilder.group({
       pilaId: [0],

@@ -125,6 +125,7 @@ export class NodoFormComponent implements OnInit {
       }
     );
 
+    this.GetPanosToSelect(this.queryForm.value.pilaId);
     this.DisableInputs();
   }
 

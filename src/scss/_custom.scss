@@ -19,6 +19,14 @@
     margin-right: 2em;
 }
 
+.mt-1 {
+    margin-top:1em;
+}
+
+.mt-2 {
+    margin-top:2em;
+}
+
 .px-1 {
     padding-left: 2em;
     padding-right: 2em;
@@ -42,6 +50,8 @@
 // Mat Table Styles
 .custom-table {
     border: 1px solid lightgray;
+    width: 100%;
+    overflow-x: auto;
 }
 
 .table-header-row {
@@ -61,4 +71,36 @@
 
 .vert-td {
     vertical-align: middle;
+}
+
+.flow-table {
+    overflow-x: auto;
+}
+
+.button-td {
+    white-space: nowrap;
+}
+
+// Login Background
+.login-background {
+    background-image: url('../assets/img/brand/login-back.jpg');
+    background-size: cover;
+}
+
+// Mantenedores
+.icon-back-color-warning {
+    background-color: #f9b115;
+    color: white;
+    border: 1px solid #f9b115;
+    padding: 2px 2px 2px 2px;
+    width: 1.4em !important;
+    height: 1.4em !important;
+}
+
+.border-right-vertical{
+    border-right: 1px solid lightgray;
+}
+
+.mant-title {
+    font-size: 1.3em;
 }

@@ -1,5 +1,6 @@
 <div class="container">
-  <h1 mat-dialog-title>{{_title}}</h1>
+  <h1 mat-dialog-title><svg cIcon size="xl" name="cil-gradient" class="icon-back-color-warning mr-1"></svg> {{_title}}</h1>
+  <hr>
   <div mat-dialog-content>
     <form [formGroup]="queryForm" class="form-row" (ngSubmit)="onSubmit()">
 
@@ -60,6 +61,12 @@
           </div>
         </c-alert>
       </c-col>
+
+      <c-row>
+        <c-col>
+          <div #map style="width:100%;height:600px"></div>
+        </c-col>
+      </c-row>
     </form>
   </div>
 

@@ -1,4 +1,4 @@
-<div class="bg-light min-vh-100 d-flex flex-row align-items-center">
+<div class="bg-light min-vh-100 d-flex flex-row align-items-center login-background">
   <c-container>
     <c-row class="justify-content-center">
       <c-col md="8">
@@ -6,36 +6,40 @@
           <c-card class="p-4">
             <c-card-body>
               <form cForm (ngSubmit)="onSubmit(loginForm.value)" [formGroup]="loginForm">
-                <h1>Login</h1>
-                <p class="text-medium-emphasis">Ingrese con su cuenta</p>
+                <img src="assets/img/brand/lixitrack.png" style="width: 30%;" />
+
+                <p class="text-medium-emphasis">Ingrese con su usuario y contraseña.</p>
                 <c-input-group class="mb-3">
                   <span cInputGroupText>
                     <svg cIcon name="cilUser"></svg>
                   </span>
-                  <input autoComplete="username" cFormControl placeholder="Usuario" formControlName="userName"/>                  
+                  <input autoComplete="username" cFormControl placeholder="Usuario" formControlName="userName" />
                 </c-input-group>
                 <c-input-group class="mb-4">
                   <span cInputGroupText>
                     <svg cIcon name="cilLockLocked"></svg>
                   </span>
                   <input autoComplete="current-password" cFormControl placeholder="Contraseña" type="password" required
-                    formControlName="password" />                  
+                    formControlName="password" />
                 </c-input-group>
+                <hr>
                 <c-row>
                   <c-col xs="6">
-                    <button cButton class="px-4" color="primary" type="submit">
+                    <br>
+                    <button cButton class="px-4" color="warning" type="submit">
                       Ingresar
                     </button>
                   </c-col>
                   <c-col class="text-right" xs="6">
+                    <br>
                     <button cButton class="px-0" color="link">
-                      Olvido su contraseña?
+                      Olvidó su contraseña?
                     </button>
                   </c-col>
                 </c-row>
               </form>
             </c-card-body>
-          </c-card>          
+          </c-card>
         </c-card-group>
       </c-col>
     </c-row>

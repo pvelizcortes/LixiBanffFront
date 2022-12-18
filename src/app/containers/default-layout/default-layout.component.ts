@@ -14,5 +14,7 @@ export class DefaultLayoutComponent {
     suppressScrollX: true,
   };
 
-  constructor() {}
+  constructor() {
+    
+  }
 }

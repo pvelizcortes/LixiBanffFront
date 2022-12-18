@@ -46,7 +46,8 @@ import {
   UtilitiesModule,
   TableModule,
   ModalModule,
-  AlertModule  
+  AlertModule,
+  WidgetModule
 } from '@coreui/angular';
 
 @NgModule({
@@ -92,7 +93,8 @@ import {
     MatSelectModule,
     NgxMatSelectSearchModule,
     MatInputModule,
-    AlertModule
+    AlertModule,
+    WidgetModule
   ]
 })
 export class ConfiguracionModule {
