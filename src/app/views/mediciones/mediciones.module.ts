@@ -4,8 +4,20 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableExporterModule } from 'mat-table-exporter';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { MatDialogModule } from "@angular/material/dialog";
+import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+
 import { GraficosComponent } from './graficos/graficos.component';
-import { ListadoComponent } from './listado/listado.component';
+import { FiltraNodoComponent } from './listado/filtra-nodo.component';
 import { ReportesComponent } from './reportes/reportes.component';
 import { MedicionesRoutingModule } from './mediciones-routing.module';
 
@@ -23,7 +35,12 @@ import {
   NavbarModule,
   NavModule,
   SharedModule,
-  UtilitiesModule
+  UtilitiesModule,
+  TableModule,
+  ModalModule,
+  AlertModule,
+  WidgetModule,
+  AccordionModule
 } from '@coreui/angular';
 
 import { IconModule } from '@coreui/icons-angular';
@@ -32,7 +49,7 @@ import { RealTimeComponent } from './real-time/real-time.component';
 @NgModule({
   declarations: [
     GraficosComponent,
-    ListadoComponent,
+    FiltraNodoComponent,
     ReportesComponent,
     RealTimeComponent,
   ],
@@ -55,7 +72,27 @@ import { RealTimeComponent } from './real-time/real-time.component';
     NavbarModule,
     NgChartsModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    NavbarModule,
+    CollapseModule,
+    NavModule,
+    NavbarModule,
+    TableModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatTableExporterModule,
+    MatTooltipModule,
+    ModalModule, 
+    MatFormFieldModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatSelectModule,
+    NgxMatSelectSearchModule,
+    MatInputModule,
+    AlertModule,
+    WidgetModule,
+    AccordionModule
   ],
   providers:[
     DatePipe

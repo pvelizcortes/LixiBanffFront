@@ -22,8 +22,9 @@ export class NodoService {
     return this.http.get(this.myAppUrl + this.principalUrl + 'GetList');
   }
 
-  getSelect(): Observable<any>{
-    return this.http.get(this.myAppUrl + this.principalUrl + 'GetSelect');
+  getSelect(panoId?: number): Observable<any> {
+    let queryParams = { "panoId": panoId ? panoId : 0 };
+    return this.http.get(this.myAppUrl + this.principalUrl + 'GetSelect', { params: queryParams });
   }
   
   save(_obj : Nodo, isNew : boolean): Observable<any>{
@@ -42,10 +43,5 @@ export class NodoService {
   // Others
   getTipoNodoSelect(): Observable<any>{
     return this.http.get(this.myAppUrl + this.principalUrl + 'GetTipoNodoSelect');
-  }
-
-  // DynamoDB
-  getDynamo(): Observable<any>{
-    return this.http.get(this.myAppUrl + this.principalUrl + 'GetDynamoDB');
   }
 }

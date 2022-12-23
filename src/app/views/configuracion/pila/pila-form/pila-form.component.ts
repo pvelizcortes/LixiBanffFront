@@ -162,7 +162,7 @@ export class PilaFormComponent implements OnInit {
     this.queryForm.controls['longitudPila'].setValue(jsonPosition.lng);
     this.queryForm.controls['latLongPila'].setValue(jsonPosition.lat.toString() + ',' + jsonPosition.lng.toString());
     const mapProperties = {
-      center: position, // Santiago
+      center: position,
       zoom: 13,
       mapTypeId: google.maps.MapTypeId.HYBRID
     };

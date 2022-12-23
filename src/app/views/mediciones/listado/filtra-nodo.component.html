@@ -1,0 +1,129 @@
+<c-container fluid>
+    <c-row>
+        <c-col sm="12">
+            <c-accordion>
+                <c-accordion-item #item0="cAccordionItem" [visible]="true">
+                    <ng-template cTemplateId="accordionHeaderTemplate">
+                        <button (click)="item0.toggleItem()" [collapsed]="!item0.visible" cAccordionButton>
+                            <i class="fa fa-filter"></i> <b>Filtros</b>
+                        </button>
+                    </ng-template>
+                    <ng-template cTemplateId="accordionBodyTemplate">
+                        <div class="accordion-body">
+                            <form [formGroup]="queryForm" class="form-row" (ngSubmit)="onSubmit()">                                
+                                <c-row>
+                                    <mat-form-field class="col-sm-4">
+                                        <mat-label><b>Pila</b></mat-label>
+                                        <mat-select formControlName="pilaId"
+                                            (selectionChange)="PilaChange($event.value)">
+                                            <mat-option [value]="0" selected>-- Seleccione</mat-option>
+                                            <mat-option *ngFor="let option of _dataPila" [value]="option.id">
+                                                {{option.text}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="queryForm.controls['pilaId'].hasError('min')">
+                                            Seleccione una opción.
+                                        </mat-error>
+                                    </mat-form-field>
+                                    <mat-form-field class="col-sm-4">
+                                        <mat-label><b>Paño</b></mat-label>
+                                        <mat-select formControlName="panoId"
+                                        (selectionChange)="PanoChange($event.value)">
+                                            <mat-option [value]="0" selected>-- Seleccione</mat-option>
+                                            <mat-option *ngFor="let option of _dataPano" [value]="option.id">
+                                                {{option.text}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="queryForm.controls['panoId'].hasError('min')">
+                                            Seleccione una opción.
+                                        </mat-error>
+                                    </mat-form-field>
+                                    <mat-form-field class="col-sm-4">
+                                        <mat-label><b>Nodo</b></mat-label>
+                                        <mat-select formControlName="nodoId">
+                                            <mat-option [value]="0" selected>-- Seleccione</mat-option>
+                                            <mat-option *ngFor="let option of _dataNodo" [value]="option.id">
+                                                {{option.text}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="queryForm.controls['nodoId'].hasError('min')">
+                                            Seleccione una opción.
+                                        </mat-error>
+                                    </mat-form-field>
+                                </c-row>
+                                <c-row>
+                                    <mat-form-field class="col-sm-4">
+                                        <mat-label><b>Desde</b></mat-label>
+                                        <input matInput formControlName="from" type="date">
+                                    </mat-form-field>
+                                    <mat-form-field class="col-sm-4">
+                                        <mat-label><b>Hasta</b></mat-label>
+                                        <input matInput formControlName="to" type="date">
+                                    </mat-form-field>
+                                    <c-col sm="4">
+                                        <button cButton color="warning" (click)="onSubmit()" class="mr-1"><i class="fa fa-search"></i> Buscar</button>
+                                    </c-col>
+                                </c-row>
+                            </form>
+                        </div>
+                    </ng-template>
+                </c-accordion-item>
+            </c-accordion>
+        </c-col>
+    </c-row>
+    <br>
+    <c-row>
+        <c-col sm="2">
+            <input cFormControl class="mb-2" placeholder="{{_searchText}}" type="text" (keyup)="applyFilter($event)" />
+        </c-col>
+        <c-col sm="2">
+            <button cButton color="success" matTooltip="EXPORTAR EXCEL" variant="outline" class="btn btn-sm mr-1"
+                (click)="exporter.exportTable('xlsx', {fileName:_title})"><svg cIcon size="md"
+                    name="cil-spreadsheet"></svg></button>
+            <button cButton color="danger" matTooltip="EXPORTAR PDF" variant="outline" class="btn btn-sm"
+                (click)="ExportPDF();"><svg cIcon size="md" name="cil-notes"></svg></button>
+        </c-col>
+    </c-row>
+    <c-row>
+        <c-col sm="12" class="flow-table">
+            <ng-container>
+                <table mat-table [dataSource]="dataSource"
+                    class="table custom-table table-hover table-bordered table-sm" matTableExporter
+                    #exporter="matTableExporter" matSort #tableSort="matSort" id="principalTable" #principalTable>
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell mat-sort-header *matHeaderCellDef class="table-header-text"
+                            style="width:10%;">ACTIONS</th>
+                        <td mat-cell *matCellDef="let item" class="text-center p-2 button-td">
+                            n/a
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="fecha">
+                        <th mat-header-cell mat-sort-header *matHeaderCellDef class="table-header-text">FECHA</th>
+                        <td mat-cell *matCellDef="let item" class="p-2 vert-td">{{ item.fecha | date : 'dd/MM/yyyy' }}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="nodo">
+                        <th mat-header-cell mat-sort-header *matHeaderCellDef class="table-header-text">NODO</th>
+                        <td mat-cell *matCellDef="let item" class="p-2 vert-td">{{ item.nodo }}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="sensor">
+                        <th mat-header-cell mat-sort-header *matHeaderCellDef class="table-header-text">SENSOR</th>
+                        <td mat-cell *matCellDef="let item" class="p-2 vert-td">{{ item.sensor }}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="valor">
+                        <th mat-header-cell mat-sort-header *matHeaderCellDef class="table-header-text">VALOR
+                        </th>
+                        <td mat-cell *matCellDef="let item" class="p-2 vert-td">{{ item.valor }}</td>
+                    </ng-container>
+                    <tr mat-header-row class="table-header-row" *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let item; columns: displayedColumns"></tr>
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell text-center" [attr.colspan]="displayedColumns.length">
+                            <b>{{_noSearchResults}}</b>
+                        </td>
+                    </tr>
+                </table>
+                <mat-paginator [pageSizeOptions]="_pageSizeOptions" showFirstLastButtons></mat-paginator>
+            </ng-container>
+        </c-col>
+    </c-row>
+</c-container>

@@ -1,78 +1,86 @@
 <div class="container">
-  <h1 mat-dialog-title><svg cIcon size="xl" name="cil-user-plus" class="icon-back-color-warning mr-1"></svg> {{_title}}</h1>
+  <h1 mat-dialog-title><svg cIcon size="xl" name="cil-user-plus" class="icon-back-color-warning mr-1"></svg> {{_title}}
+  </h1>
   <hr>
   <div mat-dialog-content>
     <form [formGroup]="queryForm" class="form-row" (ngSubmit)="onSubmit()">
       <c-row>
-        <mat-form-field class="col-sm-4 px-2">
-          <mat-label><b>Cliente</b></mat-label>
-          <mat-select formControlName="clienteId">
-            <mat-option [value]="0" selected>-- Seleccione</mat-option>
-            <mat-option *ngFor="let option of _dataCliente" [value]="option.id">
-              {{option.text}}
-            </mat-option>
-          </mat-select>
-          <mat-error *ngIf="queryForm.controls['clienteId'].hasError('min')">
-            Seleccione una opción.
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field class="col-sm-4 px-2">
-          <mat-label><b>Perfil</b></mat-label>
-          <mat-select formControlName="perfilId">
-            <mat-option [value]="0" selected>-- Seleccione</mat-option>
-            <mat-option *ngFor="let option of _dataPerfil" [value]="option.id">
-              {{option.text}}
-            </mat-option>
-          </mat-select>
-          <mat-error *ngIf="queryForm.controls['perfilId'].hasError('min')">
-            Seleccione una opción.
-          </mat-error>
-        </mat-form-field>
+        <c-col sm="6">
+          <mat-form-field class="col-sm-12">
+            <mat-label><b>Cliente</b></mat-label>
+            <mat-select formControlName="clienteId">
+              <mat-option [value]="0" selected>-- Seleccione</mat-option>
+              <mat-option *ngFor="let option of _dataCliente" [value]="option.id">
+                {{option.text}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="queryForm.controls['clienteId'].hasError('min')">
+              Seleccione una opción.
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="col-sm-12">
+            <mat-label><b>Perfil</b></mat-label>
+            <mat-select formControlName="perfilId">
+              <mat-option [value]="0" selected>-- Seleccione</mat-option>
+              <mat-option *ngFor="let option of _dataPerfil" [value]="option.id">
+                {{option.text}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="queryForm.controls['perfilId'].hasError('min')">
+              Seleccione una opción.
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="col-sm-12">
+            <mat-label>Nombre</mat-label>
+            <input matInput formControlName="nombreUsuario">
+            <mat-error *ngIf="queryForm.controls['nombreUsuario'].hasError('required')">
+              Ingrese un nombre.
+            </mat-error>
+          </mat-form-field>
+        </c-col>
+        <c-col sm="6">
+          <mat-form-field class="col-sm-12">
+            <mat-label>Correo</mat-label>
+            <input matInput formControlName="correoUsuario" email required>
+            <mat-error *ngIf="queryForm.controls['correoUsuario'].hasError('required')">
+              Ingrese un correo.
+            </mat-error>
+            <mat-error *ngIf="queryForm.controls['correoUsuario'].hasError('email')">
+              Ingrese un correo válido.
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="col-sm-12">
+            <mat-label>Telefono</mat-label>
+            <input matInput formControlName="telefonoUsuario">
+          </mat-form-field>
+          <mat-form-field class="col-sm-12">
+            <mat-label>Descripción</mat-label>
+            <input matInput formControlName="descripcionUsuario">
+          </mat-form-field>
+        </c-col>
       </c-row>
-      <c-row>
-        <mat-form-field class="col-sm-4 px-2">
-          <mat-label>Nombre</mat-label>
-          <input matInput formControlName="nombreUsuario">
-          <mat-error *ngIf="queryForm.controls['nombreUsuario'].hasError('required')">
-            Ingrese un nombre.
-          </mat-error>
-        </mat-form-field>
 
-        <mat-form-field class="col-sm-4 px-2">
-          <mat-label>Correo</mat-label>
-          <input matInput formControlName="correoUsuario" email required>
-          <mat-error *ngIf="queryForm.controls['correoUsuario'].hasError('required')">
-            Ingrese un correo.
-          </mat-error>
-          <mat-error *ngIf="queryForm.controls['correoUsuario'].hasError('email')">
-            Ingrese un correo válido.
-          </mat-error>
-        </mat-form-field>
-
-        <mat-form-field class="col-sm-4 px-2">
-          <mat-label>Telefono</mat-label>
-          <input matInput formControlName="telefonoUsuario">
-        </mat-form-field>
-      </c-row>
-      <c-row>      
-        <mat-form-field class="col-sm-6 px-2">
-          <mat-label>Descripción</mat-label>
-          <input matInput formControlName="descripcionUsuario">
-        </mat-form-field>
-      </c-row>
       <c-row>
-        <mat-form-field class="col-sm-4 px-2">
+        <c-col sm="12">
+          <c-alert color="warning" class="d-flex align-items-center">
+            <div><b color="warning"><i class="fa fa-user-lock"></i> CONTRASEÑA</b></div>
+          </c-alert>
+        </c-col>
+      </c-row>
+
+      <c-row>
+        <mat-form-field class="col-sm-4">
           <mat-label>Contraseña</mat-label>
-          <input matInput formControlName="password" type="password">        
+          <input matInput formControlName="password" type="password">
           <mat-error *ngIf="queryForm.controls['password'].hasError('required')">
             Ingrese una contraseña.
           </mat-error>
           <mat-error *ngIf="queryForm.controls['password'].hasError('min')">
             La contraseña debe tener al menos 4 caracteres.
-          </mat-error>    
+          </mat-error>
         </mat-form-field>
 
-        <mat-form-field class="col-sm-4 px-2">
+        <mat-form-field class="col-sm-4">
           <mat-label>Repita Contraseña</mat-label>
           <input matInput formControlName="password_check" type="password">
           <mat-error *ngIf="queryForm.controls['password_check'].hasError('required')">

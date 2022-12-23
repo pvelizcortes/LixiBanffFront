@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { GraficosComponent } from './graficos/graficos.component';
-import { ListadoComponent } from './listado/listado.component';
+import { FiltraNodoComponent } from './listado/filtra-nodo.component';
 import { RealTimeComponent } from './real-time/real-time.component';
 import { ReportesComponent } from './reportes/reportes.component';
 
@@ -26,10 +26,10 @@ const routes: Routes = [
         }
       },  
       {
-        path: 'listado',
-        component: ListadoComponent,
+        path: 'filtra-nodo',
+        component: FiltraNodoComponent,
         data: {
-          title: 'Listado de Mediciones'
+          title: 'Filtra por Nodo'
         }
       },
       {

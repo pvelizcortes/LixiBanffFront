@@ -14,7 +14,8 @@ import {
   NavModule,
   ProgressModule,
   TableModule,
-  TabsModule
+  TabsModule,
+  WidgetModule
 } from '@coreui/angular';
 import { IconModule } from '@coreui/icons-angular';
 import { ChartjsModule } from '@coreui/angular-chartjs';
@@ -23,7 +24,9 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 import { HttpClientModule } from '@angular/common/http';
 
-@NgModule({
+
+
+@NgModule({ 
   imports: [
     DashboardRoutingModule,
     CardModule,
@@ -41,7 +44,8 @@ import { HttpClientModule } from '@angular/common/http';
     ChartjsModule,
     AvatarModule,
     TableModule,
-    HttpClientModule
+    HttpClientModule,
+    WidgetModule
   ],
   declarations: [DashboardComponent]
 })
