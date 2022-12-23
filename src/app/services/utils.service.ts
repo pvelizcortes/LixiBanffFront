@@ -13,10 +13,10 @@ export class UtilsService {
   // PROCESS ERRORS
   processError(e: any) {
     const level = e.error.level ? e.error.level : "error";
-    if(level == "error"){
+    if (level == "error") {
       this.alertError(e.error.message);
     }
-    else if (level == "warning"){
+    else if (level == "warning") {
       this.alertWarning(e.error.message);
     }
   }
@@ -32,5 +32,10 @@ export class UtilsService {
 
   alertError(message: string, title?: string,) {
     this.toastr.error(message, title ? title : GlobalConstants.errorToast);
+  }
+
+  // MAPS
+  convertToLatLng(lat: number, lng: number) {
+     
   }
 }

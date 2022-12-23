@@ -1,57 +1,59 @@
 <div class="container">
-  <h1 mat-dialog-title><svg cIcon size="xl" name="cil-gradient" class="icon-back-color-warning mr-1"></svg> {{_title}}</h1>
+  <h1 mat-dialog-title><svg cIcon size="xl" name="cil-gradient" class="icon-back-color-warning mr-1"></svg> {{_title}}
+  </h1>
   <hr>
   <div mat-dialog-content>
     <form [formGroup]="queryForm" class="form-row" (ngSubmit)="onSubmit()">
+      <c-row>
+        <mat-form-field class="col-sm-3 px-2">
+          <mat-label>Posición</mat-label>
+          <input type="number" matInput formControlName="posicionPila">
+          <mat-error *ngIf="queryForm.controls['posicionPila'].hasError('required')">
+            Ingrese una posición.
+          </mat-error>
+        </mat-form-field>
 
-      <mat-form-field class="col-sm-3 px-2">
-        <mat-label>Posición</mat-label>
-        <input type="number" matInput formControlName="posicionPila">
-        <mat-error *ngIf="queryForm.controls['posicionPila'].hasError('required')">
-          Ingrese una posición.
-        </mat-error>
-      </mat-form-field>
+        <mat-form-field class="col-sm-3 px-2">
+          <mat-label>Cantidad Paños</mat-label>
+          <input type="number" matInput formControlName="cantidadPanos">
+        </mat-form-field>
 
-      <mat-form-field class="col-sm-3 px-2">
-        <mat-label>Cantidad Paños</mat-label>
-        <input type="number" matInput formControlName="cantidadPanos">       
-      </mat-form-field>
+        <mat-form-field class="col-sm-3 px-2">
+          <mat-label>Ancho de la Pila</mat-label>
+          <input type="number" matInput formControlName="anchoPila">
+        </mat-form-field>
 
-      <mat-form-field class="col-sm-3 px-2">
-        <mat-label>Ancho de la Pila</mat-label>
-        <input type="number" matInput formControlName="anchoPila">       
-      </mat-form-field>
+        <mat-form-field class="col-sm-3 px-2">
+          <mat-label>Largo de la Pila</mat-label>
+          <input type="number" matInput formControlName="largoPila">
+        </mat-form-field>
 
-      <mat-form-field class="col-sm-3 px-2">
-        <mat-label>Largo de la Pila</mat-label>
-        <input type="number" matInput formControlName="largoPila">       
-      </mat-form-field>
+        <mat-form-field class="col-sm-4 px-2">
+          <mat-label>Codigo</mat-label>
+          <input matInput formControlName="codigoPila">
+          <mat-error *ngIf="queryForm.controls['codigoPila'].hasError('required')">
+            Ingrese un codigo.
+          </mat-error>
+        </mat-form-field>
 
-      <mat-form-field class="col-sm-4 px-2">
-        <mat-label>Codigo</mat-label>
-        <input matInput formControlName="codigoPila">
-        <mat-error *ngIf="queryForm.controls['codigoPila'].hasError('required')">
-          Ingrese un codigo.
-        </mat-error>
-      </mat-form-field>   
+        <mat-form-field class="col-sm-8 px-2">
+          <mat-label>Nombre</mat-label>
+          <input matInput formControlName="nombrePila">
+          <mat-error *ngIf="queryForm.controls['nombrePila'].hasError('required')">
+            Ingrese un nombre.
+          </mat-error>
+        </mat-form-field>
 
-      <mat-form-field class="col-sm-8 px-2">
-        <mat-label>Nombre</mat-label>
-        <input matInput formControlName="nombrePila">
-        <mat-error *ngIf="queryForm.controls['nombrePila'].hasError('required')">
-          Ingrese un nombre.
-        </mat-error>
-      </mat-form-field>
+        <mat-form-field class="col-sm-6 px-2">
+          <mat-label>Descripción</mat-label>
+          <input matInput formControlName="descripcionPila">
+        </mat-form-field>
 
-      <mat-form-field class="col-sm-6 px-2">
-        <mat-label>Descripción</mat-label>
-        <input matInput formControlName="descripcionPila">
-      </mat-form-field>
-
-      <mat-form-field class="col-sm-6 px-2">
-        <mat-label>Ubicación</mat-label>
-        <input matInput formControlName="ubicacionPila">
-      </mat-form-field>    
+        <mat-form-field class="col-sm-6 px-2">
+          <mat-label>Ubicación</mat-label>
+          <input matInput formControlName="ubicacionPila">
+        </mat-form-field>
+      </c-row>
 
       <c-col *ngIf="dataObject && !dataObject.active">
         <c-alert color="danger" class="d-flex align-items-center">
@@ -63,8 +65,28 @@
       </c-col>
 
       <c-row>
-        <c-col>
-          <div #map style="width:100%;height:600px"></div>
+        <c-col sm="12">
+          <b color="warning">POSICIONAMIENTO EN EL MAPA</b>
+        </c-col>
+      </c-row>
+
+      <c-row>
+        <c-col sm="4">
+          <mat-form-field class="col-sm-12">
+            <mat-label>Lat (Latitud)</mat-label>
+            <input matInput formControlName="latitudPila">
+          </mat-form-field>
+          <mat-form-field class="col-sm-12">
+            <mat-label>Lng (Longitud)</mat-label>
+            <input matInput formControlName="longitudPila">
+          </mat-form-field>
+          <div class="col-sm-8">
+            <button cButton color="warning" (click)="buscarGPS()" variant="outline">Localizar <i class="fa fa-search"
+                matTooltip="UBICAR EN EL MAPA"></i></button>
+          </div>
+        </c-col>
+        <c-col sm="6">
+          <div #map style="width:100%;height:300px"></div>
         </c-col>
       </c-row>
     </form>

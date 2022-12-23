@@ -56,39 +56,25 @@
           <table class="table table-striped table-bordered">
             <thead class="table-dark">
               <tr>
-                <th scope="col">Fecha/Hora</th>
-                <th scope="col">Pila</th>
-                <th scope="col">Paño</th>
-                <th scope="col">Nodo</th>
-                <th scope="col">Oxigeno</th>
-                <th scope="col">Variable 2</th>
+                <th scope="col">Time</th>           
+                <th scope="col">devEui</th>    
+                <th scope="col">fPort</th>  
+                <th scope="col">freq</th>  
+                <th scope="col">nnodo</th>  
+                <th scope="col">sensor</th>  
+                <th scope="col">value</th>  
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>12-08-12 19:00</td>
-                <td>Pila1</td>
-                <td>Paño1</td>
-                <td>Nodo1</td>
-                <td>0.5</td>
-                <td>1.3</td>
-              </tr>
-              <tr>
-                <td>12-08-12 20:00</td>
-                <td>Pila1</td>
-                <td>Paño1</td>
-                <td>Nodo2</td>
-                <td>0.3</td>
-                <td>1.5</td>
-              </tr>
-              <tr>
-                <td>12-08-12 22:00</td>
-                <td>Pila1</td>
-                <td>Paño1</td>
-                <td>Nodo3</td>
-                <td>1.1</td>
-                <td>2.0</td>
-              </tr>
+              <tr  *ngFor="let item of _data">
+                <td>{{item.Time}}</td> 
+                <td>{{item.devEui}}</td>
+                <td>{{item.datos_decodificados.fPort}}</td>
+                <td>{{item.datos_decodificados.freq}}</td>
+                <td>{{item.datos_decodificados.nnodo}}</td>
+                <td>{{item.datos_decodificados.sensor}}</td>
+                <td>{{item.datos_decodificados.value}}</td>
+              </tr>              
             </tbody>
           </table>
         </c-col>

@@ -45,7 +45,7 @@ export class NodoComponent implements OnInit {
     private _util: UtilsService) {
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {  
     this.getList();
   }
   

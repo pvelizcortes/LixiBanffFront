@@ -43,4 +43,9 @@ export class NodoService {
   getTipoNodoSelect(): Observable<any>{
     return this.http.get(this.myAppUrl + this.principalUrl + 'GetTipoNodoSelect');
   }
+
+  // DynamoDB
+  getDynamo(): Observable<any>{
+    return this.http.get(this.myAppUrl + this.principalUrl + 'GetDynamoDB');
+  }
 }

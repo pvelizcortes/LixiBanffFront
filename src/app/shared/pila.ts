@@ -8,7 +8,7 @@ export interface Pila {
     largoPila?: number,
     descripcionPila?: string,
     ubicacionPila?: string,
-    latLongPila?: string,
+    latLongPila: string,
     clienteId?: number, 
     createDate?: Date,
     active: boolean,
