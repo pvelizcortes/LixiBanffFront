@@ -10,7 +10,8 @@ import { NgChartsModule } from 'ng2-charts';
 import { IconModule, IconSetService } from '@coreui/icons-angular';
 
 // Interceptors
-import { AddTokenInterceptor } from '../app/helpers/add-token.interceptor'
+import { AddTokenInterceptor } from '../app/helpers/add-token.interceptor';
+import { CustomHttpInterceptor } from '../app/interceptors/http-interceptor'
 
 import {
   PERFECT_SCROLLBAR_CONFIG,
@@ -35,7 +36,7 @@ import {
 // Pipes
 import { SearchFilterPipe } from 'src/app/pipes/search-filter.pipe';
 
-import {  
+import {
   AvatarModule,
   BadgeModule,
   BreadcrumbModule,
@@ -53,7 +54,7 @@ import {
   SharedModule,
   SidebarModule,
   TabsModule,
-  UtilitiesModule  
+  UtilitiesModule
 } from '@coreui/angular';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -72,7 +73,7 @@ const APP_PIPES = [
 
 @NgModule({
   declarations: [AppComponent, ...APP_CONTAINERS, ConfirmationTemplateComponent, ...APP_PIPES],
-  imports: [    
+  imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -102,10 +103,10 @@ const APP_PIPES = [
     NgChartsModule,
     HttpClientModule,
     ToastrModule.forRoot({
-      positionClass :'toast-bottom-right'
+      positionClass: 'toast-bottom-right'
     }),
     MatDialogModule
-    
+
   ],
   providers: [
     {
@@ -118,7 +119,12 @@ const APP_PIPES = [
     },
     { provide: HTTP_INTERCEPTORS, useClass: AddTokenInterceptor, multi: true },
     IconSetService,
-    Title
+    Title,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CustomHttpInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent],
 })

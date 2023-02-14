@@ -23,21 +23,33 @@ export class LoginComponent {
     });
   }
 
-  onSubmit(form: any) {   
+  onSubmit(form: any) {
     const usuario: UsuarioDto = {
       nombreUsuario: form.userName,
       password: form.password
     };
- 
+
+    // Login
     this.loginService.login(usuario).subscribe({
-      next: (data) => {        
+      next: (data) => {
+        // Set Token Local    
         this.loginService.setLocalStorage(data.token);
-        this.router.navigate(['/dashboard']);
+        // Get User Info
+        this.loginService.getUserInfo(usuario).subscribe({
+          next: (userData) => {
+            // Set User Data in Session
+            this.loginService.setUserInfo(userData.user);            
+            this.router.navigate(['/dashboard']);
+          },
+          error: (error) => {
+
+          }
+        })      
       },
-      error: (error) => {           
+      error: (error) => {
         this.loginForm.reset();
         alert('Usuario / Contraseña Incorrectos.');
       }
-    });     
+    });
   }
 }

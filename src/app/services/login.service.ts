@@ -11,6 +11,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 export class LoginService {
   myAppUrl: string;
   loginValidate: string = '/api/Login/Validate';
+  userInfo: string = '/api/Login/GetUserInfo';
 
   constructor(private http: HttpClient) {
     this.myAppUrl = environment.endpoint;
@@ -20,8 +21,16 @@ export class LoginService {
     return this.http.post(this.myAppUrl + this.loginValidate, usuario);
   }
 
+  getUserInfo(usuario: UsuarioDto): Observable<any> {
+    return this.http.post(this.myAppUrl + this.userInfo, usuario);
+  }
+
   setLocalStorage(data: any): void {
     localStorage.setItem('token', data);
+  }
+
+  setUserInfo(data: any): void {
+    localStorage.setItem('userInfo', data);
   }
 
   isLogged() {
@@ -44,5 +53,11 @@ export class LoginService {
 
   getToken(): any {
     return localStorage.getItem('token');
+  }
+  
+  getUser(): any {
+    var userInfo = localStorage.getItem('userInfo');
+    if (userInfo)
+      return JSON.parse(userInfo);
   }
 }

@@ -1,50 +1,37 @@
 <!--sidebar-->
-<c-sidebar
-  #sidebar="cSidebar"
-  class="d-print-none sidebar sidebar-fixed"
-  id="sidebar"
-  visible
-  narrow="true"
-  unfoldable="true"
-  colorScheme="light"
->
-  <c-sidebar-brand
-    [brandFull]="{
+<c-sidebar #sidebar="cSidebar" class="d-print-none sidebar sidebar-fixed" id="sidebar" visible narrow="true"
+  unfoldable="true" colorScheme="light">
+  <c-sidebar-brand [brandFull]="{
       src: 'assets/img/brand/lixitrack.png',
       width: 200,
       height: 46,
       alt: 'LixiBanff'
-    }"
-    [brandNarrow]="{
+    }" [brandNarrow]="{
       src: 'assets/img/brand/brandIcon.png',
       width: 46,
       height: 46,
       alt: 'LixiBanff'
-    }"
-    routerLink="./"
-  >
+    }" routerLink="./">
   </c-sidebar-brand>
-    <perfect-scrollbar [config]="perfectScrollbarConfig">
-  <!--  [perfectScrollbar]="perfectScrollbarConfig"-->
-  <c-sidebar-nav
-    [navItems]="navItems"   
-  >
-  </c-sidebar-nav>
-    </perfect-scrollbar>
-  <c-sidebar-toggler
-    *ngIf="!sidebar.narrow"
-    toggle="unfoldable"
-    cSidebarToggle="sidebar"
-  ></c-sidebar-toggler>
+  <perfect-scrollbar [config]="perfectScrollbarConfig">
+    <!--  [perfectScrollbar]="perfectScrollbarConfig"-->
+    <c-sidebar-nav [navItems]="navItemsForShow">
+    </c-sidebar-nav>
+  </perfect-scrollbar>
+  <c-sidebar-toggler *ngIf="!sidebar.narrow" toggle="unfoldable" cSidebarToggle="sidebar"></c-sidebar-toggler>
 </c-sidebar>
 
 <!--main-->
 <div class="wrapper d-flex flex-column min-vh-100 dark:bg-transparent">
   <!--app-header-->
-  <app-default-header class="mb-4 d-print-none header header-sticky" position="sticky" sidebarId="sidebar"></app-default-header>
+  <app-default-header class="mb-4 d-print-none header header-sticky" position="sticky"
+    sidebarId="sidebar"></app-default-header>
   <!--app-body-->
   <div class="body flex-grow-1 px-3">
     <c-container class="h-auto">
+      <div *ngIf="spinnerService.visibility | async">
+        <div class="loading">Loading&#8230;</div>       
+      </div>
       <router-outlet></router-outlet>
     </c-container>
   </div>

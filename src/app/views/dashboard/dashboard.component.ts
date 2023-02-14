@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { LoginService } from 'src/app/services/login.service';
 
 import { DashboardChartsData, IChartProps } from './dashboard-charts-data';
 
@@ -23,7 +24,8 @@ interface IUser {
   styleUrls: ['dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  constructor(private chartsData: DashboardChartsData) {
+  userData: any;
+  constructor(private chartsData: DashboardChartsData, private loginService: LoginService) {
   }
 
   public users: IUser[] = [
@@ -114,7 +116,8 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.initCharts();
-   
+    this.userData = this.loginService.getUser();
+    this.userData = JSON.parse(this.userData);
   }
 
   initCharts(): void {
@@ -125,5 +128,5 @@ export class DashboardComponent implements OnInit {
     this.trafficRadioGroup.setValue({ trafficRadio: value });
     this.chartsData.initMainChart(value);
     this.initCharts();
-  }  
+  }
 }
