@@ -1,5 +1,6 @@
 <div class="container">
-  <h1 mat-dialog-title><svg cIcon size="xl" name="cil-equalizer" class="icon-back-color-warning mr-1"></svg> {{_title}}</h1>
+  <h1 mat-dialog-title><svg cIcon size="xl" name="cil-equalizer" class="icon-back-color-warning mr-1"></svg> {{_title}}
+  </h1>
   <hr>
   <div mat-dialog-content>
     <form [formGroup]="queryForm" class="form-row" (ngSubmit)="onSubmit()">
@@ -16,8 +17,21 @@
         <!-- LEFT SIDE -->
         <c-col sm="6">
           <mat-form-field class="col-sm-12">
+            <mat-label><b>Zona Monitoreo</b></mat-label>
+            <mat-select formControlName="zonaId" (selectionChange)="ZonaChange($event.value)">
+              <mat-option [value]="0" selected>-- Seleccione</mat-option>
+              <mat-option *ngFor="let option of _dataZona" [value]="option.id">
+                {{option.text}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="queryForm.controls['zonaId'].hasError('min')">
+              Seleccione una opción.
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="col-sm-12" *ngIf="_zonaSelected?.text == 'PILA'">
             <mat-label><b>Pila</b></mat-label>
-            <mat-select formControlName="pilaId" (selectionChange)="PilaChange($event.value)">
+            <!-- <mat-select formControlName="pilaId" (selectionChange)="PilaChange($event.value)"> -->
+            <mat-select formControlName="pilaId">
               <mat-option [value]="0" selected>-- Seleccione</mat-option>
               <mat-option *ngFor="let option of _dataPila" [value]="option.id">
                 {{option.text}}
@@ -27,7 +41,7 @@
               Seleccione una opción.
             </mat-error>
           </mat-form-field>
-          <mat-form-field class="col-sm-12">
+          <!-- <mat-form-field class="col-sm-12">
             <mat-label><b>Pano</b></mat-label>
             <mat-select formControlName="panoId">
               <mat-option [value]="0" selected>-- Seleccione</mat-option>
@@ -38,7 +52,7 @@
             <mat-error *ngIf="queryForm.controls['panoId'].hasError('min')">
               Seleccione una opción.
             </mat-error>
-          </mat-form-field>
+          </mat-form-field> -->
           <mat-form-field class="col-sm-12">
             <mat-label><b>Tipo de Nodo</b></mat-label>
             <mat-select formControlName="tipoNodoId">
@@ -55,14 +69,14 @@
         <!-- RIGHT SIDE -->
         <c-col sm="6">
           <mat-form-field class="col-sm-12">
-            <mat-label>Codigo</mat-label>
+            <mat-label>Codigo / Identificador</mat-label>
             <input matInput formControlName="codigoNodo">
             <mat-error *ngIf="queryForm.controls['codigoNodo'].hasError('required')">
-              Ingrese un codigo.
+              Ingrese un codigo o Identificador.
             </mat-error>
           </mat-form-field>
           <mat-form-field class="col-sm-12">
-            <mat-label>Nombre</mat-label>
+            <mat-label>Nombre para el Nodo</mat-label>
             <input matInput formControlName="nombreNodo">
             <mat-error *ngIf="queryForm.controls['nombreNodo'].hasError('required')">
               Ingrese un nombre.
@@ -72,13 +86,13 @@
             <mat-label>Mac</mat-label>
             <input matInput formControlName="mac">
             <mat-error *ngIf="queryForm.controls['mac'].hasError('required')">
-              Ingrese un nombre.
+              Ingrese la Mac del nodo.
             </mat-error>
           </mat-form-field>
-          <mat-form-field class="col-sm-12">
+          <!-- <mat-form-field class="col-sm-12">
             <mat-label>Posición</mat-label>
             <input type="number" matInput formControlName="posicionNodo">
-          </mat-form-field>
+          </mat-form-field> -->
         </c-col>
       </c-row>
     </form>

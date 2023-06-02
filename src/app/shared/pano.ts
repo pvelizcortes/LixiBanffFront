@@ -3,7 +3,7 @@ export interface Pano {
     posicionPano?: number,
     codigoPano?: string,
     nombrePano?: string,
-    cantidadNodo: number,
+    cantidadNodos: number,
     anchoPano?: number,
     largoPano?: number,
     descripcionPano?: string, 

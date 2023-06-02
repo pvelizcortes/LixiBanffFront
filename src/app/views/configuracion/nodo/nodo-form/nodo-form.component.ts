@@ -9,9 +9,11 @@ import { Nodo } from '../../../../shared/nodo';
 import { NodoService } from '../../../../services/nodo.service';
 import { PilaService } from '../../../../services/pila.service';
 import { PanoService } from 'src/app/services/pano.service';
+import { ZonaService } from 'src/app/services/zona.service';
 
 import { Pila } from 'src/app/shared/pila';
 import { Pano } from 'src/app/shared/pano';
+import { Zona } from 'src/app/shared/zona';
 
 
 @Component({
@@ -34,6 +36,9 @@ export class NodoFormComponent implements OnInit {
   _dataPila: any[];
   _dataPano: any[];
   _dataTipoNodo: any[];
+  _dataZona: any[];
+  
+  _zonaSelected : any;
 
   // ** Constructor **
   constructor(public dialogRef: MatDialogRef<NodoFormComponent>,
@@ -42,12 +47,14 @@ export class NodoFormComponent implements OnInit {
     private _service: NodoService,
     private _servicePila: PilaService,
     private _servicePano: PanoService,
+    private _serviceZona: ZonaService,
     private _util: UtilsService) {
     this.CreateForm();
     data ? this.Editing(data) : this.Creating();
   }
 
   ngOnInit(): void {
+    this.GetZonasToSelect();
     this.GetPilasToSelect();
     this.GetTipoNodoToSelect();
   }
@@ -61,16 +68,34 @@ export class NodoFormComponent implements OnInit {
     });
   }
 
-  GetPanosToSelect(pilaId: number) {
-    this._servicePano.getSelect(pilaId).subscribe({
+  // GetPanosToSelect(pilaId: number) {
+  //   this._servicePano.getSelect(pilaId).subscribe({
+  //     next: (data) => {
+  //       this._dataPano = data;
+  //       if (data.length > 0){
+  //         this.queryForm.get('panoId')?.enable();
+  //       }
+  //       else{
+  //         this.queryForm.get('panoId')?.disable();
+  //       }       
+  //     },
+  //     error: (e) => this._util.processError(e)
+  //   });
+  // }
+
+  GetZonasToSelect() {
+    this._serviceZona.getSelect().subscribe({
       next: (data) => {
-        this._dataPano = data;
+        this._dataZona = data;
         if (data.length > 0){
-          this.queryForm.get('panoId')?.enable();
+          this.queryForm.get('zonaId')?.enable();
         }
         else{
-          this.queryForm.get('panoId')?.disable();
-        }       
+          this.queryForm.get('zonaId')?.disable();
+        }
+        this._zonaSelected = this._dataZona.find(x => {
+          return x.id == this.dataObject.zonaId;
+        });       
       },
       error: (e) => this._util.processError(e)
     });
@@ -89,9 +114,10 @@ export class NodoFormComponent implements OnInit {
   CreateForm() {
     this.queryForm = this.formBuilder.group({
       nodoId: [0],  // PK
-      pilaId: [0, [Validators.required, Validators.min(1)]],  // FK
-      panoId: [0, [Validators.required, Validators.min(1)]],  // FK
+      pilaId: [0],  // FK
+      panoId: [0],  // FK
       tipoNodoId: [0, [Validators.required, Validators.min(1)]],  // FK
+      zonaId: [0, [Validators.required, Validators.min(1)]],  // FK
       posicionNodo: [0, [Validators.required]],
       codigoNodo: ['', [Validators.required]],
       nombreNodo: ['', [Validators.required]],
@@ -115,6 +141,7 @@ export class NodoFormComponent implements OnInit {
       {
         nodoId: this.dataObject.nodoId,
         pilaId: this.dataObject.pilaId,
+        zonaId: this.dataObject.zonaId,
         panoId: this.dataObject.panoId,
         tipoNodoId: this.dataObject.tipoNodoId,
         posicionNodo: this.dataObject.posicionNodo,
@@ -123,9 +150,8 @@ export class NodoFormComponent implements OnInit {
         mac: this.dataObject.mac,
         active: this.dataObject.active
       }
-    );
-
-    this.GetPanosToSelect(this.queryForm.value.pilaId);
+    );    
+    //this.GetPanosToSelect(this.queryForm.value.pilaId);
     this.DisableInputs();
   }
 
@@ -165,7 +191,22 @@ export class NodoFormComponent implements OnInit {
     this.dialogRef.close(this.dataObject);
   }
 
-  PilaChange(pilaId: number) {
-    this.GetPanosToSelect(pilaId);
+  // PilaChange(pilaId: number) {
+  //   this.GetPanosToSelect(pilaId);
+  // }
+
+  ZonaChange(zonaId: any) {
+
+    this._zonaSelected = this._dataZona.find(x => {
+      return x.id == zonaId;
+    });
+
+    if (this._zonaSelected.text == "PILA"){
+      this.queryForm.get('pilaId')?.addValidators(Validators.required); 
+    }
+    else{
+      this.queryForm.get('pilaId')?.removeValidators(Validators.required);
+    }
+    this.queryForm.get('pilaId')?.updateValueAndValidity();
   }
 }

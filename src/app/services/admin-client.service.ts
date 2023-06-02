@@ -49,4 +49,9 @@ export class AdminClientService {
   delete(_identity_id : number): Observable<any>{
     return this.http.post(this.myAppUrl + this.principalUrl + 'Delete', _identity_id);
   }
+
+  getById(clienteId : number) : Observable<any> {
+    let queryParams = { "clienteId": clienteId ?? 0 };
+    return this.http.get(this.myAppUrl + this.principalUrl + 'GetById', { params: queryParams });
+  }
 }

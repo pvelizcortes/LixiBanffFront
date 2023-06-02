@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { UsuarioDto, Users } from '../shared/users';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class LoginService {
   loginValidate: string = '/api/Login/Validate';
   userInfo: string = '/api/Login/GetUserInfo';
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
     this.myAppUrl = environment.endpoint;
   }
 
@@ -54,10 +55,24 @@ export class LoginService {
   getToken(): any {
     return localStorage.getItem('token');
   }
-  
+
   getUser(): any {
     var userInfo = localStorage.getItem('userInfo');
     if (userInfo)
       return JSON.parse(userInfo);
+  }
+
+  checkLogin() {
+    if (!this.isLogged()) {
+      this.router.navigate(['/login']);
+    }
+  }
+
+  checkPermission(security: number) {
+    this.checkLogin();
+    let user = this.getUser();
+    if (user.PerfilId != 1 && security < user.PerfilId){
+      this.router.navigate(['/login']);
+    }
   }
 }

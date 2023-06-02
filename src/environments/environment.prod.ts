@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  endpoint: 'http://localhost:53268'
+  endpoint: 'https://lixibanff.transporteszamora.com'
 };

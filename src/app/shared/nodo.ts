@@ -7,6 +7,7 @@ export interface Nodo {
     panoId?: number, 
     pilaId?: number, 
     tipoNodoId?: number,
+    zonaId?: number,
    
     clienteId?: number, 
     createDate?: Date,

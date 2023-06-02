@@ -5,17 +5,18 @@ export const navItems: INavData[] = [
     name: 'Dashboard',
     url: '/dashboard',
     iconComponent: { name: 'cil-speedometer' },
-    attributes: { security: 0, id: 0 }
+    attributes: { security: 99, id: 0 }
   },
   {
     title: true,
-    name: 'Mediciones'
+    name: 'Mediciones',
+    attributes: { security: 99, id: 0 }
   },
   {
     name: 'Nodo / Fechas',
     url: '/mediciones/filtra-nodo',
     iconComponent: { name: 'cil-list' },
-    attributes: { security: 1, id: 1 }
+    attributes: { security: 99, id: 1 }
   },
   {
     title: true,
@@ -27,12 +28,12 @@ export const navItems: INavData[] = [
     iconComponent: { name: 'cil-gradient' },
     attributes: { security: 2, id: 2 }
   },
-  {
-    name: 'Pano',
-    url: '/configuracion/pano',
-    iconComponent: { name: 'cil-view-column' },
-    attributes: { security: 2, id: 3 }
-  },
+  // {
+  //   name: 'Pano',
+  //   url: '/configuracion/pano',
+  //   iconComponent: { name: 'cil-view-column' },
+  //   attributes: { security: 2, id: 3 }
+  // },
   {
     name: 'Nodo',
     url: '/configuracion/nodo',
@@ -43,12 +44,17 @@ export const navItems: INavData[] = [
     name: 'Usuarios',
     url: '/configuracion/usuarios',
     iconComponent: { name: 'cil-user-plus' },
-    attributes: { security: 3, id: 5 }
+    attributes: { security: 2, id: 5 }
+  },
+  {
+    title: true,
+    name: 'Super Administrador',
+    attributes: { security: 0, id: 6 }
   },
   {
     name: 'Clientes',
     url: '/admin/clients',
     iconComponent: { name: 'cil-contact' },
-    attributes: { security: 99, id: 6 }
-  }
+    attributes: { security: 0, id: 6 }
+  } 
 ];

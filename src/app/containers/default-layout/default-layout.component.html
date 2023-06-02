@@ -28,10 +28,7 @@
     sidebarId="sidebar"></app-default-header>
   <!--app-body-->
   <div class="body flex-grow-1 px-3">
-    <c-container class="h-auto">
-      <div *ngIf="spinnerService.visibility | async">
-        <div class="loading">Loading&#8230;</div>       
-      </div>
+    <c-container class="h-auto">    
       <router-outlet></router-outlet>
     </c-container>
   </div>

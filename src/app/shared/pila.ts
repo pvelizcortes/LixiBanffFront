@@ -6,6 +6,7 @@ export interface Pila {
     cantidadPanos?: number,
     anchoPila?: number,
     largoPila?: number,
+    altoPila?: number,
     descripcionPila?: string,
     ubicacionPila?: string,
     latLongPila: string,

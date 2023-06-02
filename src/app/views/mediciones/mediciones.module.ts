@@ -1,9 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
@@ -15,14 +13,14 @@ import { MatDialogModule } from "@angular/material/dialog";
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
-
-import { GraficosComponent } from './graficos/graficos.component';
-import { FiltraNodoComponent } from './listado/filtra-nodo.component';
-import { ReportesComponent } from './reportes/reportes.component';
-import { MedicionesRoutingModule } from './mediciones-routing.module';
-
+import { IconModule } from '@coreui/icons-angular';
 import { NgChartsModule } from 'ng2-charts';
 import { DatePipe } from '@angular/common';
+
+import { FiltraNodoComponent } from './filtra-nodo/filtra-nodo.component';
+import { MedicionesRoutingModule } from './mediciones-routing.module';
+
+
 
 import {
   ButtonGroupModule,
@@ -43,15 +41,9 @@ import {
   AccordionModule
 } from '@coreui/angular';
 
-import { IconModule } from '@coreui/icons-angular';
-import { RealTimeComponent } from './real-time/real-time.component';
-
 @NgModule({
-  declarations: [
-    GraficosComponent,
-    FiltraNodoComponent,
-    ReportesComponent,
-    RealTimeComponent,
+  declarations: [  
+    FiltraNodoComponent
   ],
   imports: [
     CommonModule,

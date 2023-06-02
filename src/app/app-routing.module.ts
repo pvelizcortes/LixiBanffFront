@@ -22,19 +22,16 @@ const routes: Routes = [
     children: [
       {
         path: 'admin',
-        canActivate:[AuthGuard],
         loadChildren: () =>
           import('./views/admin/admin.module').then((m) => m.AdminModule)
       },
       {
-        path: 'dashboard',
-        canActivate:[AuthGuard],
+        path: 'dashboard', 
         loadChildren: () =>
           import('./views/dashboard/dashboard.module').then((m) => m.DashboardModule)
       },
       {
-        path: 'mediciones',
-        canActivate:[AuthGuard],
+        path: 'mediciones', 
         loadChildren: () =>
           import('./views/mediciones/mediciones.module').then((m) => m.MedicionesModule)
       },
@@ -71,7 +68,7 @@ const routes: Routes = [
       title: 'Login LixiBanff'
     }
   }, 
-  {path: '**', redirectTo: 'dashboard'}
+  //{path: '**', redirectTo: 'dashboard'}
 ];
 
 @NgModule({

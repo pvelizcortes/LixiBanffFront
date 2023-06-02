@@ -4,15 +4,15 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 // Model
-import { Users } from '../shared/users'
+import { Zona } from '../shared/zona'
 
 @Injectable({
   providedIn: 'root'
 })
 
-export class UsersService {
+export class ZonaService {
   myAppUrl: string;
-  principalUrl: string = '/api/Usuario/';
+  principalUrl: string = '/api/Zona/';
 
   constructor(private http: HttpClient) {
     this.myAppUrl = environment.endpoint;
@@ -22,12 +22,12 @@ export class UsersService {
     return this.http.get(this.myAppUrl + this.principalUrl + 'GetList');
   }
 
-  getSelect(pilaId?: number): Observable<any> {
-    let queryParams = { "pilaId": pilaId ? pilaId : 0 };
+  getSelect(clienteId?: number): Observable<any> {
+    let queryParams = { "clienteId": clienteId ? clienteId : 0 };
     return this.http.get(this.myAppUrl + this.principalUrl + 'GetSelect', { params: queryParams });
   }
 
-  save(_obj: Users, isNew: boolean): Observable<any> {
+  save(_obj: Zona, isNew: boolean): Observable<any> {
     if (isNew) {
       return this.http.post(this.myAppUrl + this.principalUrl + 'Create', _obj);
     }
@@ -38,16 +38,5 @@ export class UsersService {
 
   delete(_identity_id: number): Observable<any> {
     return this.http.post(this.myAppUrl + this.principalUrl + 'Delete', _identity_id);
-  }
-
-  // Others
-  getPerfilSelect(): Observable<any>{
-    return this.http.get(this.myAppUrl + this.principalUrl + 'GetPerfilSelect');
-  }
-
-  // Admin
-  getListAdmin(clienteId:number): Observable<any> {
-    let queryParams = { "clienteId": clienteId ?? 0 };
-    return this.http.get(this.myAppUrl + this.principalUrl + 'GetListAdmin', { params: queryParams });
   }
 }
