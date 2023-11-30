@@ -55,7 +55,7 @@
           </mat-form-field> -->
           <mat-form-field class="col-sm-12">
             <mat-label><b>Tipo de Nodo</b></mat-label>
-            <mat-select formControlName="tipoNodoId">
+            <mat-select formControlName="tipoNodoId" (selectionChange)="TipoNodoChange($event.value)">
               <mat-option [value]="0" selected>-- Seleccione</mat-option>
               <mat-option *ngFor="let option of _dataTipoNodo" [value]="option.id">
                 {{option.text}}
@@ -82,13 +82,13 @@
               Ingrese un nombre.
             </mat-error>
           </mat-form-field>
-          <mat-form-field class="col-sm-12">
+          <!-- <mat-form-field class="col-sm-12">
             <mat-label>Mac</mat-label>
             <input matInput formControlName="mac">
             <mat-error *ngIf="queryForm.controls['mac'].hasError('required')">
               Ingrese la Mac del nodo.
             </mat-error>
-          </mat-form-field>
+          </mat-form-field> -->
           <!-- <mat-form-field class="col-sm-12">
             <mat-label>Posición</mat-label>
             <input type="number" matInput formControlName="posicionNodo">
@@ -96,6 +96,23 @@
           
         </c-col>
       </c-row>
+      <!-- CANTIDAD DE MEDICIONES -->
+      <div *ngIf="_cantidadMediciones">
+        <c-row>
+          <c-col sm="12">
+            <c-alert color="primary" class="d-flex align-items-center">
+              <div><b color="primary"><i class="fa fa-layer-group"></i> MEDICIONES</b></div>
+            </c-alert>
+          </c-col>
+        </c-row>      
+        <c-row *ngFor="let x of _cantidadMediciones; index as i">
+          <div class="col-sm-1"><b><br>{{ i + 1 }}</b></div>
+          <mat-form-field class="col-sm-3"><input matInput placeholder="Mac" autocomplete="off"></mat-form-field>
+          <mat-form-field class="col-sm-4"><input matInput placeholder="Descripcion" autocomplete="off"></mat-form-field>
+          <mat-form-field class="col-sm-4"><input matInput placeholder="Sensores" autocomplete="off"></mat-form-field>        
+        </c-row>
+      </div>
+      <br>
       <!-- MAPS -->
       <c-row>
         <c-col sm="12">

@@ -44,4 +44,10 @@ export class NodoService {
   getTipoNodoSelect(): Observable<any>{
     return this.http.get(this.myAppUrl + this.principalUrl + 'GetTipoNodoSelect');
   }
+
+  getTipoNodo(tipoNodoId: number): Observable<any>{
+    let queryParams = { "tipoNodoId": tipoNodoId ? tipoNodoId : 0 };
+    return this.http.get(this.myAppUrl + this.principalUrl + 'GetTipoNodo', { params: queryParams });
+  }
+
 }

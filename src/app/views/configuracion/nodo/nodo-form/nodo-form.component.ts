@@ -31,9 +31,10 @@ export class NodoFormComponent implements OnInit {
   queryForm: FormGroup;
   // Select Data
   _dataPila: any[];
-  _dataPano: any[];
+  //_dataPano: any[];
   _dataTipoNodo: any[];
   _dataZona: any[];
+  _cantidadMediciones: any[];
 
   _zonaSelected: any;
 
@@ -155,18 +156,28 @@ export class NodoFormComponent implements OnInit {
     });
   }
 
+  TipoNodoChange(tipoNodoId: number) {
+    this._cantidadMediciones = new Array(0);
+    this._service.getTipoNodo(tipoNodoId).subscribe({
+      next: (data) => {
+        this._cantidadMediciones = new Array(data.cantidadMediciones);
+      },
+      error: (e) => this._util.processError(e)
+    });
+  }
+
 
   CreateForm() {
     this.queryForm = this.formBuilder.group({
       nodoId: [0],  // PK
-      pilaId: [0],  // FK
+      pilaId: [0, [Validators.required]],  // FK
       panoId: [0],  // FK
       tipoNodoId: [0, [Validators.required, Validators.min(1)]],  // FK
-      zonaId: [0, [Validators.required, Validators.min(1)]],  // FK
+      zonaId: [0],  // FK
       posicionNodo: [0, [Validators.required]],
       codigoNodo: ['', [Validators.required]],
       nombreNodo: ['', [Validators.required]],
-      mac: ['', [Validators.required]],
+      mac: [''],
       latLongNodo: [''],
       latitudNodo: [''],
       longitudNodo: [''],
