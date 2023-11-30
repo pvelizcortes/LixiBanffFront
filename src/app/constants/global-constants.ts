@@ -23,4 +23,5 @@ export class GlobalConstants {
     // Map
     public static lixibanffp4m : string = "AIzaSyB2Kls3RdCM6R3G5CUI_1-Z_hs5Sb5hlPw";
     public static initMapLatLng : google.maps.LatLng = new google.maps.LatLng(-33.43593980261049, -70.67106719480667);
+    public static mapZoom : number = 13;
 }

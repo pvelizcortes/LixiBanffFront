@@ -60,6 +60,10 @@
                         <th mat-header-cell mat-sort-header *matHeaderCellDef class="table-header-text">UBICACION</th>
                         <td mat-cell *matCellDef="let item" class="p-2 vert-td">{{ item.ubicacionPila }}</td>
                     </ng-container>
+                    <ng-container matColumnDef="cantidadPanos">
+                        <th mat-header-cell mat-sort-header *matHeaderCellDef class="table-header-text">PAÑOS</th>
+                        <td mat-cell *matCellDef="let item" class="p-2 vert-td">{{ item.cantidadPanos }}</td>
+                    </ng-container>
                     <ng-container matColumnDef="active">
                         <th mat-header-cell mat-sort-header *matHeaderCellDef class="table-header-text text-center"
                             style="width:1.2em;">ACTIVO</th>

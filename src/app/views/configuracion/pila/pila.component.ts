@@ -34,7 +34,7 @@ export class PilaComponent implements OnInit {
   _noSearchResults: string = GlobalConstants.noSearchResults;
   _showModal: boolean = false;  
   // Mat Table
-  displayedColumns: string[] = ['codigoPila', 'nombrePila', 'descripcionPila', 'ubicacionPila', 'active', 'actions'];
+  displayedColumns: string[] = ['codigoPila', 'nombrePila', 'descripcionPila', 'ubicacionPila', 'cantidadPanos', 'active', 'actions'];
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild('tableSort') tableSort = new MatSort();

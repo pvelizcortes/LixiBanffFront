@@ -8,6 +8,7 @@ export interface Nodo {
     pilaId?: number, 
     tipoNodoId?: number,
     zonaId?: number,
+    latLongNodo: string,
    
     clienteId?: number, 
     createDate?: Date,

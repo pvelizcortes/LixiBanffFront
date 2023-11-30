@@ -33,5 +33,8 @@
     </c-container>
   </div>
   <!--app footer-->
+  <div *ngIf="spinnerService.visibility | async">
+    <div class="loading">Loading&#8230;</div>       
+  </div>
   <app-default-footer></app-default-footer>
 </div>

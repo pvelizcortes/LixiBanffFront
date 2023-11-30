@@ -13,6 +13,18 @@
                             <form [formGroup]="queryForm" class="form-row" (ngSubmit)="onSubmit()">                                
                                 <c-row>
                                     <mat-form-field class="col-sm-4">
+                                        <mat-label><b>Zona Monitoreo</b></mat-label>
+                                        <mat-select formControlName="zonaId" (selectionChange)="ZonaChange($event.value)">
+                                          <mat-option [value]="0" selected>-- Seleccione</mat-option>
+                                          <mat-option *ngFor="let option of _dataZona" [value]="option.id">
+                                            {{option.text}}
+                                          </mat-option>
+                                        </mat-select>
+                                        <mat-error *ngIf="queryForm.controls['zonaId'].hasError('min')">
+                                          Seleccione una opción.
+                                        </mat-error>
+                                      </mat-form-field>
+                                    <mat-form-field class="col-sm-4" *ngIf="_zonaSelected?.text == 'PILA'">
                                         <mat-label><b>Pila</b></mat-label>
                                         <mat-select formControlName="pilaId"
                                             (selectionChange)="PilaChange($event.value)">
@@ -25,7 +37,7 @@
                                             Seleccione una opción.
                                         </mat-error>
                                     </mat-form-field>
-                                    <mat-form-field class="col-sm-4">
+                                    <!-- <mat-form-field class="col-sm-4">
                                         <mat-label><b>Paño</b></mat-label>
                                         <mat-select formControlName="panoId"
                                         (selectionChange)="PanoChange($event.value)">
@@ -37,7 +49,7 @@
                                         <mat-error *ngIf="queryForm.controls['panoId'].hasError('min')">
                                             Seleccione una opción.
                                         </mat-error>
-                                    </mat-form-field>
+                                    </mat-form-field> -->
                                     <mat-form-field class="col-sm-4">
                                         <mat-label><b>Nodo</b></mat-label>
                                         <mat-select formControlName="nodoId">

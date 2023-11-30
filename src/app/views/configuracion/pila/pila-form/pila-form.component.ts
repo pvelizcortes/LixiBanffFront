@@ -68,16 +68,16 @@ export class PilaFormComponent implements OnInit {
   CreateForm() {
     this.queryForm = this.formBuilder.group({
       pilaId: [0],
-      posicionPila: [0, [Validators.required]],
+      //posicionPila: [0, [Validators.required]],
       codigoPila: ['', [Validators.required]],
       nombrePila: ['', [Validators.required]],
-      cantidadPanos: [0],
-      anchoPila: [0],
-      largoPila: [0],
+      cantidadPanos: [0, [Validators.required]],
+      anchoPila: [0, [Validators.required]],
+      largoPila: [0, [Validators.required]],
       altoPila: [0],
       descripcionPila: [''],
       ubicacionPila: [''],
-      latLongPila: ['', [Validators.required]],
+      latLongPila: [''],
       latitudPila: [''],
       longitudPila: [''],
       active: [true]
@@ -95,7 +95,7 @@ export class PilaFormComponent implements OnInit {
     this.queryForm.patchValue(
       {
         pilaId: this.dataObject.pilaId,
-        posicionPila: this.dataObject.posicionPila,
+        //posicionPila: this.dataObject.posicionPila,
         codigoPila: this.dataObject.codigoPila,
         nombrePila: this.dataObject.nombrePila,
         cantidadPanos: this.dataObject.cantidadPanos,

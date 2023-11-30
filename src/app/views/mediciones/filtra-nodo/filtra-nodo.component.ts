@@ -8,6 +8,7 @@ import { PilaService } from 'src/app/services/pila.service';
 import { PanoService } from 'src/app/services/pano.service';
 import { DynamodbService } from 'src/app/services/dynamodb.service';
 import { ConfirmationService } from '../../../services/confirmation.service';
+import { ZonaService } from 'src/app/services/zona.service';
 
 // Mat Table
 import { MatTableDataSource } from '@angular/material/table';
@@ -47,6 +48,9 @@ export class FiltraNodoComponent implements OnInit {
   _dataPano: any[];
   _dataNodo: any[];
 
+  _dataZona: any[];
+  _zonaSelected: any;
+
   constructor(
     private formBuilder: FormBuilder,
     private _service: NodoService,
@@ -55,27 +59,29 @@ export class FiltraNodoComponent implements OnInit {
     private _servicePila: PilaService,
     private _servicePano: PanoService,
     private _serviceNodo: NodoService,
+    private _serviceZona: ZonaService,
     private _dynamoDB: DynamodbService) {
     this.CreateForm();
   }
 
   ngOnInit(): void {
-    this.GetPilasToSelect();
+    this.GetZonasToSelect();
   }
 
   CreateForm() {
     this.queryForm = this.formBuilder.group({
       from: ['', [Validators.required]],
       to: ['', [Validators.required]],
-      pilaId: [0, [Validators.required, Validators.min(1)]],  // FK
-      panoId: [0, [Validators.required, Validators.min(1)]],  // FK  
-      nodoId: [0, [Validators.required, Validators.min(1)]] //PK
+      pilaId: [0],  // FK
+      // panoId: [0, [Validators.required, Validators.min(1)]],  // FK  
+      nodoId: [0, [Validators.required, Validators.min(1)]], //PK
+      zonaId: [0, [Validators.required, Validators.min(1)]],  // FK
     });
   }
 
   ngAfterViewInit() {
     this.dataSource.sort = this.tableSort;
-  } 
+  }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -89,24 +95,44 @@ export class FiltraNodoComponent implements OnInit {
   }
 
   onSubmit(): void {
-    const formValues = <any>this.queryForm.getRawValue();
-    console.log(formValues);
-    this._dynamoDB.FilterByNodo(formValues.from, formValues.to, formValues.nodoId).subscribe({
-      next: (data) => {
-        console.log(data);
-        this.dataSource.data = data;
-        this.dataSource.paginator = this.paginator;
-      },
-      error: (e) => this._util.processError(e)
-    });
+    if (this.queryForm.valid) {
+      const formValues = <any>this.queryForm.getRawValue();
+      this._dynamoDB.FilterByNodo(formValues.from, formValues.to, formValues.nodoId).subscribe({
+        next: (data) => {
+          console.log(data);
+          this.dataSource.data = data;
+          this.dataSource.paginator = this.paginator;
+        },
+        error: (e) => this._util.processError(e)
+      });
+    }
+    else {
+      this.queryForm.markAllAsTouched();
+    }
   }
 
   PilaChange(pilaId: number) {
-    this.GetPanosToSelect(pilaId);
+    // this.GetPanosToSelect(pilaId);
+    this.GetNodosToSelect(pilaId, this._zonaSelected.id);
   }
 
-  PanoChange(pilaId: number) {
-    this.GetNodosToSelect(pilaId);
+  // PanoChange(pilaId: number) {
+  //   this.GetNodosToSelect(pilaId);
+  // }
+
+  GetZonasToSelect() {
+    this._serviceZona.getSelect().subscribe({
+      next: (data) => {
+        this._dataZona = data;
+        if (data.length > 0) {
+          this.queryForm.get('zonaId')?.enable();
+        }
+        else {
+          this.queryForm.get('zonaId')?.disable();
+        }
+      },
+      error: (e) => this._util.processError(e)
+    });
   }
 
   GetPilasToSelect() {
@@ -133,8 +159,8 @@ export class FiltraNodoComponent implements OnInit {
     });
   }
 
-  GetNodosToSelect(panoId: number) {
-    this._serviceNodo.getSelect(panoId).subscribe({
+  GetNodosToSelect(pilaId: number, zonaId: number) {
+    this._serviceNodo.getSelect(pilaId, zonaId).subscribe({
       next: (data) => {
         this._dataNodo = data;
         if (data.length > 0) {
@@ -146,5 +172,22 @@ export class FiltraNodoComponent implements OnInit {
       },
       error: (e) => this._util.processError(e)
     });
+  }
+
+  ZonaChange(zonaId: any) {
+    this._zonaSelected = this._dataZona.find(x => {
+      return x.id == zonaId;
+    });
+
+    if (this._zonaSelected.text == "PILA") {
+      this.queryForm.get('pilaId')?.addValidators(Validators.required);
+      this.GetPilasToSelect();
+    }
+    else {
+      this.queryForm.get('pilaId')?.removeValidators(Validators.required);
+      this.GetNodosToSelect(0, zonaId);
+
+    }
+    this.queryForm.get('pilaId')?.updateValueAndValidity();
   }
 }

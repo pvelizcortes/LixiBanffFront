@@ -22,8 +22,8 @@ export class NodoService {
     return this.http.get(this.myAppUrl + this.principalUrl + 'GetList');
   }
 
-  getSelect(panoId?: number): Observable<any> {
-    let queryParams = { "panoId": panoId ? panoId : 0 };
+  getSelect(pilaId?: number, zonaId?: number): Observable<any> {
+    let queryParams = { "pilaId": pilaId ? pilaId : 0, "zonaId": zonaId ? zonaId : 0 };
     return this.http.get(this.myAppUrl + this.principalUrl + 'GetSelect', { params: queryParams });
   }
   

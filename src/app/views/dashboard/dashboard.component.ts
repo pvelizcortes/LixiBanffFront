@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginService } from 'src/app/services/login.service';
 
 @Component({
   templateUrl: 'dashboard.component.html',
@@ -8,12 +7,11 @@ import { LoginService } from 'src/app/services/login.service';
 
 export class DashboardComponent implements OnInit {
   userData: any;
-  constructor(private loginService: LoginService) {
+  constructor() {
     
   }
 
   ngOnInit(): void {
-    this.loginService.checkLogin();
-    this.userData = this.loginService.getUser();
+    
   }
 }

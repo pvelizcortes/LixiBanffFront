@@ -13,6 +13,7 @@ export class LoginService {
   myAppUrl: string;
   loginValidate: string = '/api/Login/Validate';
   userInfo: string = '/api/Login/GetUserInfo';
+  checkSessionUrl: string = '/api/Login/CheckSession';
 
   constructor(private http: HttpClient, private router: Router) {
     this.myAppUrl = environment.endpoint;
@@ -74,5 +75,9 @@ export class LoginService {
     if (user.PerfilId != 1 && security < user.PerfilId){
       this.router.navigate(['/login']);
     }
+  }
+
+  checkSession(){
+    this.http.get(this.myAppUrl + this.checkSessionUrl).subscribe({next: (data) => {},error: (e) => console.log(e)});
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UtilsService } from '../../../../services/utils.service'
@@ -8,12 +8,9 @@ import { Nodo } from '../../../../shared/nodo';
 
 import { NodoService } from '../../../../services/nodo.service';
 import { PilaService } from '../../../../services/pila.service';
-import { PanoService } from 'src/app/services/pano.service';
 import { ZonaService } from 'src/app/services/zona.service';
 
-import { Pila } from 'src/app/shared/pila';
-import { Pano } from 'src/app/shared/pano';
-import { Zona } from 'src/app/shared/zona';
+import { } from 'googlemaps';
 
 
 @Component({
@@ -37,8 +34,13 @@ export class NodoFormComponent implements OnInit {
   _dataPano: any[];
   _dataTipoNodo: any[];
   _dataZona: any[];
-  
-  _zonaSelected : any;
+
+  _zonaSelected: any;
+
+  // Maps
+  @ViewChild('map') mapElement: any;
+  map: google.maps.Map;
+  marker: google.maps.Marker;
 
   // ** Constructor **
   constructor(public dialogRef: MatDialogRef<NodoFormComponent>,
@@ -46,7 +48,7 @@ export class NodoFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private _service: NodoService,
     private _servicePila: PilaService,
-    private _servicePano: PanoService,
+    // private _servicePano: PanoService,
     private _serviceZona: ZonaService,
     private _util: UtilsService) {
     this.CreateForm();
@@ -57,6 +59,47 @@ export class NodoFormComponent implements OnInit {
     this.GetZonasToSelect();
     this.GetPilasToSelect();
     this.GetTipoNodoToSelect();
+    // MAP
+    setTimeout(() => {
+      this.CreateMap();
+    }, 1000);   
+  }
+
+  // MAP
+  CreateMap() {
+    this.map = new google.maps.Map(this.mapElement.nativeElement);
+    this.marker = new google.maps.Marker({
+      map: this.map
+    });
+    this.centerInPoint(GlobalConstants.initMapLatLng, 16);
+    this.map.addListener("click", (mapsMouseEvent) => {
+      this.centerInPoint(mapsMouseEvent.latLng);
+    });
+    if (!this._isNew) {
+      var latLng = this.dataObject.latLongNodo.split(',');
+      var glatlng = new google.maps.LatLng(Number(latLng[0]), Number(latLng[1]));
+      this.centerInPoint(glatlng, 20);
+    }
+  }
+
+  // Maps
+  buscarGPS() {
+    const formValues = <any>this.queryForm.getRawValue();
+    this.centerInPoint(new google.maps.LatLng(Number(formValues.latitudNodo), Number(formValues.longitudNodo)));
+  }
+
+  centerInPoint(position: google.maps.LatLng, _zoom : number = this.map.getZoom()) {
+    this.marker.setPosition(position);
+    var jsonPosition = position.toJSON();
+    this.queryForm.controls['latitudNodo'].setValue(jsonPosition.lat);
+    this.queryForm.controls['longitudNodo'].setValue(jsonPosition.lng);
+    this.queryForm.controls['latLongNodo'].setValue(jsonPosition.lat.toString() + ',' + jsonPosition.lng.toString());
+    const mapProperties = {
+      center: position,
+      zoom : _zoom,
+      mapTypeId: google.maps.MapTypeId.HYBRID
+    }; 
+    this.map.setOptions(mapProperties);
   }
 
   GetPilasToSelect() {
@@ -87,15 +130,17 @@ export class NodoFormComponent implements OnInit {
     this._serviceZona.getSelect().subscribe({
       next: (data) => {
         this._dataZona = data;
-        if (data.length > 0){
+        if (data.length > 0) {
           this.queryForm.get('zonaId')?.enable();
         }
-        else{
+        else {
           this.queryForm.get('zonaId')?.disable();
         }
-        this._zonaSelected = this._dataZona.find(x => {
-          return x.id == this.dataObject.zonaId;
-        });       
+        if (!this._isNew){
+          this._zonaSelected = this._dataZona.find(x => {
+            return x.id == this.dataObject.zonaId;
+          });
+        }        
       },
       error: (e) => this._util.processError(e)
     });
@@ -122,6 +167,9 @@ export class NodoFormComponent implements OnInit {
       codigoNodo: ['', [Validators.required]],
       nombreNodo: ['', [Validators.required]],
       mac: ['', [Validators.required]],
+      latLongNodo: [''],
+      latitudNodo: [''],
+      longitudNodo: [''],
       active: [true]
     });
   }
@@ -148,9 +196,10 @@ export class NodoFormComponent implements OnInit {
         codigoNodo: this.dataObject.codigoNodo,
         nombreNodo: this.dataObject.nombreNodo,
         mac: this.dataObject.mac,
-        active: this.dataObject.active
+        active: this.dataObject.active,
+        latLongNodo: this.dataObject.latLongNodo,
       }
-    );    
+    );
     //this.GetPanosToSelect(this.queryForm.value.pilaId);
     this.DisableInputs();
   }
@@ -201,10 +250,10 @@ export class NodoFormComponent implements OnInit {
       return x.id == zonaId;
     });
 
-    if (this._zonaSelected.text == "PILA"){
-      this.queryForm.get('pilaId')?.addValidators(Validators.required); 
+    if (this._zonaSelected.text == "PILA") {
+      this.queryForm.get('pilaId')?.addValidators(Validators.required);
     }
-    else{
+    else {
       this.queryForm.get('pilaId')?.removeValidators(Validators.required);
     }
     this.queryForm.get('pilaId')?.updateValueAndValidity();

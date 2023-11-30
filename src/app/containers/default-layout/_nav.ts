@@ -9,18 +9,25 @@ export const navItems: INavData[] = [
   },
   {
     title: true,
-    name: 'Mediciones',
+    name: 'Reportes',
     attributes: { security: 99, id: 0 }
   },
   {
-    name: 'Nodo / Fechas',
+    name: 'Filtrar por Nodo',
     url: '/mediciones/filtra-nodo',
     iconComponent: { name: 'cil-list' },
     attributes: { security: 99, id: 1 }
   },
   {
+    name: 'Monitoreo',
+    url: '/mediciones/monitoreo',
+    iconComponent: { name: 'cil-list' },
+    attributes: { security: 99, id: 1 }
+  },
+  {
     title: true,
-    name: 'Configuracion'
+    name: 'Configuración',
+    attributes: { security: 99, id: 0 }
   },
   {
     name: 'Pila',
@@ -41,8 +48,19 @@ export const navItems: INavData[] = [
     attributes: { security: 2, id: 4 }
   },
   {
+    title: true,
+    name: 'Sistema',
+    attributes: { security: 99, id: 0 }
+  },
+  {
     name: 'Usuarios',
     url: '/configuracion/usuarios',
+    iconComponent: { name: 'cil-user-plus' },
+    attributes: { security: 2, id: 5 }
+  },
+  {
+    name: 'Alertas',
+    url: '/configuracion/alertas',
     iconComponent: { name: 'cil-user-plus' },
     attributes: { security: 2, id: 5 }
   },
