@@ -1,0 +1,92 @@
+[
+    {
+      "Time": 1641062400,
+      "devEui": "MAC01",
+      "fPort": 1.0,
+      "freq": 868.1,
+      "nnodo": 1.0,
+      "sensor": "temperature",
+      "value": 7.3
+    },
+    {
+      "Time": 1641148800,
+      "devEui": "def456",
+      "fPort": 2.0,
+      "freq": 868.3,
+      "nnodo": 2.0,
+      "sensor": "humidity",
+      "value": 5.8
+    },
+    {
+      "Time": 1641235200,
+      "devEui": "ghi789",
+      "fPort": 3.0,
+      "freq": 868.5,
+      "nnodo": 3.0,
+      "sensor": "pressure",
+      "value": 8.7
+    },
+    {
+      "Time": 1641321600,
+      "devEui": "jkl012",
+      "fPort": 1.0,
+      "freq": 868.7,
+      "nnodo": 1.0,
+      "sensor": "light",
+      "value": 6.5
+    },
+    {
+      "Time": 1641408000,
+      "devEui": "mno345",
+      "fPort": 2.0,
+      "freq": 868.9,
+      "nnodo": 2.0,
+      "sensor": "sound",
+      "value": 9.1
+    },
+    {
+      "Time": 1641494400,
+      "devEui": "pqr678",
+      "fPort": 3.0,
+      "freq": 869.1,
+      "nnodo": 3.0,
+      "sensor": "motion",
+      "value": 3.8
+    },
+    {
+      "Time": 1641580800,
+      "devEui": "stu901",
+      "fPort": 1.0,
+      "freq": 869.3,
+      "nnodo": 1.0,
+      "sensor": "vibration",
+      "value": 7.0
+    },
+    {
+      "Time": 1641667200,
+      "devEui": "vwx234",
+      "fPort": 2.0,
+      "freq": 869.5,
+      "nnodo": 2.0,
+      "sensor": "proximity",
+      "value": 4.6
+    },
+    {
+      "Time": 1641753600,
+      "devEui": "yza567",
+      "fPort": 3.0,
+      "freq": 869.7,
+      "nnodo": 3.0,
+      "sensor": "gas",
+      "value": 8.2
+    },
+    {
+      "Time": 1641840000,
+      "devEui": "bcd890",
+      "fPort": 1.0,
+      "freq": 869.9,
+      "nnodo": 1.0,
+      "sensor": "humidity",
+      "value": 6.3
+    }
+  ]

@@ -31,12 +31,13 @@ export class NodoFormComponent implements OnInit {
   queryForm: FormGroup;
   // Select Data
   _dataPila: any[];
-  //_dataPano: any[];
   _dataTipoNodo: any[];
   _dataZona: any[];
   _cantidadMediciones: any[];
+  _previewMediciones: any[];
 
   _zonaSelected: any;
+  _medicionesChange: boolean = false;  
 
   // Maps
   @ViewChild('map') mapElement: any;
@@ -49,7 +50,6 @@ export class NodoFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private _service: NodoService,
     private _servicePila: PilaService,
-    // private _servicePano: PanoService,
     private _serviceZona: ZonaService,
     private _util: UtilsService) {
     this.CreateForm();
@@ -63,7 +63,7 @@ export class NodoFormComponent implements OnInit {
     // MAP
     setTimeout(() => {
       this.CreateMap();
-    }, 1000);   
+    }, 1000);
   }
 
   // MAP
@@ -81,15 +81,12 @@ export class NodoFormComponent implements OnInit {
       var glatlng = new google.maps.LatLng(Number(latLng[0]), Number(latLng[1]));
       this.centerInPoint(glatlng, 20);
     }
-  }
-
-  // Maps
+  }  
   buscarGPS() {
     const formValues = <any>this.queryForm.getRawValue();
     this.centerInPoint(new google.maps.LatLng(Number(formValues.latitudNodo), Number(formValues.longitudNodo)));
   }
-
-  centerInPoint(position: google.maps.LatLng, _zoom : number = this.map.getZoom()) {
+  centerInPoint(position: google.maps.LatLng, _zoom: number = this.map.getZoom()) {
     this.marker.setPosition(position);
     var jsonPosition = position.toJSON();
     this.queryForm.controls['latitudNodo'].setValue(jsonPosition.lat);
@@ -97,11 +94,12 @@ export class NodoFormComponent implements OnInit {
     this.queryForm.controls['latLongNodo'].setValue(jsonPosition.lat.toString() + ',' + jsonPosition.lng.toString());
     const mapProperties = {
       center: position,
-      zoom : _zoom,
+      zoom: _zoom,
       mapTypeId: google.maps.MapTypeId.HYBRID
-    }; 
+    };
     this.map.setOptions(mapProperties);
   }
+  // END MAPS
 
   GetPilasToSelect() {
     this._servicePila.getSelect().subscribe({
@@ -111,21 +109,6 @@ export class NodoFormComponent implements OnInit {
       error: (e) => this._util.processError(e)
     });
   }
-
-  // GetPanosToSelect(pilaId: number) {
-  //   this._servicePano.getSelect(pilaId).subscribe({
-  //     next: (data) => {
-  //       this._dataPano = data;
-  //       if (data.length > 0){
-  //         this.queryForm.get('panoId')?.enable();
-  //       }
-  //       else{
-  //         this.queryForm.get('panoId')?.disable();
-  //       }       
-  //     },
-  //     error: (e) => this._util.processError(e)
-  //   });
-  // }
 
   GetZonasToSelect() {
     this._serviceZona.getSelect().subscribe({
@@ -137,11 +120,11 @@ export class NodoFormComponent implements OnInit {
         else {
           this.queryForm.get('zonaId')?.disable();
         }
-        if (!this._isNew){
+        if (!this._isNew) {
           this._zonaSelected = this._dataZona.find(x => {
             return x.id == this.dataObject.zonaId;
           });
-        }        
+        }
       },
       error: (e) => this._util.processError(e)
     });
@@ -160,12 +143,23 @@ export class NodoFormComponent implements OnInit {
     this._cantidadMediciones = new Array(0);
     this._service.getTipoNodo(tipoNodoId).subscribe({
       next: (data) => {
-        this._cantidadMediciones = new Array(data.cantidadMediciones);
+        for (let index = 0; index < data.cantidadMediciones; index++) {
+          this._cantidadMediciones.push({
+            posicion: index + 1,
+            mac: '',
+            descripcion: '',
+            sensores: '',
+          })
+        }
+        this.MedicionChange();
       },
       error: (e) => this._util.processError(e)
     });
   }
 
+  mostrarJson() {
+    console.log(this._cantidadMediciones);
+  }
 
   CreateForm() {
     this.queryForm = this.formBuilder.group({
@@ -211,8 +205,19 @@ export class NodoFormComponent implements OnInit {
         latLongNodo: this.dataObject.latLongNodo,
       }
     );
-    //this.GetPanosToSelect(this.queryForm.value.pilaId);
     this.DisableInputs();
+    this.TipoNodoChange(this.dataObject.tipoNodoId ? this.dataObject.tipoNodoId : 0);
+    this.GetMediciones(this.dataObject.nodoId);
+  }
+
+  GetMediciones(nodoId: number) {
+    this._service.getMediciones(nodoId).subscribe({
+      next: (data) => {
+        this._cantidadMediciones = [...data];
+        this._previewMediciones = [...data];
+      },
+      error: (e) => this._util.processError(e)
+    });
   }
 
   DisableInputs() {
@@ -237,7 +242,13 @@ export class NodoFormComponent implements OnInit {
       this._service.save(formValues, this._isNew).subscribe({
         next: (data) => {
           this._util.alertSuccess(data.message, `Mantenedor de ${this._entity}:`);
-          this.closeMe();
+          if (this._isNew || this._medicionesChange){
+            this.dataObject = data.nodo;
+            this.saveMediciones();
+          }
+          else{
+            this.closeMe();
+          }            
         },
         error: (e) => this._util.processError(e)
       });
@@ -247,16 +258,21 @@ export class NodoFormComponent implements OnInit {
     }
   }
 
+  saveMediciones(): void {
+    this._service.saveMediciones(this.dataObject, this._cantidadMediciones).subscribe({
+      next: (data) => {
+        this._util.alertSuccess(data.message, `Mediciones del Nodo`);
+        this.closeMe();
+      },
+      error: (e) => this._util.processError(e)
+    });
+  }
+
   closeMe() {
     this.dialogRef.close(this.dataObject);
   }
 
-  // PilaChange(pilaId: number) {
-  //   this.GetPanosToSelect(pilaId);
-  // }
-
   ZonaChange(zonaId: any) {
-
     this._zonaSelected = this._dataZona.find(x => {
       return x.id == zonaId;
     });
@@ -268,5 +284,9 @@ export class NodoFormComponent implements OnInit {
       this.queryForm.get('pilaId')?.removeValidators(Validators.required);
     }
     this.queryForm.get('pilaId')?.updateValueAndValidity();
+  }
+
+  MedicionChange(){
+    this._medicionesChange = true;
   }
 }

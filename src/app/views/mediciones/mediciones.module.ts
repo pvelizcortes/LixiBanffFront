@@ -18,6 +18,7 @@ import { NgChartsModule } from 'ng2-charts';
 import { DatePipe } from '@angular/common';
 
 import { FiltraNodoComponent } from './filtra-nodo/filtra-nodo.component';
+import { FiltraPilaComponent } from './filtra-pila/filtra-pila.component';
 import { MedicionesRoutingModule } from './mediciones-routing.module';
 
 
@@ -43,7 +44,8 @@ import {
 
 @NgModule({
   declarations: [  
-    FiltraNodoComponent
+    FiltraNodoComponent,
+    FiltraPilaComponent
   ],
   imports: [
     CommonModule,

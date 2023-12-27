@@ -1,0 +1,103 @@
+<div class="container">
+  <h1 mat-dialog-title><svg cIcon size="xl" name="cil-gradient" class="icon-back-color-warning mr-1"></svg> {{_title}}
+  </h1>
+  <hr>
+  <div mat-dialog-content>
+    <form [formGroup]="queryForm" class="form-row" (ngSubmit)="onSubmit()">
+      <c-row>
+        <!-- LEFT SIDE -->
+        <c-col sm="6">
+          <mat-form-field class="col-sm-12">
+            <mat-label><b>Pila</b></mat-label>
+            <mat-select formControlName="pilaId">
+              <mat-option [value]="0" selected>-- Seleccione</mat-option>
+              <mat-option *ngFor="let option of _dataPila" [value]="option.id">
+                {{option.text}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="queryForm.controls['pilaId'].hasError('min')">
+              Seleccione una opción.
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="col-sm-12">
+            <mat-label><b>Tipo de Nodo</b></mat-label>
+            <mat-select formControlName="tipoNodoId">
+              <mat-option [value]="0" selected>-- Seleccione</mat-option>
+              <mat-option *ngFor="let option of _dataTipoNodo" [value]="option.id">
+                {{option.text}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="queryForm.controls['tipoNodoId'].hasError('min')">
+              Seleccione una opción.
+            </mat-error>
+          </mat-form-field>                        
+        </c-col>
+        <!-- RIGHT SIDE -->
+        <c-col sm="6">
+          <mat-form-field class="col-sm-12">
+            <mat-label>Codigo o Nombre</mat-label>
+            <input matInput formControlName="codigoAlerta">
+            <mat-error *ngIf="queryForm.controls['codigoAlerta'].hasError('required')">
+              Ingrese un codigo.
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="col-sm-12">
+            <mat-label><i class="fa fa-envelope"></i> Correo</mat-label>
+            <input matInput formControlName="correoAlerta">
+          </mat-form-field>   
+          <!-- <mat-form-field class="col-sm-12">
+            <mat-label>Nombre</mat-label>
+            <input matInput formControlName="nombreAlerta">
+            <mat-error *ngIf="queryForm.controls['nombreAlerta'].hasError('required')">
+              Ingrese un nombre.
+            </mat-error>
+          </mat-form-field> -->
+          <!-- <mat-form-field class="col-sm-12">
+            <mat-label>Descripción</mat-label>
+            <input matInput formControlName="descripcionAlerta">
+          </mat-form-field>             -->
+        </c-col>
+      </c-row>
+      <c-row>
+        <c-col sm="12" class="mt-2 mb-2">
+          <b><i class="fa fa-cog"></i> CONFIGURACIÓN DE LA ALERTA</b>
+        </c-col>
+      </c-row>
+      <c-row>          
+          <mat-form-field class="col-sm-4">
+            <mat-label>Medicion</mat-label>
+            <input matInput formControlName="medicion" placeholder="Ej: O2, CO2, Temp°">            
+          </mat-form-field>
+          <mat-form-field class="col-sm-4">
+            <mat-label><b>Operador</b></mat-label>
+            <mat-select formControlName="operador">
+              <mat-option [value]="0" selected>-- Seleccione</mat-option>
+              <mat-option *ngFor="let option of _dataOperador" [value]="option.id">
+                {{option.text}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="queryForm.controls['operador'].hasError('min')">
+              Seleccione una opción.
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="col-sm-4">
+            <mat-label>Valor</mat-label>
+            <input type="number" matInput formControlName="valor">
+          </mat-form-field>        
+      </c-row>
+      <c-col *ngIf="dataObject && !dataObject.active">
+        <c-alert color="danger" class="d-flex align-items-center">
+          <div><i class="fa-solid fa-circle-exclamation"></i>
+            Este {{ _entity }} se encuentra desactivado desea activarlo?
+            <button class="ml-1" cButton color="success" (click)="activar()" variant="outline">Activar</button>
+          </div>
+        </c-alert>
+      </c-col>
+    </form>
+  </div>
+
+  <div mat-dialog-actions align="end">
+    <button cButton color="warning" (click)="onSubmit()" class="mr-1">{{_saveButtonName}}</button>
+    <button cButton color="light" (click)="closeMe()">{{_closeButtonName}}</button>
+  </div>
+</div>

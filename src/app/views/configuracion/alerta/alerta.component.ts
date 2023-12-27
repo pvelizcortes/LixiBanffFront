@@ -2,9 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { GlobalConstants } from '../../../constants/global-constants';
 import { UtilsService } from '../../../services/utils.service'
 // Models
-import { Nodo } from '../../../shared/nodo';
+import { Alerta } from '../../../shared/alerta';
 // Services
-import { NodoService } from '../../../services/nodo.service';
+import { AlertaService } from '../../../services/alerta.service';
 import { ConfirmationService } from '../../../services/confirmation.service';
 // Mat Table
 import { MatTableDataSource } from '@angular/material/table';
@@ -13,20 +13,20 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableExporterModule } from 'mat-table-exporter'; // No Borrar
 // Dialog
 import { MatDialog } from '@angular/material/dialog';
-import { NodoFormComponent } from './nodo-form/nodo-form.component';
+import { AlertaFormComponent } from './alerta-form/alerta-form.component';
 // Export PDF
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable';
 
 @Component({
-  selector: 'app-nodo',
-  templateUrl: './nodo.component.html',
-  styleUrls: ['./nodo.component.scss']
+  selector: 'app-alerta',
+  templateUrl: './alerta.component.html',
+  styleUrls: ['./alerta.component.scss']
 })
 
-export class NodoComponent implements OnInit {
+export class AlertaComponent implements OnInit {
   // Principal Properties
-  _entity: string = 'Nodo';
+  _entity: string = 'Alerta';
   _title: string = 'Mantenedor de ' + this._entity;
   _createName: string = GlobalConstants.createButtonName;
   _searchText: string = GlobalConstants.searchPlaceHolder;
@@ -34,18 +34,18 @@ export class NodoComponent implements OnInit {
   _noSearchResults: string = GlobalConstants.noSearchResults;
   _showModal: boolean = false;  
   // Mat Table
-  displayedColumns: string[] = ['codigoNodo', 'nombreNodo','zona.nombreZona', 'pila.nombrePila', 'tipoNodo.nombreTipoNodo', 'active', 'actions'];
+  displayedColumns: string[] = ['codigoAlerta', 'correoAlerta', 'medicion', 'active', 'actions'];
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild('tableSort') tableSort = new MatSort();
 
   constructor(public dialog: MatDialog,
-    private _service: NodoService,
+    private _service: AlertaService,
     private _confirm: ConfirmationService,
     private _util: UtilsService) {
   }
 
-  ngOnInit(): void {  
+  ngOnInit(): void {
     this.getList();
   }
   
@@ -60,7 +60,6 @@ export class NodoComponent implements OnInit {
     else {
       this._service.getList().subscribe({
         next : (data) => {
-          console.log(data);
           this.dataSource.data = data;
           this.dataSource.paginator = this.paginator;
         },
@@ -80,8 +79,8 @@ export class NodoComponent implements OnInit {
     doc.save(this._title + '.pdf')
   }
 
-  openDialog(item?: Nodo): void {
-    const dialogRef = this.dialog.open(NodoFormComponent, {
+  openDialog(item?: Alerta): void {
+    const dialogRef = this.dialog.open(AlertaFormComponent, {
       data: item, width: '100%', position: { top: '8vh' }
     });
     dialogRef.afterClosed().subscribe({
@@ -92,10 +91,10 @@ export class NodoComponent implements OnInit {
     });
   }
 
-  async deleteRow(item: Nodo): Promise<void> {
+  async deleteRow(item: Alerta): Promise<void> {
     const resp = await this._confirm.confirmation('Desactivar', `¿Está seguro de desactivar al ${this._entity} seleccionado?`)
     if (resp) {
-      this._service.delete(item.nodoId).subscribe({
+      this._service.delete(item.alertaId).subscribe({
         next : (data) => {
           this._util.alertSuccess(data.message, this._title);
           this.getList();

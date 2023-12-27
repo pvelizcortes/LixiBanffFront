@@ -1,0 +1,15 @@
+export interface Alerta {
+    alertaId: number,
+    codigoAlerta?: string,
+    nombreAlerta?: string,
+    descripcionAlerta?: string,
+    correoAlerta?: string,
+    pilaId?: number,
+    tipoNodoId?: number,
+    medicion?: string,
+    operador?: string,
+    valor?: number,    
+    clienteId?: number, 
+    createDate?: Date,
+    active: boolean,
+}

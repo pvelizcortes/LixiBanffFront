@@ -1,7 +1,6 @@
 <div class="container">
   <h1 mat-dialog-title><svg cIcon size="xl" name="cil-equalizer" class="icon-back-color-warning mr-1"></svg> {{_title}}
   </h1>
-  <hr>
   <div mat-dialog-content>
     <form [formGroup]="queryForm" class="form-row" (ngSubmit)="onSubmit()">
       <c-row>
@@ -41,18 +40,6 @@
               Seleccione una opción.
             </mat-error>
           </mat-form-field>
-          <!-- <mat-form-field class="col-sm-12">
-            <mat-label><b>Pano</b></mat-label>
-            <mat-select formControlName="panoId">
-              <mat-option [value]="0" selected>-- Seleccione</mat-option>
-              <mat-option *ngFor="let option of _dataPano" [value]="option.id">
-                {{option.text}}
-              </mat-option>
-            </mat-select>
-            <mat-error *ngIf="queryForm.controls['panoId'].hasError('min')">
-              Seleccione una opción.
-            </mat-error>
-          </mat-form-field> -->
           <mat-form-field class="col-sm-12">
             <mat-label><b>Tipo de Nodo</b></mat-label>
             <mat-select formControlName="tipoNodoId" (selectionChange)="TipoNodoChange($event.value)">
@@ -64,7 +51,7 @@
             <mat-error *ngIf="queryForm.controls['tipoNodoId'].hasError('min')">
               Seleccione una opción.
             </mat-error>
-          </mat-form-field>          
+          </mat-form-field>
         </c-col>
         <!-- RIGHT SIDE -->
         <c-col sm="6">
@@ -82,65 +69,69 @@
               Ingrese un nombre.
             </mat-error>
           </mat-form-field>
-          <!-- <mat-form-field class="col-sm-12">
-            <mat-label>Mac</mat-label>
-            <input matInput formControlName="mac">
-            <mat-error *ngIf="queryForm.controls['mac'].hasError('required')">
-              Ingrese la Mac del nodo.
-            </mat-error>
-          </mat-form-field> -->
-          <!-- <mat-form-field class="col-sm-12">
-            <mat-label>Posición</mat-label>
-            <input type="number" matInput formControlName="posicionNodo">
-          </mat-form-field> -->
-          
         </c-col>
       </c-row>
       <!-- CANTIDAD DE MEDICIONES -->
-      <div *ngIf="_cantidadMediciones">
+      <div *ngIf="_cantidadMediciones" class="row">
         <c-row>
           <c-col sm="12">
-            <c-alert color="primary" class="d-flex align-items-center">
-              <div><b color="primary"><i class="fa fa-layer-group"></i> MEDICIONES</b></div>
-            </c-alert>
+            <table cTable small class="mb-2">
+              <thead cTableColor="light">
+                <tr>
+                  <th>N°</th>
+                  <th>MAC</th>
+                  <th>DESCRIPCION</th>
+                  <th>SENSORES</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let x of _cantidadMediciones; index as i">
+                  <td><b>{{ i + 1 }}</b></td>
+                  <td><input matInput placeholder="Mac" autocomplete="off" class="border" [(ngModel)]="x.mac" (change)="MedicionChange()"
+                      [ngModelOptions]="{standalone: true}"></td>
+                  <td><input matInput placeholder="Descripcion" autocomplete="off" class="border" (change)="MedicionChange()"
+                      [(ngModel)]="x.descripcion" [ngModelOptions]="{standalone: true}"></td>
+                  <td><input matInput placeholder="Sensores" autocomplete="off" class="border" [(ngModel)]="x.sensores" (change)="MedicionChange()"
+                      [ngModelOptions]="{standalone: true}"></td>
+                </tr>
+              </tbody>
+            </table>
           </c-col>
-        </c-row>      
-        <c-row *ngFor="let x of _cantidadMediciones; index as i">
-          <div class="col-sm-1"><b><br>{{ i + 1 }}</b></div>
-          <mat-form-field class="col-sm-3"><input matInput placeholder="Mac" autocomplete="off"></mat-form-field>
-          <mat-form-field class="col-sm-4"><input matInput placeholder="Descripcion" autocomplete="off"></mat-form-field>
-          <mat-form-field class="col-sm-4"><input matInput placeholder="Sensores" autocomplete="off"></mat-form-field>        
-        </c-row>
+        </c-row>        
       </div>
-      <br>
+      <!-- FIN MEDICIONES -->
       <!-- MAPS -->
+      <hr>
+      <c-row>
+        <c-col sm="12" class="mt-2 mb-2">
+          <b><i class="fa fa-location-dot"></i> POSICIONAMIENTO EN EL MAPA</b>
+        </c-col>
+      </c-row>
       <c-row>
         <c-col sm="12">
-          <c-alert color="warning" class="d-flex align-items-center">
-            <div><b color="warning"><i class="fa fa-location-dot"></i> POSICIONAMIENTO EN EL MAPA</b></div>
-          </c-alert>
+          <c-row>
+            <mat-form-field class="col-sm-4">
+              <mat-label>Lat (Latitud)</mat-label>
+              <input matInput formControlName="latitudNodo">
+            </mat-form-field>
+            <mat-form-field class="col-sm-4">
+              <mat-label>Lng (Longitud)</mat-label>
+              <input matInput formControlName="longitudNodo">
+            </mat-form-field>
+            <c-col sm="4">
+              <button cButton color="warning" (click)="buscarGPS()" variant="outline">
+                <i class="fa fa-search" matTooltip="UBICAR EN EL MAPA"></i> Buscar
+              </button>
+            </c-col>
+          </c-row>
         </c-col>
       </c-row>
-      
       <c-row>
-        <c-col sm="4">
-          <mat-form-field class="col-sm-12">
-            <mat-label>Lat (Latitud)</mat-label>
-            <input matInput formControlName="latitudNodo">
-          </mat-form-field>
-          <mat-form-field class="col-sm-12">
-            <mat-label>Lng (Longitud)</mat-label>
-            <input matInput formControlName="longitudNodo">
-          </mat-form-field>
-          <div class="col-sm-8">
-            <button cButton color="warning" (click)="buscarGPS()" variant="outline">Localizar <i class="fa fa-search"
-                matTooltip="UBICAR EN EL MAPA"></i></button>
-          </div>
-        </c-col>
-        <c-col sm="8">
-          <div #map style="width:100%;height:300px"></div>
+        <c-col sm="12">
+          <div #map style="width:100%;height:300px;border:1px solid gray"></div>
         </c-col>
       </c-row>
+      <!-- FIN MAPS -->
     </form>
   </div>
 

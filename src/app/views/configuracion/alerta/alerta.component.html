@@ -5,12 +5,12 @@
                 <c-card-body>
                     <c-row>
                         <c-col sm="1" class="border-right-vertical text-center">
-                            <svg cIcon size="xl" name="cil-equalizer" class="icon-back-color-warning"></svg>
+                            <svg cIcon size="xl" name="cil-gradient" class="icon-back-color-warning"></svg>                           
                         </c-col>
                         <c-col sm="7">
-                            <b class="mant-title">{{_title}}</b>
+                            <b class="mant-title">{{_title}}</b>                            
                             <button cButton color="warning" class="btn btn-md ml-2" variant="outline"
-                                (click)="openDialog();"><b>{{_createName}}</b></button>
+                            (click)="openDialog();"><b>{{_createName}}</b></button>                        
                         </c-col>
                         <c-col sm="2" class="text-right">
                             <button cButton color="success" matTooltip="EXPORTAR EXCEL" variant="outline"
@@ -44,25 +44,17 @@
                                 <i class="fa-solid fa-close text-white"></i></button>
                         </td>
                     </ng-container>
-                    <ng-container matColumnDef="codigoNodo">
+                    <ng-container matColumnDef="codigoAlerta">
                         <th mat-header-cell mat-sort-header *matHeaderCellDef class="table-header-text">CODIGO</th>
-                        <td mat-cell *matCellDef="let item" class="p-2 vert-td"><b>{{ item.codigoNodo }}</b></td>
+                        <td mat-cell *matCellDef="let item" class="p-2 vert-td"><b>{{ item.codigoAlerta }}</b></td>
                     </ng-container>
-                    <ng-container matColumnDef="nombreNodo">
-                        <th mat-header-cell mat-sort-header *matHeaderCellDef class="table-header-text">NOMBRE</th>
-                        <td mat-cell *matCellDef="let item" class="p-2 vert-td"><b>{{ item.nombreNodo }}</b></td>
+                    <ng-container matColumnDef="correoAlerta">
+                        <th mat-header-cell mat-sort-header *matHeaderCellDef class="table-header-text">CORREO</th>
+                        <td mat-cell *matCellDef="let item" class="p-2 vert-td">{{ item.correoAlerta }}</td>
                     </ng-container>
-                    <ng-container matColumnDef="zona.nombreZona">
-                        <th mat-header-cell mat-sort-header *matHeaderCellDef class="table-header-text">ZONA</th>
-                        <td mat-cell *matCellDef="let item" class="p-2 vert-td"><b>{{ item.zona.nombreZona }}</b></td>
-                    </ng-container>          
-                    <ng-container matColumnDef="pila.nombrePila">
-                        <th mat-header-cell mat-sort-header *matHeaderCellDef class="table-header-text">PILA</th>
-                        <td mat-cell *matCellDef="let item" class="p-2 vert-td"><b>{{ item.pila.nombrePila }}</b></td>
-                    </ng-container>            
-                    <ng-container matColumnDef="tipoNodo.nombreTipoNodo">
-                        <th mat-header-cell mat-sort-header *matHeaderCellDef class="table-header-text">TIPO</th>
-                        <td mat-cell *matCellDef="let item" class="p-2 vert-td">{{ item.tipoNodo.nombreTipoNodo }}</td>
+                    <ng-container matColumnDef="medicion">
+                        <th mat-header-cell mat-sort-header *matHeaderCellDef class="table-header-text">MEDICION</th>
+                        <td mat-cell *matCellDef="let item" class="p-2 vert-td">{{ item.medicion }}</td>
                     </ng-container>
                     <ng-container matColumnDef="active">
                         <th mat-header-cell mat-sort-header *matHeaderCellDef class="table-header-text text-center"
@@ -83,6 +75,6 @@
                 </table>
                 <mat-paginator [pageSizeOptions]="_pageSizeOptions" showFirstLastButtons></mat-paginator>
             </ng-container>
-        </c-col>        
+        </c-col>
     </c-row>
 </c-container>

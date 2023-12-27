@@ -29,6 +29,9 @@ import { NodoFormComponent } from './nodo/nodo-form/nodo-form.component';
 
 import { UsersComponent } from './users/users.component';
 import { UsersFormComponent } from './users/users-form/users-form.component';
+
+import { AlertaComponent } from './alerta/alerta.component';
+import { AlertaFormComponent } from './alerta/alerta-form/alerta-form.component';
 // Routing
 import { ConfiguracionRoutingModule } from './configuracion-routing.module';
 
@@ -50,6 +53,7 @@ import {
   WidgetModule
 } from '@coreui/angular';
 
+
 @NgModule({
   declarations: [
     MiPerfilComponent,
@@ -60,7 +64,9 @@ import {
     NodoComponent,
     NodoFormComponent,
     UsersComponent,
-    UsersFormComponent
+    UsersFormComponent,
+    AlertaComponent,
+    AlertaFormComponent
   ],
   imports: [
     CommonModule,

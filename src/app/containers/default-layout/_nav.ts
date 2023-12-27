@@ -19,6 +19,12 @@ export const navItems: INavData[] = [
     attributes: { security: 99, id: 1 }
   },
   {
+    name: 'Filtrar por Pila',
+    url: '/mediciones/filtra-pila',
+    iconComponent: { name: 'cil-list' },
+    attributes: { security: 99, id: 1 }
+  },
+  {
     name: 'Monitoreo',
     url: '/mediciones/monitoreo',
     iconComponent: { name: 'cil-list' },
@@ -35,12 +41,6 @@ export const navItems: INavData[] = [
     iconComponent: { name: 'cil-gradient' },
     attributes: { security: 2, id: 2 }
   },
-  // {
-  //   name: 'Pano',
-  //   url: '/configuracion/pano',
-  //   iconComponent: { name: 'cil-view-column' },
-  //   attributes: { security: 2, id: 3 }
-  // },
   {
     name: 'Nodo',
     url: '/configuracion/nodo',
@@ -60,7 +60,7 @@ export const navItems: INavData[] = [
   },
   {
     name: 'Alertas',
-    url: '/configuracion/alertas',
+    url: '/configuracion/alerta',
     iconComponent: { name: 'cil-user-plus' },
     attributes: { security: 2, id: 5 }
   },

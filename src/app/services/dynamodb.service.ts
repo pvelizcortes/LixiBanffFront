@@ -27,4 +27,13 @@ export class DynamodbService {
     };
     return this.http.get(this.myAppUrl + this.principalUrl + 'FiltrarPorNodo', { params: queryParams });
   }
+
+  FilterByPila(from: Date, to: Date, pilaId: number): Observable<any> {
+    let queryParams = {
+      "from": from.toString(),
+      "to": to.toString(),
+      "pilaId": pilaId.toString()
+    };
+    return this.http.get(this.myAppUrl + this.principalUrl + 'FiltrarPorPila', { params: queryParams });
+  }
 }

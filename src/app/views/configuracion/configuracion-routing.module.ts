@@ -7,6 +7,7 @@ import { PilaComponent } from './pila/pila.component';
 import { PanoComponent } from './pano/pano.component';
 import { NodoComponent } from './nodo/nodo.component';
 import { UsersComponent } from './users/users.component';
+import { AlertaComponent } from './alerta/alerta.component';
 
 const routes: Routes = [
   {
@@ -53,6 +54,13 @@ const routes: Routes = [
         component: NodoComponent,
         data: {
           title: 'Nodo'
+        }
+      },
+      {
+        path: 'alerta',
+        component: AlertaComponent,
+        data: {
+          title: 'Alerta'
         }
       }
     ]
