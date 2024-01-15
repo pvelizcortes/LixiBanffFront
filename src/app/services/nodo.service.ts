@@ -42,8 +42,13 @@ export class NodoService {
   }
 
   // Others
-  getTipoNodoSelect(): Observable<any> {
-    return this.http.get(this.myAppUrl + this.principalUrl + 'GetTipoNodoSelect');
+  getTipoNodoSelect(clienteId?: number): Observable<any> {
+    let queryParams = { "clienteId": clienteId ? clienteId : 0 };
+    return this.http.get(this.myAppUrl + this.principalUrl + 'GetTipoNodoSelect', {params: queryParams});
+  }
+
+  getTipoNodoProject(): Observable<any> {
+    return this.http.get(this.myAppUrl + this.principalUrl + 'GetTipoNodoProject');
   }
 
   getTipoNodo(tipoNodoId: number): Observable<any> {
@@ -52,11 +57,17 @@ export class NodoService {
   }
 
   saveMediciones(_obj: Nodo, mediciones: NodoMediciones[]): Observable<any> {
+    
     var data = {
       nodo: _obj,
       mediciones: mediciones
     }
     return this.http.post(this.myAppUrl + this.principalUrl + 'SaveMediciones', data);
+  }
+
+  saveNodoConfig(_obj: any): Observable<any> {
+    var data =  _obj
+    return this.http.post(this.myAppUrl + this.principalUrl + 'SaveNodoConfig', data);
   }
 
   getMediciones(nodoId: number): Observable<any> {
@@ -65,5 +76,5 @@ export class NodoService {
 
   getMedicionesByPila(pilaId: number): Observable<any> {
     return this.http.get(this.myAppUrl + this.principalUrl + 'GetMedicionesByPila', { params: { pilaId: pilaId } });
-  }
+  }  
 }

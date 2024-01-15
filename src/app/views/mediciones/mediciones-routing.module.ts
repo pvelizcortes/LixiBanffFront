@@ -29,7 +29,7 @@ const routes: Routes = [
         data: {
           title: 'Filtra por Pila'
         }
-      }     
+      }      
     ]
   }
 ];

@@ -18,6 +18,7 @@ import { IconModule } from '@coreui/icons-angular';
 // Components
 import { AdminClientsComponent } from './admin-clients/admin-clients.component';
 import { AdminClientsFormComponent } from './admin-clients/admin-clients-form/admin-clients-form.component';
+import { AdminClientsNodoComponent } from './admin-clients/admin-clientes-nodo/admin-clients-nodo.component';
 
 import { AdminUsersComponent } from './admin-users/admin-users.component';
 import { AdminUsersFormComponent } from './admin-users/admin-users-form/admin-users-form.component';
@@ -45,6 +46,7 @@ import {
   declarations: [
     AdminClientsComponent,
     AdminClientsFormComponent,
+    AdminClientsNodoComponent,
     AdminUsersFormComponent,
     AdminUsersComponent
   ],

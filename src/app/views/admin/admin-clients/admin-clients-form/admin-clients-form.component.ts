@@ -2,10 +2,12 @@ import { Component, Inject, Input, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
+import { UtilsService } from '../../../../services/utils.service'
 
 import { GlobalConstants } from '../../../../constants/global-constants';
 import { Client } from 'src/app/shared/client';
 import { AdminClientService } from '../../../../services/admin-client.service';
+import { NodoService } from '../../../../services/nodo.service';
 
 @Component({
   selector: 'app-admin-clients-form',
@@ -17,24 +19,27 @@ export class AdminClientsFormComponent implements OnInit {
   dataObject: Client; // Principal Object
   // Properties
   _title: string = '';
-  _entity: string = 'Cliente';
+  _entity: string = 'Proyecto';
   _saveButtonName: string = GlobalConstants.saveButtonName;
   _closeButtonName: string = GlobalConstants.closeButtonName;
   _isNew: boolean = true;
   // Form
   queryForm: FormGroup;
+  // Select Data
+  _dataTipoNodo: any[];
 
   // ** Constructor **
   constructor(public dialogRef: MatDialogRef<AdminClientsFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Client,
+    private _Nodoservice: NodoService,
     private formBuilder: FormBuilder,
     private _service: AdminClientService,
-    private toastr: ToastrService) {
+    private toastr: ToastrService,
+    private _util: UtilsService) {
     this.CreateForm();
     data ? this.Editing(data) : this.Creating();
   }
   ngOnInit(): void {
-
   }
   CreateForm() {
     this.queryForm = this.formBuilder.group({
@@ -48,7 +53,7 @@ export class AdminClientsFormComponent implements OnInit {
     });
   }
   Creating() {
-    this._title = 'Creando nuevo ' + this._entity;    
+    this._title = 'Creando nuevo ' + this._entity;
   }
   Editing(_obj: Client) {
     this._isNew = false;
@@ -67,7 +72,7 @@ export class AdminClientsFormComponent implements OnInit {
     );
     this.DisableInputs();
   }
-  DisableInputs(){
+  DisableInputs() {
     this.queryForm.get('nombreCliente')?.disable();
   }
 
@@ -96,7 +101,7 @@ export class AdminClientsFormComponent implements OnInit {
         });
       }
     }
-    else{
+    else {
       this.queryForm.markAllAsTouched();
     }
   }

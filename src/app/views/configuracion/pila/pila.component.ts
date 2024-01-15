@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { GlobalConstants } from '../../../constants/global-constants';
-import { UtilsService } from '../../../services/utils.service'
+import { UtilsService } from '../../../services/utils.service';
+import { Router } from '@angular/router';
 // Models
 import { Pila } from '../../../shared/pila';
 // Services
@@ -18,6 +19,7 @@ import { PilaFormComponent } from './pila-form/pila-form.component';
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable';
 
+
 @Component({
   selector: 'app-pila',
   templateUrl: './pila.component.html',
@@ -34,7 +36,7 @@ export class PilaComponent implements OnInit {
   _noSearchResults: string = GlobalConstants.noSearchResults;
   _showModal: boolean = false;  
   // Mat Table
-  displayedColumns: string[] = ['codigoPila', 'nombrePila', 'descripcionPila', 'ubicacionPila', 'cantidadPanos', 'active', 'actions'];
+  displayedColumns: string[] = ['codigoPila', 'nombrePila', 'descripcionPila', 'ubicacionPila', 'active', 'actions'];
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild('tableSort') tableSort = new MatSort();
@@ -42,7 +44,8 @@ export class PilaComponent implements OnInit {
   constructor(public dialog: MatDialog,
     private _service: PilaService,
     private _confirm: ConfirmationService,
-    private _util: UtilsService) {
+    private _util: UtilsService,
+    private router: Router) {
   }
 
   ngOnInit(): void {
@@ -89,6 +92,10 @@ export class PilaComponent implements OnInit {
       },
       error: (e) => this._util.processError(e)   
     });
+  }
+
+  openMap(item?: Pila): void {
+    this.router.navigate(['configuracion/map-nodo', item?.pilaId]);
   }
 
   async deleteRow(item: Pila): Promise<void> {

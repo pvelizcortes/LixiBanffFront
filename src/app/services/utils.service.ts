@@ -36,6 +36,6 @@ export class UtilsService {
 
   // MAPS
   convertToLatLng(lat: number, lng: number) {
-     
+     return new google.maps.LatLng(-33.43593980261049, -70.67106719480667);
   }
 }

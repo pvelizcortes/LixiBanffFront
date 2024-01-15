@@ -15,6 +15,7 @@ import { MatTableExporterModule } from 'mat-table-exporter'; // No Borrar
 // Dialog
 import { MatDialog } from '@angular/material/dialog';
 import { AdminClientsFormComponent } from './admin-clients-form/admin-clients-form.component';
+import { AdminClientsNodoComponent } from './admin-clientes-nodo/admin-clients-nodo.component';
 // Export PDF
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable';
@@ -29,7 +30,7 @@ import { LoginService } from 'src/app/services/login.service';
 
 export class AdminClientsComponent implements OnInit {
   // Principal Properties
-  _entity: string = 'Cliente';
+  _entity: string = 'Proyectos';
   _title: string = 'Mantenedor de ' + this._entity;
   _createName: string = GlobalConstants.createButtonName;
   _searchText: string = GlobalConstants.searchPlaceHolder;
@@ -84,6 +85,15 @@ export class AdminClientsComponent implements OnInit {
 
   openDialog(item?: Client): void {
     const dialogRef = this.dialog.open(AdminClientsFormComponent, {
+      data: item, width: '100%', position: { top: '8vh' }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.getList();
+    });
+  }
+
+  openTipoNodoCliente(item?: any){
+    const dialogRef = this.dialog.open(AdminClientsNodoComponent, {
       data: item, width: '100%', position: { top: '8vh' }
     });
     dialogRef.afterClosed().subscribe(result => {

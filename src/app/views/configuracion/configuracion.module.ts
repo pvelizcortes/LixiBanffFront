@@ -32,6 +32,8 @@ import { UsersFormComponent } from './users/users-form/users-form.component';
 
 import { AlertaComponent } from './alerta/alerta.component';
 import { AlertaFormComponent } from './alerta/alerta-form/alerta-form.component';
+
+import { MapNodoComponent } from './map-nodo/map-nodo.component';
 // Routing
 import { ConfiguracionRoutingModule } from './configuracion-routing.module';
 
@@ -66,7 +68,8 @@ import {
     UsersComponent,
     UsersFormComponent,
     AlertaComponent,
-    AlertaFormComponent
+    AlertaFormComponent,
+    MapNodoComponent
   ],
   imports: [
     CommonModule,

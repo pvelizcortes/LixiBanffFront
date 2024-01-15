@@ -8,6 +8,7 @@ import { PanoComponent } from './pano/pano.component';
 import { NodoComponent } from './nodo/nodo.component';
 import { UsersComponent } from './users/users.component';
 import { AlertaComponent } from './alerta/alerta.component';
+import { MapNodoComponent } from '../configuracion/map-nodo/map-nodo.component';
 
 const routes: Routes = [
   {
@@ -61,6 +62,13 @@ const routes: Routes = [
         component: AlertaComponent,
         data: {
           title: 'Alerta'
+        }
+      },
+      {
+        path: 'map-nodo/:id',
+        component: MapNodoComponent,
+        data: {
+          title: 'Map Nodo'
         }
       }
     ]

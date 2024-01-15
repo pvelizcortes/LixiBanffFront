@@ -1,0 +1,57 @@
+<div class="container">
+    <h1 mat-dialog-title><svg cIcon size="xl" name="cil-equalizer" class="icon-back-color-warning mr-1"></svg>{{_title}}
+    </h1>
+    <div mat-dialog-content>
+        <c-row>
+            <c-col sm="12">
+                <h2><b>Tipos de Nodo para el Proyecto</b></h2>
+            </c-col>
+            <c-col sm="12">
+                <div *ngFor="let item of _dataTipoNodo">
+                    <c-row>
+                        <c-col sm="4">
+                            <input type="checkbox" name="item.id" [(ngModel)]="item.isChecked">
+                            <label for="item.id">{{item.text}}</label>
+                        </c-col>
+                        <c-col sm="4">
+                            <table>
+                                <tr>
+                                    <td>Niveles: </td>
+                                    <td><input matInput placeholder="Niveles" autocomplete="off"
+                                            class="ml-1 border input-sm" [(ngModel)]="item.niveles" type="number"
+                                            [ngModelOptions]="{standalone: true}">
+                                    </td>
+                                    <td><button cButton size="sm" color="warning"
+                                            (click)="Generate(item)">Generar</button></td>
+                                </tr>
+                            </table>
+                        </c-col>
+                        <c-col sm="4">
+                            <table cTable *ngIf="item.cantMacs.length > 0">
+                                <thead>
+                                    <tr>
+                                        <th>Nivel</th>
+                                        <th>Cantidad Mac</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let x of item.cantMacs">
+                                        <td>{{x.posicion}}</td>
+                                        <td><input matInput placeholder="Mac" autocomplete="off" type="number"
+                                                class="ml-1 border input-sm" [(ngModel)]="x.cantidad"
+                                                [ngModelOptions]="{standalone: true}"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </c-col>
+                    </c-row>
+                </div>
+            </c-col>
+        </c-row>
+        <hr>
+    </div>
+    <div mat-dialog-actions align="end">
+        <button cButton color="warning" (click)="onSubmit()" class="mr-1">{{_saveButtonName}}</button>
+        <button cButton color="light" (click)="closeMe()">{{_closeButtonName}}</button>
+    </div>
+</div>

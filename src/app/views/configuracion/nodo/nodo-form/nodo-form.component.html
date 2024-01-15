@@ -78,18 +78,18 @@
             <table cTable small class="mb-2">
               <thead cTableColor="light">
                 <tr>
-                  <th>N°</th>
+                  <th>NIVEL</th>
                   <th>MAC</th>
-                  <th>DESCRIPCION</th>
-                  <th>SENSORES</th>
+                  <th>ALIAS</th>
+                  <th>SENSOR</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let x of _cantidadMediciones; index as i">
-                  <td><b>{{ i + 1 }}</b></td>
+                  <td><b>{{ x.posicionSensor }}</b></td>
                   <td><input matInput placeholder="Mac" autocomplete="off" class="border" [(ngModel)]="x.mac" (change)="MedicionChange()"
                       [ngModelOptions]="{standalone: true}"></td>
-                  <td><input matInput placeholder="Descripcion" autocomplete="off" class="border" (change)="MedicionChange()"
+                  <td><input matInput placeholder="Alias" autocomplete="off" class="border" (change)="MedicionChange()"
                       [(ngModel)]="x.descripcion" [ngModelOptions]="{standalone: true}"></td>
                   <td><input matInput placeholder="Sensores" autocomplete="off" class="border" [(ngModel)]="x.sensores" (change)="MedicionChange()"
                       [ngModelOptions]="{standalone: true}"></td>

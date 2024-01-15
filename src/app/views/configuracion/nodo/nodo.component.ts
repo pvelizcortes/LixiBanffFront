@@ -18,6 +18,7 @@ import { NodoFormComponent } from './nodo-form/nodo-form.component';
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable';
 
+
 @Component({
   selector: 'app-nodo',
   templateUrl: './nodo.component.html',
@@ -107,4 +108,5 @@ export class NodoComponent implements OnInit {
       this._util.alertWarning('Acción cancelada por el usuario', this._title);
     }
   }
+  
 }

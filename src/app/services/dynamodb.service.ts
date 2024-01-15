@@ -36,4 +36,8 @@ export class DynamodbService {
     };
     return this.http.get(this.myAppUrl + this.principalUrl + 'FiltrarPorPila', { params: queryParams });
   }
+
+  GetPilaData(pilaId: number): Observable<any> {
+    return this.http.get(this.myAppUrl + this.principalUrl + 'GetPilaData', { params: { pilaId: pilaId } });
+  }
 }

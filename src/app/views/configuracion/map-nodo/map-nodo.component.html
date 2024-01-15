@@ -1,0 +1,38 @@
+<div class="container">
+  <!-- MAPS -->
+  <c-row>
+
+    <c-col sm="6" *ngIf="selectedNodo">
+      <c-card>
+        <c-card-body>
+          <h4><b>{{selectedNodo?.tipoNodo?.nombreTipoNodo}} - {{selectedNodo?.nombreNodo}}</b></h4>
+          <table cTable>
+            <thead>
+              <tr>
+                <th>Nivel</th>
+                <th>Sensor</th>
+                <th>Alias</th>
+                <th>Valor</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let element of selectedValores">
+                <td>{{element.nivel}}</td>
+                <td>{{element.sensor}}</td>
+                <td>{{element.aliasSensor}}</td>
+                <td>{{element.valorSensor.Value}}</td>
+              </tr>
+            </tbody>
+          </table>
+          <br>
+          <button cButton color="warning" (click)="Cerrar()" class="mr-1">Cerrar</button>
+        </c-card-body>
+      </c-card>
+    </c-col>
+    <c-col class="{{selectedNodo ? 'col-sm-6' : 'col-sm-12'}}">
+      <div #map style="width:100%;height:80vh;border:1px solid gray"></div>
+    </c-col>
+  </c-row>
+  <!-- FIN MAPS -->
+
+</div>

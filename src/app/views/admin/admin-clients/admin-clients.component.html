@@ -42,11 +42,13 @@
                             <button cButton color="danger" class="ml-1" (click)="deleteRow(item);"
                                 matTooltip="ELIMINAR REGISTRO">
                                 <i class="fa-solid fa-close text-white"></i></button>
-                            <a class="btn btn-md btn-success ml-1" [routerLink]="['/admin/users', item.clienteId]" matTooltip="ADMINISTRAR USUARIOS"><i class="fa-solid fa-users"></i></a>                            
+                            <a class="btn btn-md btn-success ml-1" [routerLink]="['/admin/users', item.clienteId]" matTooltip="ADMINISTRAR USUARIOS"><i class="fa-solid fa-users"></i></a>
+                            <button cButton color="warning" class="ml-1" (click)="openTipoNodoCliente(item);" matTooltip="CONFIGURAR NODO">
+                                <i class="fa-solid fa-gear"></i></button>
                         </td>
                     </ng-container>
                     <ng-container matColumnDef="nombreCliente">
-                        <th mat-header-cell mat-sort-header *matHeaderCellDef class="table-header-text">NOMBRE</th>
+                        <th mat-header-cell mat-sort-header *matHeaderCellDef class="table-header-text">PROYECTO</th>
                         <td mat-cell *matCellDef="let item" class="p-2 vert-td"><b>{{ item.nombreCliente }}</b></td>
                     </ng-container>
                     <ng-container matColumnDef="correoCliente">

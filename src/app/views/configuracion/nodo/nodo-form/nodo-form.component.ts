@@ -37,7 +37,7 @@ export class NodoFormComponent implements OnInit {
   _previewMediciones: any[];
 
   _zonaSelected: any;
-  _medicionesChange: boolean = false;  
+  _medicionesChange: boolean = false;
 
   // Maps
   @ViewChild('map') mapElement: any;
@@ -81,7 +81,7 @@ export class NodoFormComponent implements OnInit {
       var glatlng = new google.maps.LatLng(Number(latLng[0]), Number(latLng[1]));
       this.centerInPoint(glatlng, 20);
     }
-  }  
+  }
   buscarGPS() {
     const formValues = <any>this.queryForm.getRawValue();
     this.centerInPoint(new google.maps.LatLng(Number(formValues.latitudNodo), Number(formValues.longitudNodo)));
@@ -139,24 +139,6 @@ export class NodoFormComponent implements OnInit {
     });
   }
 
-  TipoNodoChange(tipoNodoId: number) {
-    this._cantidadMediciones = new Array(0);
-    this._service.getTipoNodo(tipoNodoId).subscribe({
-      next: (data) => {
-        for (let index = 0; index < data.cantidadMediciones; index++) {
-          this._cantidadMediciones.push({
-            posicion: index + 1,
-            mac: '',
-            descripcion: '',
-            sensores: '',
-          })
-        }
-        this.MedicionChange();
-      },
-      error: (e) => this._util.processError(e)
-    });
-  }
-
   mostrarJson() {
     console.log(this._cantidadMediciones);
   }
@@ -206,15 +188,36 @@ export class NodoFormComponent implements OnInit {
       }
     );
     this.DisableInputs();
-    this.TipoNodoChange(this.dataObject.tipoNodoId ? this.dataObject.tipoNodoId : 0);
+    //this.TipoNodoChange(this.dataObject.tipoNodoId ? this.dataObject.tipoNodoId : 0);
     this.GetMediciones(this.dataObject.nodoId);
   }
 
   GetMediciones(nodoId: number) {
+    this._cantidadMediciones = new Array(0);
     this._service.getMediciones(nodoId).subscribe({
       next: (data) => {
         this._cantidadMediciones = [...data];
         this._previewMediciones = [...data];
+      },
+      error: (e) => this._util.processError(e)
+    });
+  }
+
+  TipoNodoChange(tipoNodoId: number) {
+    this._cantidadMediciones = new Array(0);
+    this._service.getTipoNodo(tipoNodoId).subscribe({
+      next: (data) => {
+        data.niveles.forEach((x: any) => {
+          for (let index = 0; index < x.cantidadMac; index++) {
+            this._cantidadMediciones.push({
+              posicionSensor: x.posicion,
+              mac: '',
+              // descripcion: '',
+              sensores: '',
+            })
+          }        
+        });
+        this.MedicionChange();
       },
       error: (e) => this._util.processError(e)
     });
@@ -242,13 +245,13 @@ export class NodoFormComponent implements OnInit {
       this._service.save(formValues, this._isNew).subscribe({
         next: (data) => {
           this._util.alertSuccess(data.message, `Mantenedor de ${this._entity}:`);
-          if (this._isNew || this._medicionesChange){
+          if (this._isNew || this._medicionesChange) {
             this.dataObject = data.nodo;
             this.saveMediciones();
           }
-          else{
+          else {
             this.closeMe();
-          }            
+          }
         },
         error: (e) => this._util.processError(e)
       });
@@ -286,7 +289,7 @@ export class NodoFormComponent implements OnInit {
     this.queryForm.get('pilaId')?.updateValueAndValidity();
   }
 
-  MedicionChange(){
+  MedicionChange() {
     this._medicionesChange = true;
   }
 }

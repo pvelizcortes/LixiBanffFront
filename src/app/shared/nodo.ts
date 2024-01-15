@@ -17,7 +17,7 @@ export interface Nodo {
 }
 
 export interface NodoMediciones {
-    posicion: number,
+    posicionSensor: number,
     mac: string,
     descripcion: string,
     sensores: string

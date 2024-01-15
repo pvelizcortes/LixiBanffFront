@@ -27,11 +27,6 @@ export class PilaFormComponent implements OnInit {
   // Form
   queryForm: FormGroup;
 
-  // Maps
-  // @ViewChild('map') mapElement: any;
-  // map: google.maps.Map;
-  // marker: google.maps.Marker;
-
   // ** Constructor **
   constructor(public dialogRef: MatDialogRef<PilaFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Pila,
@@ -42,28 +37,7 @@ export class PilaFormComponent implements OnInit {
     data ? this.Editing(data) : this.Creating();
   }
   ngOnInit(): void {
-    // MAP
-    // setTimeout(() => {
-    //   this.CreateMap();
-    // }, 2000);
   }
-
-  // MAP
-  // CreateMap() {
-  //   this.map = new google.maps.Map(this.mapElement.nativeElement);
-  //   this.marker = new google.maps.Marker({
-  //     map: this.map
-  //   });
-  //   this.centerInPoint(GlobalConstants.initMapLatLng);
-  //   this.map.addListener("click", (mapsMouseEvent) => {
-  //     this.centerInPoint(mapsMouseEvent.latLng);
-  //   });
-  //   if (!this._isNew) {
-  //     var latLng = this.dataObject.latLongPila.split(',');     
-  //     var glatlng = new google.maps.LatLng(Number(latLng[0]), Number(latLng[1]));
-  //     this.centerInPoint(glatlng);
-  //   }
-  // }
 
   CreateForm() {
     this.queryForm = this.formBuilder.group({
@@ -71,7 +45,6 @@ export class PilaFormComponent implements OnInit {
       //posicionPila: [0, [Validators.required]],
       codigoPila: ['', [Validators.required]],
       nombrePila: ['', [Validators.required]],
-      cantidadPanos: [0, [Validators.required]],
       anchoPila: [0, [Validators.required]],
       largoPila: [0, [Validators.required]],
       altoPila: [0],
@@ -94,11 +67,9 @@ export class PilaFormComponent implements OnInit {
     this._title = 'Editando ' + this._entity + ': ' + this.dataObject.nombrePila;
     this.queryForm.patchValue(
       {
-        pilaId: this.dataObject.pilaId,
-        //posicionPila: this.dataObject.posicionPila,
+        pilaId: this.dataObject.pilaId,      
         codigoPila: this.dataObject.codigoPila,
         nombrePila: this.dataObject.nombrePila,
-        cantidadPanos: this.dataObject.cantidadPanos,
         anchoPila: this.dataObject.anchoPila,
         largoPila: this.dataObject.largoPila,
         altoPila: this.dataObject.altoPila,
@@ -152,24 +123,4 @@ export class PilaFormComponent implements OnInit {
   closeMe() {
     this.dialogRef.close(this.dataObject);
   }
-
-  // Maps
-  // buscarGPS() {
-  //   const formValues = <any>this.queryForm.getRawValue();
-  //   this.centerInPoint(new google.maps.LatLng(Number(formValues.latitudPila), Number(formValues.longitudPila)));
-  // }
-
-  // centerInPoint(position: google.maps.LatLng) {
-  //   this.marker.setPosition(position);
-  //   var jsonPosition = position.toJSON();
-  //   this.queryForm.controls['latitudPila'].setValue(jsonPosition.lat);
-  //   this.queryForm.controls['longitudPila'].setValue(jsonPosition.lng);
-  //   this.queryForm.controls['latLongPila'].setValue(jsonPosition.lat.toString() + ',' + jsonPosition.lng.toString());
-  //   const mapProperties = {
-  //     center: position,
-  //     zoom: 13,
-  //     mapTypeId: google.maps.MapTypeId.HYBRID
-  //   };
-  //   this.map.setOptions(mapProperties);
-  // }
 }
