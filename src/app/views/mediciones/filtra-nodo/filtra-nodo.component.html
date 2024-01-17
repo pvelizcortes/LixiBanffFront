@@ -1,14 +1,14 @@
 <c-container fluid>
     <c-row>
         <c-col sm="12">
-            <c-accordion>
+            <!-- <c-accordion>
                 <c-accordion-item #item0="cAccordionItem" [visible]="true">
                     <ng-template cTemplateId="accordionHeaderTemplate">
                         <button (click)="item0.toggleItem()" [collapsed]="!item0.visible" cAccordionButton>
                             <i class="fa fa-filter"></i> <b>Filtros</b>
                         </button>
                     </ng-template>
-                    <ng-template cTemplateId="accordionBodyTemplate">
+                    <ng-template cTemplateId="accordionBodyTemplate"> -->
                         <div class="accordion-body">
                             <form [formGroup]="queryForm" class="form-row" (ngSubmit)="onSubmit()">                                
                                 <c-row>
@@ -73,14 +73,14 @@
                                         <input matInput formControlName="to" type="date">
                                     </mat-form-field>
                                     <c-col sm="4">
-                                        <button cButton color="warning" (click)="onSubmit()" class="mr-1"><i class="fa fa-search"></i> Buscar</button>
+                                        <button cButton color="warning" (click)="onSubmit()" class="mr-1"><i class="fa fa-search"></i> Filtrar</button>
                                     </c-col>
                                 </c-row>
                             </form>
                         </div>
-                    </ng-template>
+                    <!-- </ng-template>
                 </c-accordion-item>
-            </c-accordion>
+            </c-accordion> -->
         </c-col>
     </c-row>
     <br>

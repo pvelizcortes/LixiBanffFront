@@ -37,7 +37,7 @@ export class FiltraPilaComponent implements OnInit {
   _noSearchResults: string = GlobalConstants.noSearchResults;
   _showModal: boolean = false;
   // MAT TABLE
-  displayedColumns: string[] = ['tipoNodo', 'nombreSensor', 'promedio'];
+  displayedColumns: string[] = ['nivel', 'nombreSensor', 'promedio'];
   dataSource = new MatTableDataSource();
   dataSource2: any;
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
@@ -51,17 +51,16 @@ export class FiltraPilaComponent implements OnInit {
 
   _dataZona: any[];
   _zonaSelected: any;
+  _pilaSelected: any;
+  dataJson:any;
 
   constructor(
     private formBuilder: FormBuilder,
-    private _service: NodoService,
-    private _confirm: ConfirmationService,
     private _util: UtilsService,
     private _servicePila: PilaService,
     private _servicePano: PanoService,
-    private _serviceNodo: NodoService,
-    private _serviceZona: ZonaService,
-    private _dynamoDB: DynamodbService) {
+    private _serviceZona: ZonaService,    
+    private _dynamoService: DynamodbService) {
     this.CreateForm();
   }
 
@@ -71,11 +70,7 @@ export class FiltraPilaComponent implements OnInit {
 
   CreateForm() {
     this.queryForm = this.formBuilder.group({
-      // from: ['', [Validators.required]],
-      // to: ['', [Validators.required]],
-      pilaId: [0],  // FK
-      // panoId: [0, [Validators.required, Validators.min(1)]],  // FK  
-      //nodoId: [0, [Validators.required, Validators.min(1)]], //PK
+      pilaId: [0],
       zonaId: [0, [Validators.required, Validators.min(1)]],  // FK
     });
   }
@@ -98,24 +93,12 @@ export class FiltraPilaComponent implements OnInit {
   onSubmit(): void {
     if (this.queryForm.valid) {
       const formValues = <any>this.queryForm.getRawValue();
-      this._serviceNodo.getMedicionesByPila(formValues.pilaId).subscribe({
-        next: (data) => {
-          console.log(data);
-          this.dataSource.data = data.promedios;
-          this.dataSource.paginator = this.paginator;
-
-          this.dataSource2 = data.allData;
+      this._dynamoService.GetPilaData(this._pilaSelected).subscribe({
+        next: (data) => {          
+          this.dataSource2 = data.valores.map((obj: any) => ({ ...obj, valorSensor: JSON.parse(obj.valor) }));
         },
         error: (e) => this._util.processError(e)
       });
-      // this._dynamoDB.FilterByPila(formValues.from, formValues.to, formValues.pilaId).subscribe({
-      //   next: (data) => {
-      //     console.log(data);
-      //     this.dataSource.data = data;
-      //     this.dataSource.paginator = this.paginator;
-      //   },
-      //   error: (e) => this._util.processError(e)
-      // });
     }
     else {
       this.queryForm.markAllAsTouched();
@@ -123,6 +106,7 @@ export class FiltraPilaComponent implements OnInit {
   }
 
   PilaChange(pilaId: number) {
+    this._pilaSelected = pilaId;
     // this.GetPanosToSelect(pilaId);
     //this.GetNodosToSelect(pilaId, this._zonaSelected.id);
   }

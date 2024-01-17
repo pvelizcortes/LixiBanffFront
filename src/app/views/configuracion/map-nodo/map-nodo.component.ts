@@ -89,7 +89,7 @@ export class MapNodoComponent implements OnInit {
     for (i = 0; i < this._nodosMap.length; i++) {
 
       var image = {
-        url: '',
+        url: 'https://www.tecnodret.es/wp-content/uploads/2017/02/map-marker-icon-768x768.png',
         size: new google.maps.Size(100, 100),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
@@ -100,19 +100,22 @@ export class MapNodoComponent implements OnInit {
         image.url = "https://www.tecnodret.es/wp-content/uploads/2017/02/map-marker-icon-768x768.png"
       if (this._nodosMap[i].tipoNodo.nombreTipoNodo == "NODO HORIZONTAL")
         image.url = "https://cdn-icons-png.flaticon.com/512/4467/4467108.png"
+      if (this._nodosMap[i].tipoNodo.nombreTipoNodo == "PRESIÓN EN LA LÍNEA")
+        image.url = " https://icon-library.com/images/google-map-marker-icon/google-map-marker-icon-14.jpg"
+
 
       marker = new google.maps.Marker({
         position: new google.maps.LatLng(this._nodosMap[i].latLongNodo.split(',')[0], this._nodosMap[i].latLongNodo.split(',')[1]),
         map: this.map,
         icon: image,
-        label: {text: this._nodosMap[i].nombreNodo, color: "white"}
+        label: { text: this._nodosMap[i].nombreNodo, color: "white" }
       });
 
       // process multiple info windows
       ((marker, i) => {
         // add click event
         google.maps.event.addListener(marker, 'click', () => {
-          this.returnInfoWindowHtml(this._nodosMap[i]);          
+          this.returnInfoWindowHtml(this._nodosMap[i]);
         });
       })(marker, i);
     }
@@ -133,7 +136,7 @@ export class MapNodoComponent implements OnInit {
     this.map.setOptions(mapProperties);
   }
 
-  Cerrar(){
+  Cerrar() {
     this.selectedNodo = null;
   }
   // END MAPS

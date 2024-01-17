@@ -25,10 +25,10 @@ const routes: Routes = [
         }
       },   
       {
-        path: 'clients',
+        path: 'projects',
         component: AdminClientsComponent,
         data: {
-          title: 'Clientes'
+          title: 'Proyectos'
         }
       },
       {

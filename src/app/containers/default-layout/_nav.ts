@@ -13,7 +13,7 @@ export const navItems: INavData[] = [
     attributes: { security: 99, id: 0 }
   },
   {
-    name: 'Filtrar por Nodo',
+    name: 'Mediciones Nodo',
     url: '/mediciones/filtra-nodo',
     iconComponent: { name: 'cil-list' },
     attributes: { security: 99, id: 1 }
@@ -70,8 +70,8 @@ export const navItems: INavData[] = [
     attributes: { security: 0, id: 6 }
   },
   {
-    name: 'Clientes',
-    url: '/admin/clients',
+    name: 'Proyectos',
+    url: '/admin/projects',
     iconComponent: { name: 'cil-contact' },
     attributes: { security: 0, id: 6 }
   } 

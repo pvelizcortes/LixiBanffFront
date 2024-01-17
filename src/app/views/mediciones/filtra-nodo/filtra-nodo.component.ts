@@ -96,15 +96,16 @@ export class FiltraNodoComponent implements OnInit {
 
   onSubmit(): void {
     if (this.queryForm.valid) {
-      const formValues = <any>this.queryForm.getRawValue();
-      this._dynamoDB.FilterByNodo(formValues.from, formValues.to, formValues.nodoId).subscribe({
-        next: (data) => {
-          console.log(data);
-          this.dataSource.data = data;
-          this.dataSource.paginator = this.paginator;
-        },
-        error: (e) => this._util.processError(e)
-      });
+      // const formValues = <any>this.queryForm.getRawValue();
+      // this._dynamoDB.FilterByNodo(formValues.from, formValues.to, formValues.nodoId).subscribe({
+      //   next: (data) => {
+      //     console.log(data);
+      //     this.dataSource.data = data;
+      //     this.dataSource.paginator = this.paginator;
+      //   },
+      //   error: (e) => this._util.processError(e)
+      // });
+      this._util.alertWarning("En desarrollo por cambios en Dynamo", "En Desarrollo");
     }
     else {
       this.queryForm.markAllAsTouched();
