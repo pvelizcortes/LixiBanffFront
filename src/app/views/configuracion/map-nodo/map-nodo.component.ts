@@ -25,6 +25,7 @@ export class MapNodoComponent implements OnInit {
   _saveButtonName: string = GlobalConstants.saveButtonName;
   _closeButtonName: string = GlobalConstants.closeButtonName;
   _isNew: boolean = true;
+  nombrePila: string = '';
   // Form
   queryForm: FormGroup;
   // Select Data
@@ -64,6 +65,7 @@ export class MapNodoComponent implements OnInit {
     this._dynamoService.GetPilaData(pilaId).subscribe({
       next: (data) => {
         console.log(data);
+        this.nombrePila = data.nombrePila;
         this._nodosMap = data.nodos;
         this._valoresMap = data.valores.map((obj: any) => ({ ...obj, valorSensor: JSON.parse(obj.valor) }));
         // MAP
@@ -89,26 +91,25 @@ export class MapNodoComponent implements OnInit {
     for (i = 0; i < this._nodosMap.length; i++) {
 
       var image = {
-        url: 'https://www.tecnodret.es/wp-content/uploads/2017/02/map-marker-icon-768x768.png',
+        url: '',
         size: new google.maps.Size(100, 100),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
-        scaledSize: new google.maps.Size(50, 50)
+        scaledSize: new google.maps.Size(40, 40)
       };
 
       if (this._nodosMap[i].tipoNodo.nombreTipoNodo == "NODO VERTICAL")
-        image.url = "https://www.tecnodret.es/wp-content/uploads/2017/02/map-marker-icon-768x768.png"
+        image.url = "assets/img/maps/rfid.png"
       if (this._nodosMap[i].tipoNodo.nombreTipoNodo == "NODO HORIZONTAL")
-        image.url = "https://cdn-icons-png.flaticon.com/512/4467/4467108.png"
+        image.url = "assets/img/maps/rfid.png"
       if (this._nodosMap[i].tipoNodo.nombreTipoNodo == "PRESIÓN EN LA LÍNEA")
-        image.url = " https://icon-library.com/images/google-map-marker-icon/google-map-marker-icon-14.jpg"
-
+        image.url = "assets/img/maps/rfid.png"
 
       marker = new google.maps.Marker({
         position: new google.maps.LatLng(this._nodosMap[i].latLongNodo.split(',')[0], this._nodosMap[i].latLongNodo.split(',')[1]),
         map: this.map,
         icon: image,
-        label: { text: this._nodosMap[i].nombreNodo, color: "white" }
+        label: { text: this._nodosMap[i].nombreNodo, color: "white", fontWeight: "bold" }
       });
 
       // process multiple info windows

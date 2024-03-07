@@ -6,7 +6,7 @@ export const navItems: INavData[] = [
     url: '/dashboard',
     iconComponent: { name: 'cil-speedometer' },
     attributes: { security: 99, id: 0 }
-  },
+  },  
   {
     title: true,
     name: 'Reportes',
@@ -68,6 +68,12 @@ export const navItems: INavData[] = [
     title: true,
     name: 'Super Administrador',
     attributes: { security: 0, id: 6 }
+  },
+  {
+    name: 'AdminDashboard',
+    url: '/admin/admin-dashboard',
+    iconComponent: { name: 'cil-speedometer' },
+    attributes: { security: 0, id: 7 }
   },
   {
     name: 'Proyectos',

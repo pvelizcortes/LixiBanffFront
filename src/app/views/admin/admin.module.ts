@@ -14,11 +14,16 @@ import { MatDialogModule } from "@angular/material/dialog";
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { IconModule } from '@coreui/icons-angular';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { NgChartsModule } from 'ng2-charts';
+import { DatePipe } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 
 // Components
 import { AdminClientsComponent } from './admin-clients/admin-clients.component';
 import { AdminClientsFormComponent } from './admin-clients/admin-clients-form/admin-clients-form.component';
 import { AdminClientsNodoComponent } from './admin-clients/admin-clientes-nodo/admin-clients-nodo.component';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 
 import { AdminUsersComponent } from './admin-users/admin-users.component';
 import { AdminUsersFormComponent } from './admin-users/admin-users-form/admin-users-form.component';
@@ -39,8 +44,11 @@ import {
   UtilitiesModule,
   TableModule,
   ModalModule,
-  AlertModule  
+  AlertModule,
+  WidgetModule,
+  AccordionModule
 } from '@coreui/angular';
+
 
 @NgModule({
   declarations: [
@@ -48,7 +56,8 @@ import {
     AdminClientsFormComponent,
     AdminClientsNodoComponent,
     AdminUsersFormComponent,
-    AdminUsersComponent
+    AdminUsersComponent,
+    AdminDashboardComponent
   ],
   imports: [
     CommonModule,
@@ -63,6 +72,12 @@ import {
     SharedModule,
     FormModule,
     ReactiveFormsModule,
+    NavbarModule,
+    CollapseModule,
+    NavModule,
+    NavbarModule,
+    NgChartsModule,
+    HttpClientModule,
     FormsModule,
     NavbarModule,
     CollapseModule,
@@ -79,8 +94,11 @@ import {
     MatDialogModule,
     MatButtonModule,
     MatSelectModule,
+    NgxMatSelectSearchModule,
     MatInputModule,
-    AlertModule
+    AlertModule,
+    WidgetModule,
+    AccordionModule
   ]
 })
 export class AdminModule {

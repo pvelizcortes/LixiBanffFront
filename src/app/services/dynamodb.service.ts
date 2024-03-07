@@ -19,13 +19,14 @@ export class DynamodbService {
   }
 
   // DynamoDB
-  FilterByNodo(from: Date, to: Date, nodoId: number): Observable<any> {
+  FilterByTipoNodo(from: Date, to: Date, tipoNodoId: number, pilaId: number): Observable<any> {
     let queryParams = {
       "from": from.toString(),
       "to": to.toString(),
-      "nodoId": nodoId.toString()
+      "tipoNodoId": tipoNodoId.toString(),
+      "pilaId": pilaId.toString()
     };
-    return this.http.get(this.myAppUrl + this.principalUrl + 'FiltrarPorNodo', { params: queryParams });
+    return this.http.get(this.myAppUrl + this.principalUrl + 'FiltrarPorTipoNodo', { params: queryParams });
   }
 
   FilterByPila(from: Date, to: Date, pilaId: number): Observable<any> {

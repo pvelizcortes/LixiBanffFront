@@ -46,7 +46,8 @@ export class FiltraNodoComponent implements OnInit {
   // SELECT DATA
   _dataPila: any[];
   _dataPano: any[];
-  _dataNodo: any[];
+  _dataTipoNodo: any[];
+  dataSource2: any;
 
   _dataZona: any[];
   _zonaSelected: any;
@@ -74,7 +75,7 @@ export class FiltraNodoComponent implements OnInit {
       to: ['', [Validators.required]],
       pilaId: [0],  // FK
       // panoId: [0, [Validators.required, Validators.min(1)]],  // FK  
-      nodoId: [0, [Validators.required, Validators.min(1)]], //PK
+      tipoNodoId: [0, [Validators.required, Validators.min(1)]], //PK
       zonaId: [0, [Validators.required, Validators.min(1)]],  // FK
     });
   }
@@ -96,16 +97,13 @@ export class FiltraNodoComponent implements OnInit {
 
   onSubmit(): void {
     if (this.queryForm.valid) {
-      // const formValues = <any>this.queryForm.getRawValue();
-      // this._dynamoDB.FilterByNodo(formValues.from, formValues.to, formValues.nodoId).subscribe({
-      //   next: (data) => {
-      //     console.log(data);
-      //     this.dataSource.data = data;
-      //     this.dataSource.paginator = this.paginator;
-      //   },
-      //   error: (e) => this._util.processError(e)
-      // });
-      this._util.alertWarning("En desarrollo por cambios en Dynamo", "En Desarrollo");
+      const formValues = <any>this.queryForm.getRawValue();
+      this._dynamoDB.FilterByTipoNodo(formValues.from, formValues.to, formValues.tipoNodoId, formValues.pilaId).subscribe({
+        next: (data) => {
+          this.dataSource2 = data.valores.map((obj: any) => ({ ...obj, valorSensor: JSON.parse(obj.valor) }));
+        },
+        error: (e) => this._util.processError(e)
+      });
     }
     else {
       this.queryForm.markAllAsTouched();
@@ -114,7 +112,7 @@ export class FiltraNodoComponent implements OnInit {
 
   PilaChange(pilaId: number) {
     // this.GetPanosToSelect(pilaId);
-    this.GetNodosToSelect(pilaId, this._zonaSelected.id);
+    this.GetTipoNodoToSelect();
   }
 
   // PanoChange(pilaId: number) {
@@ -160,16 +158,10 @@ export class FiltraNodoComponent implements OnInit {
     });
   }
 
-  GetNodosToSelect(pilaId: number, zonaId: number) {
-    this._serviceNodo.getSelect(pilaId, zonaId).subscribe({
+  GetTipoNodoToSelect() {
+    this._serviceNodo.getTipoNodoSelect().subscribe({
       next: (data) => {
-        this._dataNodo = data;
-        if (data.length > 0) {
-          this.queryForm.get('nodoId')?.enable();
-        }
-        else {
-          this.queryForm.get('nodoId')?.disable();
-        }
+        this._dataTipoNodo = data;
       },
       error: (e) => this._util.processError(e)
     });
@@ -186,7 +178,7 @@ export class FiltraNodoComponent implements OnInit {
     }
     else {
       this.queryForm.get('pilaId')?.removeValidators(Validators.required);
-      this.GetNodosToSelect(0, zonaId);
+      this.GetTipoNodoToSelect();
 
     }
     this.queryForm.get('pilaId')?.updateValueAndValidity();

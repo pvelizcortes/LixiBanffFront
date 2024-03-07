@@ -38,8 +38,9 @@ export class LoginComponent {
         this.loginService.getUserInfo(usuario).subscribe({
           next: (userData) => {
             // Set User Data in Session
-            this.loginService.setUserInfo(userData.user);            
-            this.router.navigate(['/dashboard']);
+            this.loginService.setUserInfo(userData.user);
+            let user = this.loginService.getUser();            
+            this.router.navigate([user.isSuperAdmin ? '/admin/admin-dashboard' : '/dashboard']);
           },
           error: (error) => {
 
