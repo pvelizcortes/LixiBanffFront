@@ -2,32 +2,29 @@
     <h1 mat-dialog-title><svg cIcon size="xl" name="cil-equalizer" class="icon-back-color-warning mr-1"></svg>{{_title}}
     </h1>
     <div mat-dialog-content>
-        <c-row>
+        <c-row>            
             <c-col sm="12">
-                <h2><b>Tipos de Nodo para el Proyecto</b></h2>
-            </c-col>
-            <c-col sm="12">
-                <div *ngFor="let item of _dataTipoNodo">
+                <div *ngFor="let item of _dataTipoNodo" class="py-2">
                     <c-row>
                         <c-col sm="4">
-                            <input type="checkbox" name="item.id" [(ngModel)]="item.isChecked">
-                            <label for="item.id">{{item.text}}</label>
+                            <input cFormCheckInput color="warning" type="checkbox" name="item.id" [(ngModel)]="item.isChecked">
+                            <label cFormCheckLabel for="item.id" class="px-2"><strong>{{item.text}}</strong></label>
                         </c-col>
                         <c-col sm="4">
                             <table>
                                 <tr>
-                                    <td>Niveles: </td>
-                                    <td><input matInput placeholder="Niveles" autocomplete="off"
-                                            class="ml-1 border input-sm" [(ngModel)]="item.niveles" type="number"
+                                    <td class="px-2"><strong>N° Niveles:</strong></td>
+                                    <td class="px-2"><input matInput placeholder="Niveles" autocomplete="off" cFormControl
+                                            class="ml-2 border input-sm" [(ngModel)]="item.niveles" type="number"
                                             [ngModelOptions]="{standalone: true}">
                                     </td>
-                                    <td><button cButton size="sm" color="warning"
+                                    <td class="px-2"><button cButton size="sm" color="warning"
                                             (click)="Generate(item)">Generar</button></td>
                                 </tr>
                             </table>
                         </c-col>
                         <c-col sm="4">
-                            <table cTable *ngIf="item.cantMacs.length > 0">
+                            <table cTable *ngIf="item.cantMacs.length > 0" border="1">
                                 <thead>
                                     <tr>
                                         <th>Nivel</th>
@@ -37,7 +34,7 @@
                                 <tbody>
                                     <tr *ngFor="let x of item.cantMacs">
                                         <td>{{x.posicion}}</td>
-                                        <td><input matInput placeholder="Mac" autocomplete="off" type="number"
+                                        <td><input matInput placeholder="Mac" autocomplete="off" type="number" cFormControl
                                                 class="ml-1 border input-sm" [(ngModel)]="x.cantidad"
                                                 [ngModelOptions]="{standalone: true}"></td>
                                     </tr>

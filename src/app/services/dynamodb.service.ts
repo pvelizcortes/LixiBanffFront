@@ -38,6 +38,15 @@ export class DynamodbService {
     return this.http.get(this.myAppUrl + this.principalUrl + 'FiltrarPorPila', { params: queryParams });
   }
 
+  getChartData(from: Date, to: Date, pilaId: number): Observable<any> {
+    let queryParams = {
+      "from": from.toString(),
+      "to": to.toString(),
+      "pilaId": pilaId.toString()
+    };
+    return this.http.get(this.myAppUrl + this.principalUrl + 'ChartData', { params: queryParams });
+  }
+
   GetPilaData(pilaId: number): Observable<any> {
     return this.http.get(this.myAppUrl + this.principalUrl + 'GetPilaData', { params: { pilaId: pilaId } });
   }

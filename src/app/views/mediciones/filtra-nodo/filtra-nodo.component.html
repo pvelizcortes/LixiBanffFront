@@ -1,5 +1,10 @@
 <c-container fluid class="px-4 py-4">
     <c-row>
+        <c-col sm="12">
+            <h4><strong>{{_title}}</strong></h4>
+        </c-col>
+    </c-row>
+    <c-row>
         <c-col sm="12">           
             <div class="accordion-body">
                 <form [formGroup]="queryForm" class="form-row" (ngSubmit)="onSubmit()">
@@ -60,31 +65,62 @@
         </c-col>
     </c-row>
     <br>
-    <c-row>        
+    <c-row>
+        <c-col sm="12">
+            <c-card>
+                <c-card-body>
+                    <c-row>                                              
+                        <c-col sm="2" class="text-right">
+                            <button cButton color="success" matTooltip="EXPORTAR EXCEL" variant="outline"
+                                class="btn btn-sm mr-1" (click)="exporter.exportTable('xlsx', {fileName:_title})"><svg
+                                    cIcon size="md" name="cil-spreadsheet"></svg></button>
+                            <button cButton color="danger" matTooltip="EXPORTAR PDF" variant="outline"
+                                class="btn btn-sm" (click)="ExportPDF();"><svg cIcon size="md"
+                                    name="cil-notes"></svg></button>
+                        </c-col>
+                        <c-col sm="2">
+                            <input cFormControl class="mb-2" placeholder="{{_searchText}}" type="text"
+                                (keyup)="applyFilter($event)" />
+                        </c-col>
+                    </c-row>
+                </c-card-body>
+            </c-card>
+        </c-col>
         <c-col sm="12" class="flow-table">
             <ng-container>
-                <table class="table custom-table table-hover table-bordered table-sm">
-                    <thead>
-                        <tr>
-                            <th>Tipo Nodo</th>
-                            <th>Nodo</th>
-                            <th>Nivel</th>
-                            <th>Sensor</th>
-                            <th>Alias</th>
-                            <th>Valor</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let option of dataSource2">
-                            <td>{{ option.nombreTipoNodo }}</td>
-                            <td>{{ option.nombreNodo }}</td>
-                            <td>{{ option.nivel }}</td>
-                            <td>{{ option.sensor }}</td>
-                            <td>{{ option.aliasSensor }}</td>
-                            <td>{{ option.valorSensor.Value }}</td>
-                        </tr>
-                    </tbody>
+                <table mat-table [dataSource]="dataSource"
+                    class="table custom-table table-hover table-bordered table-sm" matTableExporter
+                    #exporter="matTableExporter" matSort #tableSort="matSort" id="principalTable" #principalTable>                    
+                    <ng-container matColumnDef="fechaHora">
+                        <th mat-header-cell mat-sort-header *matHeaderCellDef class="table-header-text">FECHA</th>
+                        <td mat-cell *matCellDef="let item" class="p-2 vert-td">{{ item.fechaHora.Value | date:'dd/MM/yyyy hh:mm' }}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="nombreNodo">
+                        <th mat-header-cell mat-sort-header *matHeaderCellDef class="table-header-text">NODO</th>
+                        <td mat-cell *matCellDef="let item" class="p-2 vert-td"><b>{{ item.nombreNodo }}</b></td>
+                    </ng-container>          
+                    <ng-container matColumnDef="nivel">
+                        <th mat-header-cell mat-sort-header *matHeaderCellDef class="table-header-text">NIVEL</th>
+                        <td mat-cell *matCellDef="let item" class="p-2 vert-td"><b>{{ item.nivel }}</b></td>
+                    </ng-container>            
+                    <ng-container matColumnDef="sensor">
+                        <th mat-header-cell mat-sort-header *matHeaderCellDef class="table-header-text">SENSOR</th>
+                        <td mat-cell *matCellDef="let item" class="p-2 vert-td"><b>{{ item.sensor }}</b> - <small> {{item.aliasSensor }} </small></td>
+                    </ng-container>
+                    <ng-container matColumnDef="valorSensor.Value">
+                        <th mat-header-cell mat-sort-header *matHeaderCellDef class="table-header-text">VALOR</th>
+                        <td mat-cell *matCellDef="let item" class="p-2 vert-td"><b>{{ item.valorSensor.Value }}</b></td>
+                    </ng-container>
+                    
+                    <tr mat-header-row class="table-header-row" *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let item; columns: displayedColumns"></tr>
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell text-center" [attr.colspan]="displayedColumns.length">
+                            <b>{{_noSearchResults}}</b>
+                        </td>
+                    </tr>
                 </table>
+                <mat-paginator [pageSizeOptions]="_pageSizeOptions" showFirstLastButtons></mat-paginator>
             </ng-container>
         </c-col>
     </c-row>

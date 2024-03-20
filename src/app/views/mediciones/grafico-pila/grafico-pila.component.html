@@ -1,11 +1,6 @@
-<c-container fluid class="px-4 py-4">
+<c-container fluid class="px-4 py-4"> 
     <c-row>
-        <c-col sm="12">
-            <h4><strong>{{_title}}</strong></h4>
-        </c-col>
-    </c-row>
-    <c-row>
-        <c-col sm="12">            
+        <c-col sm="12">           
             <div class="accordion-body">
                 <form [formGroup]="queryForm" class="form-row" (ngSubmit)="onSubmit()">
                     <c-row>
@@ -23,7 +18,7 @@
                         </mat-form-field>
                         <mat-form-field class="col-sm-4" *ngIf="_zonaSelected?.text == 'PILA'">
                             <mat-label><b>Pila</b></mat-label>
-                            <mat-select formControlName="pilaId" (selectionChange)="PilaChange($event.value)">
+                            <mat-select formControlName="pilaId">
                                 <mat-option [value]="0" selected>-- Seleccione</mat-option>
                                 <mat-option *ngFor="let option of _dataPila" [value]="option.id">
                                     {{option.text}}
@@ -33,42 +28,31 @@
                                 Seleccione una opción.
                             </mat-error>
                         </mat-form-field>
+                    </c-row>
+                    <c-row>
+                        <mat-form-field class="col-sm-4">
+                            <mat-label><b>Desde</b></mat-label>
+                            <input matInput formControlName="from" type="date">
+                        </mat-form-field>
+                        <mat-form-field class="col-sm-4">
+                            <mat-label><b>Hasta</b></mat-label>
+                            <input matInput formControlName="to" type="date">
+                        </mat-form-field>
                         <c-col sm="4">
-                            <button cButton color="warning" (click)="onSubmit()" class="mr-1" *ngIf="_pilaSelected"><i
+                            <button cButton color="warning" (click)="onSubmit()" class="mr-1"><i
                                     class="fa fa-search"></i> Filtrar</button>
                         </c-col>
-                    </c-row>                   
+                    </c-row>
                 </form>
-            </div>          
+            </div>           
         </c-col>
     </c-row>
-    <br>   
-    <c-row>        
-        <c-col sm="12" class="flow-table">
-            <ng-container>
-                <table class="table custom-table table-hover table-bordered table-sm">
-                    <thead>
-                        <tr>
-                            <th>Tipo Nodo</th>
-                            <th>Nodo</th>
-                            <th>Nivel</th>
-                            <th>Sensor</th>
-                            <th>Alias</th>
-                            <th>Valor</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let option of dataSource2">
-                            <td>{{ option.nombreTipoNodo }}</td>
-                            <td>{{ option.nombreNodo }}</td>
-                            <td>{{ option.nivel }}</td>
-                            <td>{{ option.sensor }}</td>
-                            <td>{{ option.aliasSensor }}</td>
-                            <td>{{ option.valorSensor.Value }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </ng-container>
+    <br>
+    <c-row>
+        <c-col sm="12" class="flow-table" *ngIf="showChart">
+            <h4><strong>{{_title}}</strong></h4>
+            <canvas baseChart [data]="barChartData" [options]="barChartOptions" [type]="barChartType" id="MyChart">
+            </canvas>
         </c-col>
     </c-row>
 </c-container>

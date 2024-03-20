@@ -1,59 +1,64 @@
 <c-container fluid class="px-4 py-4">
   <c-row>
-    <c-col class="col-md-12">
+    <c-col class="{{!isDashboard ? 'col-md-12' : 'col-md-8' }}">
       <div #map style="width:100%;height:88vh;"></div>
-    </c-col>   
+    </c-col> 
+    <c-col class="{{!isDashboard ? 'col-md-12' : 'col-md-4' }}">
+      <div id="{{!isDashboard ? 'info-container' : '' }}" >
+        <c-col sm="6">
+          <div class="border-start border-start-4 border-start-warning py-1 px-3">
+            <div class="text-medium-emphasis small">PILA</div>
+            <div class="fs-5 fw-semibold">{{nombrePila}}</div>
+          </div>
+        </c-col>
+        <br>
+        <div *ngIf="!selectedNodo">
+          <c-alert color="warning" class="d-flex align-items-center">
+            <div><i class="fa-solid fa-circle-exclamation"></i>
+              Seleccione un pin en el mapa para ver las mediciones
+            </div>
+          </c-alert>
+        </div>
+        <div *ngIf="selectedNodo">    
+          <c-row>
+            <c-col sm="6">
+              <div class="border-start border-start-4 border-start-warning py-1 px-3">
+                <div class="text-medium-emphasis small">NODO</div>
+                <div class="fs-5 fw-semibold">{{selectedNodo?.nombreNodo}}</div>
+              </div>
+            </c-col>
+            <c-col sm="6">
+              <div class="border-start border-start-4 border-start-warning py-1 px-3 mb-3">
+                <div class="text-medium-emphasis small">TIPO</div>
+                <div class="fs-5 fw-semibold">{{selectedNodo?.tipoNodo?.nombreTipoNodo}}</div>
+              </div>
+            </c-col>
+          </c-row>
+          <hr>
+          <table cTable [striped]="true" bordered>
+            <thead>
+              <tr>
+                <th>Hora</th>
+                <th>Nivel</th>
+                <th>Sensor</th>
+                <th>Valor</th>
+              
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let element of selectedValores">
+                <td class="text-center"><small>{{element.fechaHora.Value | date:'dd/MM/yyyy hh:mm'}}</small></td>
+                <td class="text-center"><b>{{element.nivel}}</b></td>
+                <td><b>{{element.sensor}}</b> <small><i> ({{element.aliasSensor}})</i></small></td>
+                <td><b>{{element.valorSensor.Value}}</b></td>
+              </tr>
+            </tbody>
+          </table>
+          <small><i>Ultima actualización*</i></small>
+        </div>
+      </div>
+    </c-col>      
   </c-row>
 
-  <div id="info-container">
-    <c-col sm="6">
-      <div class="border-start border-start-4 border-start-info py-1 px-3">
-        <div class="text-medium-emphasis small">Pila</div>
-        <div class="fs-5 fw-semibold">{{nombrePila}}</div>
-      </div>
-    </c-col>
-    <br>
-    <div *ngIf="!selectedNodo">
-      <c-alert color="warning" class="d-flex align-items-center">
-        <div><i class="fa-solid fa-circle-exclamation"></i>
-          Seleccione un pin en el mapa para ver las mediciones
-        </div>
-      </c-alert>
-    </div>
-    <div *ngIf="selectedNodo">    
-      <c-row>
-        <c-col sm="6">
-          <div class="border-start border-start-4 border-start-info py-1 px-3">
-            <div class="text-medium-emphasis small">NODO</div>
-            <div class="fs-5 fw-semibold">{{selectedNodo?.nombreNodo}}</div>
-          </div>
-        </c-col>
-        <c-col sm="6">
-          <div class="border-start border-start-4 border-start-danger py-1 px-3 mb-3">
-            <div class="text-medium-emphasis small">TIPO</div>
-            <div class="fs-5 fw-semibold">{{selectedNodo?.tipoNodo?.nombreTipoNodo}}</div>
-          </div>
-        </c-col>
-      </c-row>
-      <hr>
-      <table cTable [striped]="true" bordered>
-        <thead>
-          <tr>
-            <th>Nivel</th>
-            <th>Sensor</th>
-            <th>Valor</th>
-          
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let element of selectedValores">
-            <td class="text-center"><b>{{element.nivel}}</b></td>
-            <td><b>{{element.sensor}}</b> <small><i> ({{element.aliasSensor}})</i></small></td>
-            <td><b>{{element.valorSensor.Value}}</b></td>
-          </tr>
-        </tbody>
-      </table>
-      <small><i>Ultima actualización*</i></small>
-    </div>
-  </div>
+  
 </c-container>

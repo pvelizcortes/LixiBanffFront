@@ -27,12 +27,27 @@
   <app-default-header class="d-print-none header header-sticky" position="sticky"
     sidebarId="sidebar"></app-default-header>
   <!--app-body-->
-  <div class="body flex-grow-1 px-2 py-0">
+  <div class="body flex-grow-1 px-4 py-4">
       <router-outlet></router-outlet>  
   </div>
   <!--app footer-->
   <div *ngIf="spinnerService.visibility | async">
-    <div class="loading">Loading&#8230;</div>       
+    <div class="fade show text-center loading-new" style="text-align: center; padding-top: calc(100vh / 2); height: 100vh">    
+      <img src="assets/img/brand/lixitrack.png" style="width: 10%;" class="px-4" />
+      <br>
+      <div class="spinner-grow spinner-grow-sm text-warning mx-4" role="status">
+        <span class="sr-only"></span>
+      </div>   
+      <div class="spinner-grow spinner-grow-sm text-warning mx-4" role="status">
+        <span class="sr-only"></span>
+      </div> 
+      <div class="spinner-grow spinner-grow-sm text-warning mx-4" role="status">
+        <span class="sr-only"></span>
+      </div> 
+      <div class="spinner-grow spinner-grow-sm text-warning mx-4" role="status">
+        <span class="sr-only"></span>
+      </div>    
+    </div>
   </div>
   <app-default-footer></app-default-footer>
 </div>

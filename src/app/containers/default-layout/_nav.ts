@@ -19,17 +19,16 @@ export const navItems: INavData[] = [
     attributes: { security: 99, id: 1 }
   },
   {
-    name: 'Mediciones Pila',
-    url: '/mediciones/filtra-pila',
+    title: true,
+    name: 'Graficos',
+    attributes: { security: 99, id: 0 }
+  },
+  {
+    name: 'Pila Promedio por Día',
+    url: '/mediciones/grafico-pila',
     iconComponent: { name: 'cil-list' },
     attributes: { security: 99, id: 1 }
-  },  
-  // {
-  //   name: 'Monitoreo',
-  //   url: '/mediciones/monitoreo',
-  //   iconComponent: { name: 'cil-list' },
-  //   attributes: { security: 99, id: 1 }
-  // },
+  },
   {
     title: true,
     name: 'Configuración',

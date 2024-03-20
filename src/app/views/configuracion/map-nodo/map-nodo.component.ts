@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { UtilsService } from '../../../services/utils.service'
 
@@ -18,6 +18,10 @@ import { ActivatedRoute } from '@angular/router';
 })
 
 export class MapNodoComponent implements OnInit {
+  // Inputs
+  @Input() pilaId: number;
+  @Input() isDashboard: boolean;
+
   dataObject: Nodo; // Principal Object
   // Properties
   _title: string = '';
@@ -57,7 +61,10 @@ export class MapNodoComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      this.getNodoInfoMap(params['id']);
+      if (params)
+        this.getNodoInfoMap(params['id']);
+      if (this.pilaId)
+        this.getNodoInfoMap(this.pilaId);
     });
   }
 
@@ -67,13 +74,12 @@ export class MapNodoComponent implements OnInit {
         console.log(data);
         this.nombrePila = data.nombrePila;
         this._nodosMap = data.nodos;
-        this._valoresMap = data.valores.map((obj: any) => ({ ...obj, valorSensor: JSON.parse(obj.valor) }));
+        this._valoresMap = data.valores.map((obj: any) => ({ ...obj, valorSensor: JSON.parse(obj.valor), fechaHora: JSON.parse(obj.fechaHora) }));
         // MAP
         setTimeout(() => {
           this.CreateMap();
         }, 1000);
-      },
-      error: (e) => this._util.processError(e)
+      }
     });
   }
 
@@ -91,19 +97,12 @@ export class MapNodoComponent implements OnInit {
     for (i = 0; i < this._nodosMap.length; i++) {
 
       var image = {
-        url: '',
+        url: 'assets/img/maps/rfid.png',
         size: new google.maps.Size(100, 100),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(40, 40)
       };
-
-      if (this._nodosMap[i].tipoNodo.nombreTipoNodo == "NODO VERTICAL")
-        image.url = "assets/img/maps/rfid.png"
-      if (this._nodosMap[i].tipoNodo.nombreTipoNodo == "NODO HORIZONTAL")
-        image.url = "assets/img/maps/rfid.png"
-      if (this._nodosMap[i].tipoNodo.nombreTipoNodo == "PRESIÓN EN LA LÍNEA")
-        image.url = "assets/img/maps/rfid.png"
 
       marker = new google.maps.Marker({
         position: new google.maps.LatLng(this._nodosMap[i].latLongNodo.split(',')[0], this._nodosMap[i].latLongNodo.split(',')[1]),
@@ -112,9 +111,7 @@ export class MapNodoComponent implements OnInit {
         label: { text: this._nodosMap[i].nombreNodo, color: "white", fontWeight: "bold" }
       });
 
-      // process multiple info windows
       ((marker, i) => {
-        // add click event
         google.maps.event.addListener(marker, 'click', () => {
           this.returnInfoWindowHtml(this._nodosMap[i]);
         });

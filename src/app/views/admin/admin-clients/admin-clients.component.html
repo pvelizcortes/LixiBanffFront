@@ -36,15 +36,17 @@
                     <ng-container matColumnDef="actions">
                         <th mat-header-cell mat-sort-header *matHeaderCellDef class="table-header-text"
                             style="width:10%;">ACTIONS</th>
-                        <td mat-cell *matCellDef="let item" class="text-center p-2" style="display:flex">                            
+                        <td mat-cell *matCellDef="let item" class="text-center p-2" style="display:flex">
                             <button cButton color="warning" (click)="openDialog(item);" matTooltip="EDITAR REGISTRO">
                                 <i class="fa-solid fa-edit"></i></button>
+                            <a class="btn btn-md btn-warning ml-1" [routerLink]="['/admin/users', item.clienteId]"
+                                matTooltip="ADMINISTRAR USUARIOS"><i class="fa-solid fa-users"></i></a>
+                            <button cButton color="warning" class="ml-1" (click)="openTipoNodoCliente(item);"
+                                matTooltip="CONFIGURAR NODO">
+                                <i class="fa-solid fa-gear"></i></button>
                             <button cButton color="danger" class="ml-1" (click)="deleteRow(item);"
                                 matTooltip="ELIMINAR REGISTRO">
                                 <i class="fa-solid fa-close text-white"></i></button>
-                            <a class="btn btn-md btn-success ml-1" [routerLink]="['/admin/users', item.clienteId]" matTooltip="ADMINISTRAR USUARIOS"><i class="fa-solid fa-users"></i></a>
-                            <button cButton color="warning" class="ml-1" (click)="openTipoNodoCliente(item);" matTooltip="CONFIGURAR NODO">
-                                <i class="fa-solid fa-gear"></i></button>
                         </td>
                     </ng-container>
                     <ng-container matColumnDef="nombreCliente">

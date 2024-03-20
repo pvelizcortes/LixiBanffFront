@@ -8,6 +8,8 @@ import { BaseChartDirective } from 'ng2-charts';
   styleUrls: ['./graficos.component.scss']
 })
 export class GraficosComponent implements OnInit {
+  _entity: string = 'Grafico';
+  _title: string = this._entity;
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
 
   public barChartOptions: ChartConfiguration['options'] = {
@@ -38,6 +40,7 @@ export class GraficosComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    
   }
 
 }

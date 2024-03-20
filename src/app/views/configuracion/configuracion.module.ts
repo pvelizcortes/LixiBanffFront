@@ -104,6 +104,9 @@ import {
     MatInputModule,
     AlertModule,
     WidgetModule
+  ],
+  exports: [
+    MapNodoComponent
   ]
 })
 export class ConfiguracionModule {

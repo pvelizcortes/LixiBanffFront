@@ -1,7 +1,27 @@
-<c-container>
+<c-container fluid class="px-4 py-4">
   <c-row>
     <c-col sm="12">
-      <h1>Dashboard</h1>      
+      <form [formGroup]="queryForm" class="form-row" (ngSubmit)="onSubmit()">
+        <c-row>            
+            <mat-form-field class="col-sm-4">
+                <mat-label><b>Pila</b></mat-label>
+                <mat-select formControlName="pilaId" (selectionChange)="PilaChange($event.value)">
+                    <mat-option [value]="0" selected>-- Seleccione</mat-option>
+                    <mat-option *ngFor="let option of _dataPila" [value]="option.id">
+                        {{option.text}}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="queryForm.controls['pilaId'].hasError('min')">
+                    Seleccione una opción.
+                </mat-error>
+            </mat-form-field>            
+        </c-row>        
+    </form>
+    </c-col>
+  </c-row>
+  <c-row>
+    <c-col sm="12" *ngIf="pilaId > 0">
+      <app-map-nodo [pilaId]="pilaId" [isDashboard]="true" ></app-map-nodo>
     </c-col>
   </c-row>
 </c-container>

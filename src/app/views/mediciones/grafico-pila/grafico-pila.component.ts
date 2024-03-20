@@ -1,13 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { GlobalConstants } from '../../../constants/global-constants';
 import { UtilsService } from '../../../services/utils.service'
+import { Chart, ChartConfiguration, ChartData, ChartType } from 'chart.js';
 
 // Services
-import { NodoService } from 'src/app/services/nodo.service';
 import { PilaService } from 'src/app/services/pila.service';
 import { PanoService } from 'src/app/services/pano.service';
 import { DynamodbService } from 'src/app/services/dynamodb.service';
-import { ConfirmationService } from '../../../services/confirmation.service';
 import { ZonaService } from 'src/app/services/zona.service';
 
 // Mat Table
@@ -21,23 +20,25 @@ import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
+// Chart
+
 @Component({
-  selector: 'app-filtra-nodo',
-  templateUrl: './filtra-nodo.component.html',
-  styleUrls: ['./filtra-nodo.component.scss']
+  selector: 'app-grafico-pila',
+  templateUrl: './grafico-pila.component.html',
+  styleUrls: ['./grafico-pila.component.scss']
 })
 
-export class FiltraNodoComponent implements OnInit {
+export class GraficoPilaComponent implements OnInit {
   // PRINCIPAL PROPERTIES
   _entity: string = 'Pila';
-  _title: string = 'Mediciones de la ' + this._entity;
+  _title: string = 'Grafico ' + this._entity + ' (promedio por día)';
   _createName: string = GlobalConstants.createButtonName;
   _searchText: string = GlobalConstants.searchPlaceHolder;
   _pageSizeOptions: number[] = GlobalConstants.pageSizeOptions;
   _noSearchResults: string = GlobalConstants.noSearchResults;
   _showModal: boolean = false;
   // MAT TABLE
-  displayedColumns: string[] = ['fechaHora', 'nombreNodo', 'nivel', 'sensor', 'valorSensor.Value'];
+  displayedColumns: string[] = ['fecha', 'nodo', 'sensor', 'valor', 'actions'];
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild('tableSort') tableSort = new MatSort();
@@ -46,19 +47,41 @@ export class FiltraNodoComponent implements OnInit {
   // SELECT DATA
   _dataPila: any[];
   _dataPano: any[];
-  _dataTipoNodo: any[];
+  dataSource2: any;
 
   _dataZona: any[];
   _zonaSelected: any;
 
+  // GRAFICO
+  showChart: boolean = true;
+  public barChartOptions: ChartConfiguration['options'] = {
+    responsive: true,
+    // We use these empty structures as placeholders for dynamic theming.
+    scales: {
+      x: {},
+      y: {
+        min: 0
+      }
+    },
+    plugins: {
+      legend: {
+        display: true,
+        position: 'left'
+      }
+    }
+  };
+
+  public barChartType: ChartType = 'bar';
+  public barChartData: ChartData<'bar'> = {
+    labels: [],
+    datasets: []        
+  };
+
   constructor(
     private formBuilder: FormBuilder,
-    private _service: NodoService,
-    private _confirm: ConfirmationService,
     private _util: UtilsService,
     private _servicePila: PilaService,
     private _servicePano: PanoService,
-    private _serviceNodo: NodoService,
     private _serviceZona: ZonaService,
     private _dynamoDB: DynamodbService) {
     this.CreateForm();
@@ -72,9 +95,7 @@ export class FiltraNodoComponent implements OnInit {
     this.queryForm = this.formBuilder.group({
       from: ['', [Validators.required]],
       to: ['', [Validators.required]],
-      pilaId: [0],  // FK
-      // panoId: [0, [Validators.required, Validators.min(1)]],  // FK  
-      tipoNodoId: [0, [Validators.required, Validators.min(1)]], //PK
+      pilaId:  [0, [Validators.required, Validators.min(1)]],  // FK
       zonaId: [0, [Validators.required, Validators.min(1)]],  // FK
     });
   }
@@ -95,12 +116,50 @@ export class FiltraNodoComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.showChart = false;
     if (this.queryForm.valid) {
       const formValues = <any>this.queryForm.getRawValue();
-      this._dynamoDB.FilterByTipoNodo(formValues.from, formValues.to, formValues.tipoNodoId, formValues.pilaId).subscribe({
+      this._dynamoDB.getChartData(formValues.from, formValues.to, formValues.pilaId).subscribe({
         next: (data) => {
-          this.dataSource = data.valores.map((obj: any) => ({ ...obj, valorSensor: JSON.parse(obj.valor), fechaHora: JSON.parse(obj.fechaHora) }));
-          this.dataSource.paginator = this.paginator;
+          this.dataSource2 = data.valores.map((obj: any) => ({ ...obj, valorSensor: JSON.parse(obj.valor) }));
+          this.barChartData.datasets = [];
+          // Buscar Nodos
+          const conjuntoDeCombinaciones = new Set<string>();
+          const arrayDeObjetosDistintos = this.dataSource2.filter((objeto: any) => {
+            const combinacion = `${objeto.nombreNodo}-${objeto.sensor}`;
+            if (conjuntoDeCombinaciones.has(combinacion)) {
+              return false;
+            }
+            conjuntoDeCombinaciones.add(combinacion);
+            return true;
+          });
+
+          // Dias
+          var arrayOfDates = this.createDates(formValues.from, formValues.to);
+          this.barChartData.labels = [];
+          arrayOfDates.forEach((fecha:string) => {
+            this.barChartData.labels?.push(fecha);
+          });
+
+          // Recorrer Sensores
+          arrayDeObjetosDistintos.forEach((s:any) => {
+            
+            var dataObject:any = [];
+            // Recorrer Días
+            arrayOfDates.forEach((fecha:string) => {
+              const resultsPerDay = this.dataSource2.filter((item : any)=> item.time == fecha && item.sensor == s.sensor);              
+              if (resultsPerDay.length == 0){
+                dataObject.push(0)    
+              }
+              else{
+                const sum = resultsPerDay.reduce((acc:any, val:any) => acc + parseFloat(val.valorSensor.Value), 0);
+                const average = sum / resultsPerDay.length;
+                dataObject.push(average)    
+              }
+            }); 
+            this.barChartData.datasets.push({ data: dataObject, label: s.sensor + ' (' + s.nombreNodo + ')'   })     
+            this.showChart = true;
+          });
         },
         error: (e) => this._util.processError(e)
       });
@@ -110,14 +169,25 @@ export class FiltraNodoComponent implements OnInit {
     }
   }
 
-  PilaChange(pilaId: number) {
-    // this.GetPanosToSelect(pilaId);
-    this.GetTipoNodoToSelect();
+  createDates(startDate: Date, endDate: Date) {
+    const dates = [];
+    let currentDate = new Date(startDate);
+    let finalDate = new Date(endDate);
+
+    while (currentDate <= finalDate) {
+      dates.push(this.formatDate(currentDate));
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+    return dates;
   }
 
-  // PanoChange(pilaId: number) {
-  //   this.GetNodosToSelect(pilaId);
-  // }
+  formatDate(date:Date) {
+    const day = (date.getDate() + 1).toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+  
+    return `${day}-${month}-${year}`;
+  }
 
   GetZonasToSelect() {
     this._serviceZona.getSelect().subscribe({
@@ -158,15 +228,6 @@ export class FiltraNodoComponent implements OnInit {
     });
   }
 
-  GetTipoNodoToSelect() {
-    this._serviceNodo.getTipoNodoSelect().subscribe({
-      next: (data) => {
-        this._dataTipoNodo = data;
-      },
-      error: (e) => this._util.processError(e)
-    });
-  }
-
   ZonaChange(zonaId: any) {
     this._zonaSelected = this._dataZona.find(x => {
       return x.id == zonaId;
@@ -178,8 +239,6 @@ export class FiltraNodoComponent implements OnInit {
     }
     else {
       this.queryForm.get('pilaId')?.removeValidators(Validators.required);
-      this.GetTipoNodoToSelect();
-
     }
     this.queryForm.get('pilaId')?.updateValueAndValidity();
   }

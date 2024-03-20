@@ -17,7 +17,7 @@ import { NodoService } from '../../../../services/nodo.service';
 export class AdminClientsNodoComponent implements OnInit {
   dataObject: any; // Principal Object
   // Properties
-  _title: string = '';
+  _title: string = 'Tipos de Nodo para el Proyecto';
   _entity: string = 'Tipo Nodo Proyecto';
   _saveButtonName: string = GlobalConstants.saveButtonName;
   _closeButtonName: string = GlobalConstants.closeButtonName;
@@ -56,6 +56,9 @@ export class AdminClientsNodoComponent implements OnInit {
   }
 
   Generate(item: any) {
+    if (item.niveles < 1){
+      this._util.alertWarning('El valor tiene que ser mayor a 0', `Niveles del Nodo`);
+    }
     item.cantMacs = [];
     for (let index = 1; index <= item.niveles; index++) {
       item.cantMacs.push({ posicion: index, cantidad: 1, })
@@ -66,7 +69,7 @@ export class AdminClientsNodoComponent implements OnInit {
     this._dataTipoNodo = this._dataTipoNodo.map((obj: any) => ( { ...obj, cantidad : parseInt(obj.cantidad) }));
     this._Nodoservice.saveNodoConfig(this._dataTipoNodo).subscribe({
     next: (data) => {
-      this._util.alertSuccess(data.message, `Mediciones del Nodo`);
+      this._util.alertSuccess(data.message, `Niveles del Nodo`);
       this.closeMe();
     },
     error: (e) => this._util.processError(e)

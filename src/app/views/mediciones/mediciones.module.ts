@@ -19,6 +19,8 @@ import { DatePipe } from '@angular/common';
 
 import { FiltraNodoComponent } from './filtra-nodo/filtra-nodo.component';
 import { FiltraPilaComponent } from './filtra-pila/filtra-pila.component';
+import { GraficosComponent } from './graficos/graficos.component';
+import { GraficoPilaComponent } from './grafico-pila/grafico-pila.component';
 
 import { MedicionesRoutingModule } from './mediciones-routing.module';
 
@@ -47,6 +49,8 @@ import {
   declarations: [  
     FiltraNodoComponent,
     FiltraPilaComponent,
+    GraficosComponent,
+    GraficoPilaComponent
   ],
   imports: [
     CommonModule,
