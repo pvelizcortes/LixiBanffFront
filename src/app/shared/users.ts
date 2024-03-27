@@ -15,5 +15,7 @@ export interface Users {
     perfilId:number,
     telefonoUsuario?: string,
     isSuperAdmin:boolean,
-    passwordNotEncripted?: string
+    passwordNotEncripted?: string,
+    cargo:string,
+    rol:string
 }

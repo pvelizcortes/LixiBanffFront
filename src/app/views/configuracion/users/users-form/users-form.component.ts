@@ -77,7 +77,9 @@ export class UsersFormComponent implements OnInit {
       perfilId: [0, [Validators.required, Validators.min(1)]],
       telefonoUsuario: [''],
       isSuperAdmin: [false],
-      passwordNotEncripted: ['']
+      passwordNotEncripted: [''],
+      cargo: [''],
+      rol: ['']
     });
   }
   Creating() {
@@ -100,7 +102,9 @@ export class UsersFormComponent implements OnInit {
         perfilId: this.dataObject.perfilId,
         telefonoUsuario: this.dataObject.telefonoUsuario,
         isSuperAdmin: this.dataObject.isSuperAdmin,
-        passwordNotEncripted: this.dataObject.passwordNotEncripted
+        passwordNotEncripted: this.dataObject.passwordNotEncripted,
+        cargo:this.dataObject.cargo,
+        rol:this.dataObject.rol,
       }
     );
     this.DisableInputs();

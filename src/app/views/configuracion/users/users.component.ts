@@ -34,7 +34,7 @@ export class UsersComponent implements OnInit {
   _noSearchResults: string = GlobalConstants.noSearchResults;
   _showModal: boolean = false;
   // Mat Table
-  displayedColumns: string[] = ['nombreUsuario', 'cliente', 'correoUsuario', 'descripcionUsuario', 'active', 'actions'];
+  displayedColumns: string[] = ['nombreUsuario', 'cliente', 'cargo','rol', 'correoUsuario', 'descripcionUsuario','active', 'actions'];
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild('tableSort') tableSort = new MatSort();

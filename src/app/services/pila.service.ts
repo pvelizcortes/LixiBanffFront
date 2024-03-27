@@ -15,27 +15,29 @@ export class PilaService {
   principalUrl: string = '/api/Pila/';
 
   constructor(private http: HttpClient) {
-    this.myAppUrl = environment.endpoint;   
+    this.myAppUrl = environment.endpoint;
   }
 
-  getList(): Observable<any>{
-    return this.http.get(this.myAppUrl + this.principalUrl + 'GetList');
+  getList(idProyecto: number): Observable<any> {
+    let queryParams = { "idProyecto": idProyecto };
+    return this.http.get(this.myAppUrl + this.principalUrl + 'GetList', { params: queryParams });
   }
 
-  getSelect(): Observable<any>{
-    return this.http.get(this.myAppUrl + this.principalUrl + 'GetSelect');
+  getSelect(idProyecto:number): Observable<any> {
+    let queryParams = { "idProyecto": idProyecto };
+    return this.http.get(this.myAppUrl + this.principalUrl + 'GetSelect', { params: queryParams });
   }
-  
-  save(_obj : Pila, isNew : boolean): Observable<any>{
-    if (isNew){
+
+  save(_obj: Pila, isNew: boolean): Observable<any> {
+    if (isNew) {
       return this.http.post(this.myAppUrl + this.principalUrl + 'Create', _obj);
     }
-    else{
+    else {
       return this.http.post(this.myAppUrl + this.principalUrl + 'Save', _obj);
-    }   
+    }
   }
 
-  delete(_identity_id : number): Observable<any>{
+  delete(_identity_id: number): Observable<any> {
     return this.http.post(this.myAppUrl + this.principalUrl + 'Delete', _identity_id);
   }
 }

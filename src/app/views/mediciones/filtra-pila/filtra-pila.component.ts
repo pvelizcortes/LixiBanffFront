@@ -131,7 +131,7 @@ export class FiltraPilaComponent implements OnInit {
   }
 
   GetPilasToSelect() {
-    this._servicePila.getSelect().subscribe({
+    this._servicePila.getSelect(0).subscribe({
       next: (data) => {
         this._dataPila = data;
       },

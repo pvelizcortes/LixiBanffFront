@@ -28,24 +28,7 @@ export const navItems: INavData[] = [
     url: '/mediciones/grafico-pila',
     iconComponent: { name: 'cil-list' },
     attributes: { security: 99, id: 1 }
-  },
-  {
-    title: true,
-    name: 'Configuración',
-    attributes: { security: 99, id: 0 }
-  },
-  {
-    name: 'Pila',
-    url: '/configuracion/pila',
-    iconComponent: { name: 'cil-gradient' },
-    attributes: { security: 2, id: 2 }
-  },
-  {
-    name: 'Nodo',
-    url: '/configuracion/nodo',
-    iconComponent: { name: 'cil-equalizer' },
-    attributes: { security: 2, id: 4 }
-  },
+  },  
   {
     title: true,
     name: 'Sistema',
@@ -69,7 +52,7 @@ export const navItems: INavData[] = [
     attributes: { security: 0, id: 6 }
   },
   {
-    name: 'AdminDashboard',
+    name: 'Admin Dashboard',
     url: '/admin/admin-dashboard',
     iconComponent: { name: 'cil-speedometer' },
     attributes: { security: 0, id: 7 }

@@ -71,7 +71,7 @@ export class MapNodoComponent implements OnInit {
   getNodoInfoMap(pilaId: any) {
     this._dynamoService.GetPilaData(pilaId).subscribe({
       next: (data) => {
-        console.log(data);
+        this.cleanNodoInfo();
         this.nombrePila = data.nombrePila;
         this._nodosMap = data.nodos;
         this._valoresMap = data.valores.map((obj: any) => ({ ...obj, valorSensor: JSON.parse(obj.valor), fechaHora: JSON.parse(obj.fechaHora) }));
@@ -83,11 +83,21 @@ export class MapNodoComponent implements OnInit {
     });
   }
 
+  cleanNodoInfo(){
+    this._nodosMap = [];
+    this._valoresMap = [];
+    this.selectedNodo = null;
+    this.selectedValores = [];
+  }
+
   // MAP
   CreateMap() {
     var map = new google.maps.Map(this.mapElement.nativeElement);
     this.map = map;
-    var initPosition = new google.maps.LatLng(this._nodosMap[0].latLongNodo.split(',')[0], this._nodosMap[0].latLongNodo.split(',')[1]);
+    var initPosition = new google.maps.LatLng(-33.44240856603463, -70.66807727329444);
+    if (this._nodosMap.length > 0)
+      initPosition = new google.maps.LatLng(this._nodosMap[0].latLongNodo.split(',')[0], this._nodosMap[0].latLongNodo.split(',')[1]);
+    
     this.centerInPoint(initPosition, 19);
 
     // Set Markers

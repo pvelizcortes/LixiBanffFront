@@ -1,11 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { GlobalConstants } from '../../../constants/global-constants';
 import { UtilsService } from '../../../services/utils.service'
+import { ActivatedRoute } from '@angular/router';
 // Models
 import { Nodo } from '../../../shared/nodo';
 // Services
 import { NodoService } from '../../../services/nodo.service';
 import { ConfirmationService } from '../../../services/confirmation.service';
+import { AdminClientService } from 'src/app/services/admin-client.service';
 // Mat Table
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -29,6 +31,7 @@ export class NodoComponent implements OnInit {
   // Principal Properties
   _entity: string = 'Nodo';
   _title: string = 'Mantenedor de ' + this._entity;
+  _client: string = 'n/a';
   _createName: string = GlobalConstants.createButtonName;
   _searchText: string = GlobalConstants.searchPlaceHolder;
   _pageSizeOptions: number[] = GlobalConstants.pageSizeOptions;
@@ -39,15 +42,24 @@ export class NodoComponent implements OnInit {
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild('tableSort') tableSort = new MatSort();
+    // Others
+    _idProyecto: number = 0;
 
   constructor(public dialog: MatDialog,
     private _service: NodoService,
     private _confirm: ConfirmationService,
+    private route: ActivatedRoute,
+    private _clienteService : AdminClientService,
     private _util: UtilsService) {
   }
 
   ngOnInit(): void {  
+    this.route.params.subscribe(params => {
+      if (params)
+        this._idProyecto = params['idProyecto'];
+    });
     this.getList();
+    this.getClientName();
   }
   
   ngAfterViewInit() {
@@ -59,7 +71,7 @@ export class NodoComponent implements OnInit {
       // Add filters here...
     }
     else {
-      this._service.getList().subscribe({
+      this._service.getList(this._idProyecto).subscribe({
         next : (data) => {
           console.log(data);
           this.dataSource.data = data;
@@ -83,7 +95,7 @@ export class NodoComponent implements OnInit {
 
   openDialog(item?: Nodo): void {
     const dialogRef = this.dialog.open(NodoFormComponent, {
-      data: item, width: '100%', position: { top: '8vh' }
+      data: {nodo: item, idProyecto: this._idProyecto }, width: '100%', position: { top: '8vh' }
     });
     dialogRef.afterClosed().subscribe({
       next : (result) => {
@@ -107,6 +119,12 @@ export class NodoComponent implements OnInit {
     else {
       this._util.alertWarning('Acción cancelada por el usuario', this._title);
     }
+  }
+
+  getClientName(){
+    this._clienteService.getById(this._idProyecto).subscribe(data => {
+      this._client = data.nombreCliente;
+    });
   }
   
 }

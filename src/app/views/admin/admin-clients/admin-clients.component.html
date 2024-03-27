@@ -41,6 +41,10 @@
                                 <i class="fa-solid fa-edit"></i></button>
                             <a class="btn btn-md btn-warning ml-1" [routerLink]="['/admin/users', item.clienteId]"
                                 matTooltip="ADMINISTRAR USUARIOS"><i class="fa-solid fa-users"></i></a>
+                            <a class="btn btn-md btn-warning ml-1" [routerLink]="['/configuracion/pila', item.clienteId]"
+                                matTooltip="ADMINISTRAR PILAS"> <svg cIcon name="cil-gradient"></svg></a>
+                            <a class="btn btn-md btn-warning ml-1" [routerLink]="['/configuracion/nodo', item.clienteId]"
+                                matTooltip="ADMINISTRAR NODOS"><i class="fa fa-sliders"></i></a>
                             <button cButton color="warning" class="ml-1" (click)="openTipoNodoCliente(item);"
                                 matTooltip="CONFIGURAR NODO">
                                 <i class="fa-solid fa-gear"></i></button>

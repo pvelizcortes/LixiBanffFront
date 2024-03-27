@@ -19,8 +19,9 @@ export class NodoService {
     this.myAppUrl = environment.endpoint;
   }
 
-  getList(): Observable<any> {
-    return this.http.get(this.myAppUrl + this.principalUrl + 'GetList');
+  getList(idProyecto: number): Observable<any> {
+    let queryParams = { "idProyecto": idProyecto };
+    return this.http.get(this.myAppUrl + this.principalUrl + 'GetList', { params: queryParams });
   }
 
   getSelect(pilaId?: number, zonaId?: number): Observable<any> {

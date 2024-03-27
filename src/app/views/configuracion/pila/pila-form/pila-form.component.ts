@@ -24,17 +24,19 @@ export class PilaFormComponent implements OnInit {
   _saveButtonName: string = GlobalConstants.saveButtonName;
   _closeButtonName: string = GlobalConstants.closeButtonName;
   _isNew: boolean = true;
+  _idProyecto: number = 0;
   // Form
   queryForm: FormGroup;
 
   // ** Constructor **
   constructor(public dialogRef: MatDialogRef<PilaFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Pila,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private formBuilder: FormBuilder,
     private _service: PilaService,
     private _util: UtilsService) {
     this.CreateForm();
-    data ? this.Editing(data) : this.Creating();
+    this._idProyecto = data.idProyecto;
+    data.pila ? this.Editing(data.pila) : this.Creating();
   }
   ngOnInit(): void {
   }
@@ -53,12 +55,16 @@ export class PilaFormComponent implements OnInit {
       latLongPila: [''],
       latitudPila: [''],
       longitudPila: [''],
+      clienteId:[0],
       active: [true]
     });
   }
 
   Creating() {
     this._title = 'Creando nuevo ' + this._entity;
+    this.queryForm.patchValue({
+      clienteId: Number(this._idProyecto)
+    })
   }
 
   Editing(_obj: Pila) {
@@ -76,7 +82,8 @@ export class PilaFormComponent implements OnInit {
         descripcionPila: this.dataObject.descripcionPila,
         ubicacionPila: this.dataObject.ubicacionPila,
         latLongPila: this.dataObject.latLongPila,
-        active: this.dataObject.active
+        active: this.dataObject.active,
+        clienteId: this.dataObject.clienteId        
       }
     );
     this.DisableInputs();

@@ -2,11 +2,14 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { GlobalConstants } from '../../../constants/global-constants';
 import { UtilsService } from '../../../services/utils.service';
 import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 // Models
 import { Pila } from '../../../shared/pila';
 // Services
 import { PilaService } from '../../../services/pila.service';
 import { ConfirmationService } from '../../../services/confirmation.service';
+import { AdminClientService } from 'src/app/services/admin-client.service';
+
 // Mat Table
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -20,6 +23,7 @@ import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable';
 
 
+
 @Component({
   selector: 'app-pila',
   templateUrl: './pila.component.html',
@@ -30,6 +34,7 @@ export class PilaComponent implements OnInit {
   // Principal Properties
   _entity: string = 'Pila';
   _title: string = 'Mantenedor de ' + this._entity;
+  _client: string = 'n/a';
   _createName: string = GlobalConstants.createButtonName;
   _searchText: string = GlobalConstants.searchPlaceHolder;
   _pageSizeOptions: number[] = GlobalConstants.pageSizeOptions;
@@ -40,16 +45,25 @@ export class PilaComponent implements OnInit {
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild('tableSort') tableSort = new MatSort();
+  // Others
+  _idProyecto: number = 0;
 
   constructor(public dialog: MatDialog,
     private _service: PilaService,
     private _confirm: ConfirmationService,
     private _util: UtilsService,
+    private route: ActivatedRoute,
+    private _clienteService : AdminClientService,
     private router: Router) {
   }
 
   ngOnInit(): void {
+    this.route.params.subscribe(params => {
+      if (params)
+        this._idProyecto = params['idProyecto'];
+    });
     this.getList();
+    this.getClientName();
   }
   
   ngAfterViewInit() {
@@ -61,7 +75,7 @@ export class PilaComponent implements OnInit {
       // Add filters here...
     }
     else {
-      this._service.getList().subscribe({
+      this._service.getList(this._idProyecto).subscribe({
         next : (data) => {
           this.dataSource.data = data;
           this.dataSource.paginator = this.paginator;
@@ -82,9 +96,9 @@ export class PilaComponent implements OnInit {
     doc.save(this._title + '.pdf')
   }
 
-  openDialog(item?: Pila): void {
+  openDialog(item?: Pila): void {    
     const dialogRef = this.dialog.open(PilaFormComponent, {
-      data: item, width: '100%', position: { top: '8vh' }
+      data: {pila: item, idProyecto: this._idProyecto}, width: '100%', position: { top: '8vh' }
     });
     dialogRef.afterClosed().subscribe({
       next : (result) => {
@@ -112,5 +126,11 @@ export class PilaComponent implements OnInit {
     else {
       this._util.alertWarning('Acción cancelada por el usuario', this._title);
     }
+  }
+
+  getClientName(){
+    this._clienteService.getById(this._idProyecto).subscribe(data => {
+      this._client = data.nombreCliente;
+    });
   }
 }

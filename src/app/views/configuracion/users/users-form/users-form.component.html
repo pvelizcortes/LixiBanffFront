@@ -31,10 +31,24 @@
             </mat-error>
           </mat-form-field>
           <mat-form-field class="col-sm-12">
-            <mat-label>Nombre</mat-label>
+            <mat-label>Nombre*</mat-label>
             <input matInput formControlName="nombreUsuario">
             <mat-error *ngIf="queryForm.controls['nombreUsuario'].hasError('required')">
               Ingrese un nombre.
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="col-sm-12">
+            <mat-label>Cargo*</mat-label>
+            <input matInput formControlName="cargo">
+            <mat-error *ngIf="queryForm.controls['cargo'].hasError('required')">
+              Ingrese un cargo.
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="col-sm-12">
+            <mat-label>Rol*</mat-label>
+            <input matInput formControlName="rol">
+            <mat-error *ngIf="queryForm.controls['rol'].hasError('required')">
+              Ingrese un rol.
             </mat-error>
           </mat-form-field>
         </c-col>

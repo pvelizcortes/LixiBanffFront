@@ -27,6 +27,7 @@ export class NodoFormComponent implements OnInit {
   _saveButtonName: string = GlobalConstants.saveButtonName;
   _closeButtonName: string = GlobalConstants.closeButtonName;
   _isNew: boolean = true;
+  _idProyecto: number = 0;
   // Form
   queryForm: FormGroup;
   // Select Data
@@ -46,14 +47,15 @@ export class NodoFormComponent implements OnInit {
 
   // ** Constructor **
   constructor(public dialogRef: MatDialogRef<NodoFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Nodo,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private formBuilder: FormBuilder,
     private _service: NodoService,
     private _servicePila: PilaService,
     private _serviceZona: ZonaService,
     private _util: UtilsService) {
     this.CreateForm();
-    data ? this.Editing(data) : this.Creating();
+    this._idProyecto = data.idProyecto;
+    data.nodo ? this.Editing(data.nodo) : this.Creating();
   }
 
   ngOnInit(): void {
@@ -102,7 +104,7 @@ export class NodoFormComponent implements OnInit {
   // END MAPS
 
   GetPilasToSelect() {
-    this._servicePila.getSelect().subscribe({
+    this._servicePila.getSelect(this._idProyecto).subscribe({
       next: (data) => {
         this._dataPila = data;
       },
@@ -131,7 +133,7 @@ export class NodoFormComponent implements OnInit {
   }
 
   GetTipoNodoToSelect() {
-    this._service.getTipoNodoSelect().subscribe({
+    this._service.getTipoNodoSelect(this._idProyecto).subscribe({
       next: (data) => {
         this._dataTipoNodo = data;
       },
@@ -157,12 +159,16 @@ export class NodoFormComponent implements OnInit {
       latLongNodo: [''],
       latitudNodo: [''],
       longitudNodo: [''],
-      active: [true]
+      active: [true],
+      clienteId: [0]
     });
   }
 
   Creating() {
     this._title = 'Creando nuevo ' + this._entity;
+    this.queryForm.patchValue({
+      clienteId: Number(this._idProyecto)
+    })
     this.queryForm.controls['pilaId'].setValue(0);
     this.queryForm.controls['tipoNodoId'].setValue(0);
     this.queryForm.get('panoId')?.disable();
@@ -185,6 +191,7 @@ export class NodoFormComponent implements OnInit {
         mac: this.dataObject.mac,
         active: this.dataObject.active,
         latLongNodo: this.dataObject.latLongNodo,
+        clienteId: this.dataObject.clienteId
       }
     );
     this.DisableInputs();

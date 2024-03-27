@@ -4,7 +4,6 @@ import { RouterModule, Routes } from '@angular/router';
 // Components
 import { MiPerfilComponent } from './mi-perfil/mi-perfil.component';
 import { PilaComponent } from './pila/pila.component';
-import { PanoComponent } from './pano/pano.component';
 import { NodoComponent } from './nodo/nodo.component';
 import { UsersComponent } from './users/users.component';
 import { AlertaComponent } from './alerta/alerta.component';
@@ -37,21 +36,14 @@ const routes: Routes = [
         }
       },
       {
-        path: 'pila',
+        path: 'pila/:idProyecto',
         component: PilaComponent,
         data: {
           title: 'Pila'
         }
       },
       {
-        path: 'pano',
-        component: PanoComponent,
-        data: {
-          title: 'Pano'
-        }
-      },
-      {
-        path: 'nodo',
+        path: 'nodo/:idProyecto',
         component: NodoComponent,
         data: {
           title: 'Nodo'

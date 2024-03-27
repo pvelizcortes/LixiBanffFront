@@ -122,6 +122,7 @@ export class GraficoPilaComponent implements OnInit {
       this._dynamoDB.getChartData(formValues.from, formValues.to, formValues.pilaId).subscribe({
         next: (data) => {
           this.dataSource2 = data.valores.map((obj: any) => ({ ...obj, valorSensor: JSON.parse(obj.valor) }));
+          console.log(this.dataSource2, 'test dataSource2');     
           this.barChartData.datasets = [];
           // Buscar Nodos
           const conjuntoDeCombinaciones = new Set<string>();
@@ -139,15 +140,15 @@ export class GraficoPilaComponent implements OnInit {
           this.barChartData.labels = [];
           arrayOfDates.forEach((fecha:string) => {
             this.barChartData.labels?.push(fecha);
-          });
+          });  
 
           // Recorrer Sensores
           arrayDeObjetosDistintos.forEach((s:any) => {
             
             var dataObject:any = [];
             // Recorrer Días
-            arrayOfDates.forEach((fecha:string) => {
-              const resultsPerDay = this.dataSource2.filter((item : any)=> item.time == fecha && item.sensor == s.sensor);              
+            arrayOfDates.forEach((fecha:string) => {             
+              const resultsPerDay = this.dataSource2.filter((item : any)=> item.time == fecha && item.sensor == s.sensor);
               if (resultsPerDay.length == 0){
                 dataObject.push(0)    
               }
@@ -157,9 +158,11 @@ export class GraficoPilaComponent implements OnInit {
                 dataObject.push(average)    
               }
             }); 
-            this.barChartData.datasets.push({ data: dataObject, label: s.sensor + ' (' + s.nombreNodo + ')'   })     
+            this.barChartData.datasets.push({ data: dataObject, label: s.sensor + ' (' + s.nombreNodo + ')'   });         
             this.showChart = true;
           });
+          console.log(this.barChartData, 'BAR CHAR DATA');
+          console.log(arrayOfDates, 'DATES');
         },
         error: (e) => this._util.processError(e)
       });
@@ -186,7 +189,7 @@ export class GraficoPilaComponent implements OnInit {
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const year = date.getFullYear();
   
-    return `${day}-${month}-${year}`;
+    return `${day}/${month}/${year}`;
   }
 
   GetZonasToSelect() {
@@ -205,7 +208,7 @@ export class GraficoPilaComponent implements OnInit {
   }
 
   GetPilasToSelect() {
-    this._servicePila.getSelect().subscribe({
+    this._servicePila.getSelect(0).subscribe({
       next: (data) => {
         this._dataPila = data;
       },

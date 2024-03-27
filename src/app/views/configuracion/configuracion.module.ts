@@ -21,8 +21,6 @@ import { MiPerfilComponent } from './mi-perfil/mi-perfil.component';
 import { PilaComponent } from './pila/pila.component';
 import { PilaFormComponent } from './pila/pila-form/pila-form.component';
 
-import { PanoComponent } from './pano/pano.component';
-import { PanoFormComponent } from './pano/pano-form/pano-form.component';
 
 import { NodoComponent } from './nodo/nodo.component';
 import { NodoFormComponent } from './nodo/nodo-form/nodo-form.component';
@@ -61,8 +59,6 @@ import {
     MiPerfilComponent,
     PilaComponent,
     PilaFormComponent,
-    PanoComponent,
-    PanoFormComponent,
     NodoComponent,
     NodoFormComponent,
     UsersComponent,
