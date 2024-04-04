@@ -139,7 +139,8 @@ export class MapNodoComponent implements OnInit {
     const mapProperties = {
       center: position,
       zoom: _zoom,
-      mapTypeId: google.maps.MapTypeId.HYBRID
+      mapTypeId: google.maps.MapTypeId.HYBRID,
+      fullscreenControl: false
     };
     this.map.setOptions(mapProperties);
   }

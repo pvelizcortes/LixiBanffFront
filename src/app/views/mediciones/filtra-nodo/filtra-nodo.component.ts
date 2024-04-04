@@ -99,7 +99,7 @@ export class FiltraNodoComponent implements OnInit {
       const formValues = <any>this.queryForm.getRawValue();
       this._dynamoDB.FilterByTipoNodo(formValues.from, formValues.to, formValues.tipoNodoId, formValues.pilaId).subscribe({
         next: (data) => {
-          this.dataSource = data.valores.map((obj: any) => ({ ...obj, valorSensor: JSON.parse(obj.valor), fechaHora: JSON.parse(obj.fechaHora) }));
+          this.dataSource.data = data.valores.map((obj: any) => ({ ...obj, valorSensor: JSON.parse(obj.valor), fechaHora: JSON.parse(obj.fechaHora) }));
           this.dataSource.paginator = this.paginator;
         },
         error: (e) => this._util.processError(e)
