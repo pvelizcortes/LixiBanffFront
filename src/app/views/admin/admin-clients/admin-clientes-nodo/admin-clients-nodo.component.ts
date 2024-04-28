@@ -22,10 +22,15 @@ export class AdminClientsNodoComponent implements OnInit {
   _saveButtonName: string = GlobalConstants.saveButtonName;
   _closeButtonName: string = GlobalConstants.closeButtonName;
   _isNew: boolean = true;
+  _clienteId: number = 0;
+  isConfig = false;
   // Form
   queryForm: FormGroup;
   // Select Data
   _dataTipoNodo: any[];
+
+  // Edit Config
+  _dataConfig: any[];
 
   // ** Constructor **
   constructor(public dialogRef: MatDialogRef<AdminClientsNodoComponent>,
@@ -35,17 +40,31 @@ export class AdminClientsNodoComponent implements OnInit {
     private _service: AdminClientService,
     private toastr: ToastrService,
     private _util: UtilsService) {
+    this._clienteId = data.clienteId;
     this.Editing(data);
   }
   ngOnInit(): void {
-    this.GetTipoNodoToSelect();
+    this.GetConfigNodoProject();
   }
 
   Editing(_obj: any) {
     this.dataObject = Object.assign({}, _obj);
   }
 
-  GetTipoNodoToSelect() {
+  GetConfigNodoProject() {
+    this._Nodoservice.getConfigNodoProject(this._clienteId).subscribe({
+      next: (data) => {
+        this._dataConfig = data;
+        if (!data){
+          this.isConfig = true;
+          this.GetTipoNodoSelect();
+        }
+      },
+      error: (e) => this._util.processError(e)
+    });
+  }
+
+  GetTipoNodoSelect() {
     this._Nodoservice.getTipoNodoProject().subscribe({
       next: (data) => {
         data = data.map((obj: any) => ({ ...obj, isChecked: true, niveles: 0, cantMacs: [], clienteId: this.dataObject.clienteId }));
@@ -56,7 +75,7 @@ export class AdminClientsNodoComponent implements OnInit {
   }
 
   Generate(item: any) {
-    if (item.niveles < 1){
+    if (item.niveles < 1) {
       this._util.alertWarning('El valor tiene que ser mayor a 0', `Niveles del Nodo`);
     }
     item.cantMacs = [];
@@ -66,18 +85,27 @@ export class AdminClientsNodoComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this._dataTipoNodo = this._dataTipoNodo.map((obj: any) => ( { ...obj, cantidad : parseInt(obj.cantidad) }));
-    this._Nodoservice.saveNodoConfig(this._dataTipoNodo).subscribe({
-    next: (data) => {
-      this._util.alertSuccess(data.message, `Niveles del Nodo`);
+    if (this.isConfig) {
+      this._dataTipoNodo = this._dataTipoNodo.map((obj: any) => ({ ...obj, cantidad: parseInt(obj.cantidad) }));
+      this._Nodoservice.saveNodoConfig(this._dataTipoNodo).subscribe({
+        next: (data) => {
+          this._util.alertSuccess(data.message, `Niveles del Nodo`);
+          this.closeMe();
+        },
+        error: (e) => this._util.processError(e)
+      });
+    }else{
       this.closeMe();
-    },
-    error: (e) => this._util.processError(e)
-  });
-  } 
+    }    
+  }
 
   closeMe() {
     this.dialogRef.close(this.dataObject);
+  }
+
+  reCreate() {
+    this.isConfig = true;
+    this.GetTipoNodoSelect();
   }
 
 }

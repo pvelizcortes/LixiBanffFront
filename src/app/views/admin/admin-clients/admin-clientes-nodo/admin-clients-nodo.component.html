@@ -2,21 +2,51 @@
     <h1 mat-dialog-title><svg cIcon size="xl" name="cil-equalizer" class="icon-back-color-warning mr-1"></svg>{{_title}}
     </h1>
     <div mat-dialog-content>
-        <c-row>            
+        <c-row *ngIf="!isConfig">
+            <h2><b>Configuración Actual:</b></h2>
+            <hr>
+            <c-col sm="12">
+                <c-row>
+                    <c-col *ngFor="let item of _dataConfig" class="py-2 text-center">
+                        <h4><b> {{item.tipoNodo.nombreTipoNodo}} </b></h4>
+                        <table cTable border="1" class="text-center">
+                            <thead>
+                                <tr>
+                                    <th><b>Nivel</b></th>
+                                    <th><b>Cantidad Mac</b></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let x of item.posiciones">
+                                    <td>
+                                        {{x.posicion}}
+                                    </td>
+                                    <td>
+                                        {{x.cantidadMac}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>                        
+                    </c-col>
+                </c-row>
+            </c-col>
+        </c-row>
+        <c-row *ngIf="isConfig">
             <c-col sm="12">
                 <div *ngFor="let item of _dataTipoNodo" class="py-2">
                     <c-row>
                         <c-col sm="4">
-                            <input cFormCheckInput color="warning" type="checkbox" name="item.id" [(ngModel)]="item.isChecked">
+                            <input cFormCheckInput color="warning" type="checkbox" name="item.id"
+                                [(ngModel)]="item.isChecked">
                             <label cFormCheckLabel for="item.id" class="px-2"><strong>{{item.text}}</strong></label>
                         </c-col>
                         <c-col sm="4">
                             <table>
                                 <tr>
                                     <td class="px-2"><strong>N° Niveles:</strong></td>
-                                    <td class="px-2"><input matInput placeholder="Niveles" autocomplete="off" cFormControl
-                                            class="ml-2 border input-sm" [(ngModel)]="item.niveles" type="number"
-                                            [ngModelOptions]="{standalone: true}">
+                                    <td class="px-2"><input matInput placeholder="Niveles" autocomplete="off"
+                                            cFormControl class="ml-2 border input-sm" [(ngModel)]="item.niveles"
+                                            type="number" [ngModelOptions]="{standalone: true}">
                                     </td>
                                     <td class="px-2"><button cButton size="sm" color="warning"
                                             (click)="Generate(item)">Generar</button></td>
@@ -34,8 +64,8 @@
                                 <tbody>
                                     <tr *ngFor="let x of item.cantMacs">
                                         <td>{{x.posicion}}</td>
-                                        <td><input matInput placeholder="Mac" autocomplete="off" type="number" cFormControl
-                                                class="ml-1 border input-sm" [(ngModel)]="x.cantidad"
+                                        <td><input matInput placeholder="Mac" autocomplete="off" type="number"
+                                                cFormControl class="ml-1 border input-sm" [(ngModel)]="x.cantidad"
                                                 [ngModelOptions]="{standalone: true}"></td>
                                     </tr>
                                 </tbody>
@@ -48,7 +78,8 @@
         <hr>
     </div>
     <div mat-dialog-actions align="end">
-        <button cButton color="warning" (click)="onSubmit()" class="mr-1">{{_saveButtonName}}</button>
+        <button cButton color="success" (click)="reCreate()" class="mr-1" *ngIf="!isConfig">Crear Nueva Configuración</button>
+        <button cButton color="warning" (click)="onSubmit()" class="mr-1" *ngIf="isConfig">{{_saveButtonName}}</button>
         <button cButton color="light" (click)="closeMe()">{{_closeButtonName}}</button>
     </div>
 </div>

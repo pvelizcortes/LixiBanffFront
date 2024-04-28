@@ -11,6 +11,7 @@ import { LoginService } from 'src/app/services/login.service';
 })
 export class LoginComponent {
   loginForm: FormGroup;
+  cargando = false;
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
@@ -24,6 +25,7 @@ export class LoginComponent {
   }
 
   onSubmit(form: any) {
+    this.cargando = true;
     const usuario: UsuarioDto = {
       nombreUsuario: form.userName,
       password: form.password
@@ -32,6 +34,7 @@ export class LoginComponent {
     // Login
     this.loginService.login(usuario).subscribe({
       next: (data) => {
+        this.cargando = false;
         // Set Token Local    
         this.loginService.setLocalStorage(data.token);
         // Get User Info
@@ -48,6 +51,7 @@ export class LoginComponent {
         })      
       },
       error: (error) => {
+        this.cargando = false;
         this.loginForm.reset();
         alert('Usuario / Contraseña Incorrectos.');
       }

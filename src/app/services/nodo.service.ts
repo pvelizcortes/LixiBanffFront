@@ -52,6 +52,11 @@ export class NodoService {
     return this.http.get(this.myAppUrl + this.principalUrl + 'GetTipoNodoProject');
   }
 
+  getConfigNodoProject(clienteId?: number): Observable<any> {    
+    let queryParams = { "clienteId": clienteId ? clienteId : 0 };
+    return this.http.get(this.myAppUrl + this.principalUrl + 'getConfigNodoProject', {params: queryParams});
+  }
+
   getTipoNodo(tipoNodoId: number): Observable<any> {
     let queryParams = { "tipoNodoId": tipoNodoId ? tipoNodoId : 0 };
     return this.http.get(this.myAppUrl + this.principalUrl + 'GetTipoNodo', { params: queryParams });

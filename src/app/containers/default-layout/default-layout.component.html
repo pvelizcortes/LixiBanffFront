@@ -31,7 +31,7 @@
       <router-outlet></router-outlet>  
   </div>
   <!--app footer-->
-  <div *ngIf="spinnerService.visibility | async">
+  <div *ngIf="spinnerService.visibility | async" style="z-index: 9999;">
     <div class="fade show text-center loading-new" style="text-align: center; padding-top: calc(100vh / 2); height: 100vh">    
       <img src="assets/img/brand/lixitrack.png" style="width: 10%;" class="px-4" />
       <br>
