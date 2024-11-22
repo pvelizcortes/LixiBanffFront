@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AdminClientsComponent } from './admin-clients/admin-clients.component';
+import { AdminClientsParentComponent } from './admin-clients-parent/admin-clients-parent.component';
 import { AdminUsersComponent } from './admin-users/admin-users.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 
@@ -25,10 +26,17 @@ const routes: Routes = [
         }
       },   
       {
-        path: 'projects',
+        path: 'projects/:id',
         component: AdminClientsComponent,
         data: {
           title: 'Proyectos'
+        }
+      },
+      {
+        path: 'clients',
+        component: AdminClientsParentComponent,
+        data: {
+          title: 'Clientes'
         }
       },
       {

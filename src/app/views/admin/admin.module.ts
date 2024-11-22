@@ -21,7 +21,9 @@ import { HttpClientModule } from '@angular/common/http';
 
 // Components
 import { AdminClientsComponent } from './admin-clients/admin-clients.component';
+import { AdminClientsParentComponent } from './admin-clients-parent/admin-clients-parent.component';
 import { AdminClientsFormComponent } from './admin-clients/admin-clients-form/admin-clients-form.component';
+import { AdminClientsParentFormComponent } from './admin-clients-parent/admin-clients-parent-form/admin-clients-parent-form.component';
 import { AdminClientsNodoComponent } from './admin-clients/admin-clientes-nodo/admin-clients-nodo.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 
@@ -53,7 +55,9 @@ import {
 @NgModule({
   declarations: [
     AdminClientsComponent,
+    AdminClientsParentComponent,
     AdminClientsFormComponent,
+    AdminClientsParentFormComponent,
     AdminClientsNodoComponent,
     AdminUsersFormComponent,
     AdminUsersComponent,

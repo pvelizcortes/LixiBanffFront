@@ -58,8 +58,8 @@ export const navItems: INavData[] = [
     attributes: { security: 0, id: 7 }
   },
   {
-    name: 'Proyectos',
-    url: '/admin/projects',
+    name: 'Clientes',
+    url: '/admin/clients',
     iconComponent: { name: 'cil-contact' },
     attributes: { security: 0, id: 6 }
   } 

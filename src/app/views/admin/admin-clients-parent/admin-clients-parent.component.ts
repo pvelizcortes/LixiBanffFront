@@ -2,11 +2,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { GlobalConstants } from '../../../constants/global-constants';
 import { ToastrService } from 'ngx-toastr';
-import { ActivatedRoute } from '@angular/router';
 // Models
 import { Cliente } from '../../../shared/cliente';
 // Services
-import { AdminClientService } from '../../../services/admin-client.service';
+import { AdminClientParentService } from '../../../services/admin-client-parent.service';
 import { ConfirmationService } from '../../../services/confirmation.service';
 // Mat Table
 import { MatTableDataSource } from '@angular/material/table';
@@ -15,8 +14,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableExporterModule } from 'mat-table-exporter'; // No Borrar
 // Dialog
 import { MatDialog } from '@angular/material/dialog';
-import { AdminClientsFormComponent } from './admin-clients-form/admin-clients-form.component';
-import { AdminClientsNodoComponent } from './admin-clientes-nodo/admin-clients-nodo.component';
+import { AdminClientsParentFormComponent } from './admin-clients-parent-form/admin-clients-parent-form.component';
 // Export PDF
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable';
@@ -24,14 +22,14 @@ import { LoginService } from 'src/app/services/login.service';
 
 
 @Component({
-  selector: 'app-admin-clients',
-  templateUrl: './admin-clients.component.html',
-  styleUrls: ['./admin-clients.component.scss']
+  selector: 'app-admin-clients-parent',
+  templateUrl: './admin-clients-parent.component.html',
+  styleUrls: ['./admin-clients-parent.component.scss']
 })
 
-export class AdminClientsComponent implements OnInit {
+export class AdminClientsParentComponent implements OnInit {
   // Principal Properties
-  _entity: string = 'Proyectos';
+  _entity: string = 'Cliente';
   _title: string = 'Mantenedor de ' + this._entity;
   _createName: string = GlobalConstants.createButtonName;
   _searchText: string = GlobalConstants.searchPlaceHolder;
@@ -43,11 +41,10 @@ export class AdminClientsComponent implements OnInit {
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild('tableSort') tableSort = new MatSort();
-  _clientePadreId : number = 0;
 
   constructor(public dialog: MatDialog,
-    private route: ActivatedRoute,
-    private _service: AdminClientService,
+    private router: Router,
+    private _service: AdminClientParentService,
     private _confirm: ConfirmationService,
     private _loginService : LoginService,
     private toastr: ToastrService) {
@@ -56,7 +53,6 @@ export class AdminClientsComponent implements OnInit {
   ngOnInit(): void {
     // CheckPermission
     this._loginService.checkPermission(0);
-    this._clientePadreId = Number(this.route.snapshot.paramMap.get('id')) ?? '0';
     this.getList();
   }
   ngAfterViewInit() {
@@ -68,7 +64,7 @@ export class AdminClientsComponent implements OnInit {
 
     }
     else {
-      this._service.getList(this._clientePadreId).subscribe(data => {
+      this._service.getList().subscribe(data => {
         this.dataSource.data = data;
         this.dataSource.paginator = this.paginator;
       });
@@ -87,16 +83,7 @@ export class AdminClientsComponent implements OnInit {
   }
 
   openDialog(item?: Cliente): void {
-    const dialogRef = this.dialog.open(AdminClientsFormComponent, {
-      data: { _cliente :item, _clientePadreId : this._clientePadreId },  width: '100%', position: { top: '8vh' }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      this.getList();
-    });
-  }
-
-  openTipoNodoCliente(item?: any){
-    const dialogRef = this.dialog.open(AdminClientsNodoComponent, {
+    const dialogRef = this.dialog.open(AdminClientsParentFormComponent, {
       data: item, width: '100%', position: { top: '8vh' }
     });
     dialogRef.afterClosed().subscribe(result => {

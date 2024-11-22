@@ -4,15 +4,15 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 // Model
-import { Cliente } from '../shared/cliente';
+import { ClientePadre } from '../shared/clientePadre';
 
 @Injectable({
   providedIn: 'root'
 })
 
-export class AdminClientService {
+export class AdminClientParentService {
   myAppUrl: string;
-  principalUrl: string = '/api/Cliente/';
+  principalUrl: string = '/api/ClientePadre/';
 
   // Form Properties
   errorMessages: any;
@@ -30,21 +30,19 @@ export class AdminClientService {
     this.myAppUrl = environment.endpoint;   
   }
 
-  getList(clientePadreId: number): Observable<any>{
-    let queryParams = { "clientePadreId": clientePadreId ?? 0 };
-    return this.http.get(this.myAppUrl + this.principalUrl + 'GetList', { params: queryParams });
+  getList(): Observable<any>{
+    return this.http.get(this.myAppUrl + this.principalUrl + 'GetList');
   }
-  
 
   getSelect(): Observable<any> {
     return this.http.get(this.myAppUrl + this.principalUrl + 'GetSelect');
   }
 
-  create(_obj : Cliente): Observable<any>{
+  create(_obj : ClientePadre): Observable<any>{
     return this.http.post(this.myAppUrl + this.principalUrl + 'Create', _obj);
   }
 
-  save(_obj : Cliente): Observable<any>{
+  save(_obj : ClientePadre): Observable<any>{
     return this.http.post(this.myAppUrl + this.principalUrl + 'Save', _obj);
   }
 

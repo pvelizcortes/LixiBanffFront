@@ -5,18 +5,18 @@ import { ToastrService } from 'ngx-toastr';
 import { UtilsService } from '../../../../services/utils.service'
 
 import { GlobalConstants } from '../../../../constants/global-constants';
-import { Cliente } from 'src/app/shared/cliente';
-import { AdminClientService } from '../../../../services/admin-client.service';
+import { ClientePadre } from 'src/app/shared/clientePadre';
+import { AdminClientParentService } from '../../../../services/admin-client-parent.service';
 import { NodoService } from '../../../../services/nodo.service';
 
 @Component({
-  selector: 'app-admin-clients-form',
-  templateUrl: './admin-clients-form.component.html',
-  styleUrls: ['./admin-clients-form.component.scss']
+  selector: 'app-admin-clients-parent-form',
+  templateUrl: './admin-clients-parent-form.component.html',
+  styleUrls: ['./admin-clients-parent-form.component.scss']
 })
 
-export class AdminClientsFormComponent implements OnInit {
-  dataObject: Cliente; // Principal Object
+export class AdminClientsParentFormComponent implements OnInit {
+  dataObject: ClientePadre; // Principal Object
   // Properties
   _title: string = '';
   _entity: string = 'Proyecto';
@@ -27,24 +27,21 @@ export class AdminClientsFormComponent implements OnInit {
   queryForm: FormGroup;
   // Select Data
   _dataTipoNodo: any[];
-  _clientePadreId : number;
 
   // ** Constructor **
-  constructor(public dialogRef: MatDialogRef<AdminClientsFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private _Nodoservice: NodoService,
+  constructor(public dialogRef: MatDialogRef<AdminClientsParentFormComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: ClientePadre,
     private formBuilder: FormBuilder,
-    private _service: AdminClientService,
+    private _service: AdminClientParentService,
     private toastr: ToastrService,
     private _util: UtilsService) {
     this.CreateForm();
-    data._cliente ? this.Editing(data._cliente) : this.Creating(data._clientePadreId);
+    data ? this.Editing(data) : this.Creating();
   }
   ngOnInit(): void {
   }
   CreateForm() {
     this.queryForm = this.formBuilder.group({
-      clienteId: [0],
       clientePadreId: [0],
       nombreCliente: ['', [Validators.required]],
       correoCliente: ['', [Validators.required, Validators.email]],
@@ -54,23 +51,16 @@ export class AdminClientsFormComponent implements OnInit {
       active: [true]
     });
   }
-  Creating(clientePadreId: number) {
+  Creating() {
     this._title = 'Creando nuevo ' + this._entity;
-    this._clientePadreId = clientePadreId;
-    this.queryForm.patchValue(
-      {       
-        clientePadreId: clientePadreId
-      }
-    );
   }
-  Editing(_obj: Cliente) {
+  Editing(_obj: ClientePadre) {
     this._isNew = false;
     this.dataObject = Object.assign({}, _obj);
     this._title = 'Editando ' + this._entity + ': ' + this.dataObject.nombreCliente;
     this.queryForm.patchValue(
       {
         nombreCliente: this.dataObject.nombreCliente,
-        clienteId: this.dataObject.clienteId,
         clientePadreId: this.dataObject.clientePadreId,
         correoCliente: this.dataObject.correoCliente,
         telefonoCliente: this.dataObject.telefonoCliente,
@@ -86,7 +76,7 @@ export class AdminClientsFormComponent implements OnInit {
   }
 
   activar() {
-    const formValues = <Cliente>this.queryForm.getRawValue();
+    const formValues = <ClientePadre>this.queryForm.getRawValue();
     formValues.active = true;
     this._service.save(formValues).subscribe(data => {
       this.toastr.success(`${this._entity} activado con éxito.`, `Mantenedor de ${this._entity}:`);
@@ -96,7 +86,7 @@ export class AdminClientsFormComponent implements OnInit {
 
   onSubmit(): void {
     if (this.queryForm.valid) {
-      const formValues = <Cliente>this.queryForm.getRawValue();
+      const formValues = <ClientePadre>this.queryForm.getRawValue();
       if (this._isNew) {
         this._service.create(formValues).subscribe(data => {
           this.toastr.success(data.message, `Mantenedor de ${this._entity}:`);

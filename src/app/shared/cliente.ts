@@ -1,5 +1,6 @@
-export interface Client {
+export interface Cliente {
     clienteId: number,
+    clientePadreId: number,
     nombreCliente: string,
     correoCliente?: string,
     telefonoCliente?: string,
