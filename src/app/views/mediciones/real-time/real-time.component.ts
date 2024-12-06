@@ -99,8 +99,6 @@ export class RealTimeComponent implements OnInit {
       return x.id == nodeId;
     });
 
-    console.log(this.objFiltered);
-
     var Fechitas = this.objFiltered.map(x => {
       return this.datePipe.transform(x.fecha, 'dd-MM-yyyy hh:mm');
     });

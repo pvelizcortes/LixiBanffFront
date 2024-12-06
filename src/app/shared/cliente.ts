@@ -6,6 +6,7 @@ export interface Cliente {
     telefonoCliente?: string,
     direccionCliente?: string,
     descripcionCliente?: string,
+    dbName?:string,
     createDate?: Date,
     active: boolean,
 }

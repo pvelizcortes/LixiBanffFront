@@ -39,6 +39,11 @@
           <input matInput formControlName="descripcionCliente">
         </mat-form-field>
 
+        <mat-form-field class="col-sm-12 px-2">
+          <mat-label>Nombre Dynamo</mat-label>
+          <input matInput formControlName="dbName">
+        </mat-form-field>
+
         <c-col *ngIf="dataObject && !dataObject.active">
           <c-alert color="danger" class="d-flex align-items-center">
             <div><i class="fa-solid fa-circle-exclamation"></i>

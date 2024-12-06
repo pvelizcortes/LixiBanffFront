@@ -51,6 +51,7 @@ export class AdminClientsFormComponent implements OnInit {
       telefonoCliente: [''],
       direccionCliente: [''],
       descripcionCliente: [''],
+      dbName: ['', [Validators.required]],      
       active: [true]
     });
   }
@@ -76,6 +77,7 @@ export class AdminClientsFormComponent implements OnInit {
         telefonoCliente: this.dataObject.telefonoCliente,
         direccionCliente: this.dataObject.direccionCliente,
         descripcionCliente: this.dataObject.descripcionCliente,
+        dbName: this.dataObject.dbName,
         active: this.dataObject.active
       }
     );
@@ -95,8 +97,8 @@ export class AdminClientsFormComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.queryForm.valid) {
-      const formValues = <Cliente>this.queryForm.getRawValue();
+    if (this.queryForm.valid) {      
+      const formValues = <Cliente>this.queryForm.getRawValue()
       if (this._isNew) {
         this._service.create(formValues).subscribe(data => {
           this.toastr.success(data.message, `Mantenedor de ${this._entity}:`);

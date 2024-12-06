@@ -73,7 +73,6 @@ export class NodoComponent implements OnInit {
     else {
       this._service.getList(this._idProyecto).subscribe({
         next : (data) => {
-          console.log(data);
           this.dataSource.data = data;
           this.dataSource.paginator = this.paginator;
         },

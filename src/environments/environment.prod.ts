@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  endpoint: 'https://lixibanff.transporteszamora.com'
+  endpoint: 'https://api-lixibanff.banfflabs.com'
 };

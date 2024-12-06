@@ -5,7 +5,6 @@ import { Chart, ChartConfiguration, ChartData, ChartType } from 'chart.js';
 
 // Services
 import { PilaService } from 'src/app/services/pila.service';
-import { PanoService } from 'src/app/services/pano.service';
 import { DynamodbService } from 'src/app/services/dynamodb.service';
 import { ZonaService } from 'src/app/services/zona.service';
 
@@ -46,7 +45,7 @@ export class GraficoPilaComponent implements OnInit {
   queryForm: FormGroup;
   // SELECT DATA
   _dataPila: any[];
-  _dataPano: any[];
+  _dataVariables: any[];
   dataSource2: any;
 
   _dataZona: any[];
@@ -71,8 +70,8 @@ export class GraficoPilaComponent implements OnInit {
     }
   };
 
-  public barChartType: ChartType = 'bar';
-  public barChartData: ChartData<'bar'> = {
+  public barChartType: ChartType = 'line';
+  public barChartData: ChartData<'line'> = {
     labels: [],
     datasets: []        
   };
@@ -81,7 +80,6 @@ export class GraficoPilaComponent implements OnInit {
     private formBuilder: FormBuilder,
     private _util: UtilsService,
     private _servicePila: PilaService,
-    private _servicePano: PanoService,
     private _serviceZona: ZonaService,
     private _dynamoDB: DynamodbService) {
     this.CreateForm();
@@ -89,6 +87,7 @@ export class GraficoPilaComponent implements OnInit {
 
   ngOnInit(): void {
     this.GetZonasToSelect();
+    this.GetVariables();
   }
 
   CreateForm() {
@@ -97,6 +96,7 @@ export class GraficoPilaComponent implements OnInit {
       to: ['', [Validators.required]],
       pilaId:  [0, [Validators.required, Validators.min(1)]],  // FK
       zonaId: [0, [Validators.required, Validators.min(1)]],  // FK
+      variableId: [0],  // FK
     });
   }
 
@@ -115,14 +115,67 @@ export class GraficoPilaComponent implements OnInit {
     doc.save(this._title + '.pdf')
   }
 
+  // onSubmit(): void {
+  //   this.showChart = false;
+  //   if (this.queryForm.valid) {
+  //     const formValues = <any>this.queryForm.getRawValue();
+  //     this._dynamoDB.getChartData(formValues.from, formValues.to, formValues.pilaId, formValues.variableId).subscribe({
+  //       next: (data) => {
+  //         this.dataSource2 = data.valores.map((obj: any) => ({ ...obj, valorSensor: JSON.parse(obj.valor) }));
+  //         this.barChartData.datasets = [];
+  //         // Buscar Nodos
+  //         const conjuntoDeCombinaciones = new Set<string>();
+  //         const arrayDeObjetosDistintos = this.dataSource2.filter((objeto: any) => {
+  //           const combinacion = `${objeto.nombreNodo}-${objeto.sensor}`;
+  //           if (conjuntoDeCombinaciones.has(combinacion)) {
+  //             return false;
+  //           }
+  //           conjuntoDeCombinaciones.add(combinacion);
+  //           return true;
+  //         });
+
+  //         // Dias
+  //         var arrayOfDates = this.createDates(formValues.from, formValues.to);
+  //         this.barChartData.labels = [];
+  //         arrayOfDates.forEach((fecha:string) => {
+  //           this.barChartData.labels?.push(fecha);
+  //         });  
+
+  //         // Recorrer Sensores
+  //         arrayDeObjetosDistintos.forEach((s:any) => {
+            
+  //           var dataObject:any = [];
+  //           // Recorrer Días
+  //           arrayOfDates.forEach((fecha:string) => {             
+  //             const resultsPerDay = this.dataSource2.filter((item : any)=> item.time == fecha && item.sensor == s.sensor);
+  //             if (resultsPerDay.length == 0){
+  //               dataObject.push(0)    
+  //             }
+  //             else{
+  //               const sum = resultsPerDay.reduce((acc:any, val:any) => acc + parseFloat(val.valorSensor.Value), 0);
+  //               const average = sum / resultsPerDay.length;
+  //               dataObject.push(average)    
+  //             }
+  //           }); 
+  //           this.barChartData.datasets.push({ data: dataObject, label: s.sensor + ' (' + s.nombreNodo + ')'   });         
+  //           this.showChart = true;
+  //         });
+  //       },
+  //       error: (e) => this._util.processError(e)
+  //     });
+  //   }
+  //   else {
+  //     this.queryForm.markAllAsTouched();
+  //   }
+  // }
+
   onSubmit(): void {
     this.showChart = false;
     if (this.queryForm.valid) {
       const formValues = <any>this.queryForm.getRawValue();
-      this._dynamoDB.getChartData(formValues.from, formValues.to, formValues.pilaId).subscribe({
+      this._dynamoDB.getChartData(formValues.from, formValues.to, formValues.pilaId, formValues.variableId).subscribe({
         next: (data) => {
           this.dataSource2 = data.valores.map((obj: any) => ({ ...obj, valorSensor: JSON.parse(obj.valor) }));
-          console.log(this.dataSource2, 'test dataSource2');     
           this.barChartData.datasets = [];
           // Buscar Nodos
           const conjuntoDeCombinaciones = new Set<string>();
@@ -161,8 +214,6 @@ export class GraficoPilaComponent implements OnInit {
             this.barChartData.datasets.push({ data: dataObject, label: s.sensor + ' (' + s.nombreNodo + ')'   });         
             this.showChart = true;
           });
-          console.log(this.barChartData, 'BAR CHAR DATA');
-          console.log(arrayOfDates, 'DATES');
         },
         error: (e) => this._util.processError(e)
       });
@@ -189,7 +240,7 @@ export class GraficoPilaComponent implements OnInit {
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const year = date.getFullYear();
   
-    return `${day}/${month}/${year}`;
+    return `${day}-${month}-${year}`;
   }
 
   GetZonasToSelect() {
@@ -207,6 +258,10 @@ export class GraficoPilaComponent implements OnInit {
     });
   }
 
+  GetVariables(){
+    this._dataVariables = [{id:'o2', text:'O2'}, {id: 'co2', text:'CO2'}, {id: 'n20', text:'N20'}, {id: '%', text:'Humedad'}];
+  }
+
   GetPilasToSelect() {
     this._servicePila.getSelect(0).subscribe({
       next: (data) => {
@@ -214,22 +269,7 @@ export class GraficoPilaComponent implements OnInit {
       },
       error: (e) => this._util.processError(e)
     });
-  }
-
-  GetPanosToSelect(pilaId: number) {
-    this._servicePano.getSelect(pilaId).subscribe({
-      next: (data) => {
-        this._dataPano = data;
-        if (data.length > 0) {
-          this.queryForm.get('panoId')?.enable();
-        }
-        else {
-          this.queryForm.get('panoId')?.disable();
-        }
-      },
-      error: (e) => this._util.processError(e)
-    });
-  }
+  }  
 
   ZonaChange(zonaId: any) {
     this._zonaSelected = this._dataZona.find(x => {

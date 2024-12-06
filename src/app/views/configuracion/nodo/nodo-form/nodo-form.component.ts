@@ -140,11 +140,7 @@ export class NodoFormComponent implements OnInit {
       error: (e) => this._util.processError(e)
     });
   }
-
-  mostrarJson() {
-    console.log(this._cantidadMediciones);
-  }
-
+  
   CreateForm() {
     this.queryForm = this.formBuilder.group({
       nodoId: [0],  // PK

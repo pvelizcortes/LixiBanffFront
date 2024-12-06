@@ -28,6 +28,17 @@
                                 Seleccione una opción.
                             </mat-error>
                         </mat-form-field>
+                        <mat-form-field class="col-sm-4">
+                            <mat-label><b>Variable</b></mat-label>
+                            <mat-select formControlName="variableId">
+                                <mat-option *ngFor="let option of _dataVariables" [value]="option.id">
+                                    {{option.text}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="queryForm.controls['variableId'].hasError('min')">
+                                Seleccione una opción.
+                            </mat-error>
+                        </mat-form-field>
                     </c-row>
                     <c-row>
                         <mat-form-field class="col-sm-4">
