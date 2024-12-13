@@ -48,6 +48,13 @@ export class DynamodbService {
     return this.http.get(this.myAppUrl + this.principalUrl + 'ChartData', { params: queryParams });
   }
 
+  GetVariables(pilaId: number): Observable<any> {
+    let queryParams = {      
+      "pilaId": pilaId.toString()
+    };
+    return this.http.get(this.myAppUrl + this.principalUrl + 'GetFiltroSensor', { params: queryParams });
+  }
+
   GetPilaData(pilaId: number): Observable<any> {
     return this.http.get(this.myAppUrl + this.principalUrl + 'GetPilaData', { params: { pilaId: pilaId } });
   }

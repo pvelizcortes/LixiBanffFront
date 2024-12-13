@@ -18,7 +18,7 @@
                         </mat-form-field>
                         <mat-form-field class="col-sm-4" *ngIf="_zonaSelected?.text == 'PILA'">
                             <mat-label><b>Pila</b></mat-label>
-                            <mat-select formControlName="pilaId">
+                            <mat-select formControlName="pilaId" (selectionChange)="PilaChange($event.value)">
                                 <mat-option [value]="0" selected>-- Seleccione</mat-option>
                                 <mat-option *ngFor="let option of _dataPila" [value]="option.id">
                                     {{option.text}}
@@ -31,8 +31,8 @@
                         <mat-form-field class="col-sm-4">
                             <mat-label><b>Variable</b></mat-label>
                             <mat-select formControlName="variableId">
-                                <mat-option *ngFor="let option of _dataVariables" [value]="option.id">
-                                    {{option.text}}
+                                <mat-option *ngFor="let option of _dataVariables" [value]="option">
+                                    {{option}}
                                 </mat-option>
                             </mat-select>
                             <mat-error *ngIf="queryForm.controls['variableId'].hasError('min')">

@@ -58,9 +58,7 @@ export class GraficoPilaComponent implements OnInit {
     // We use these empty structures as placeholders for dynamic theming.
     scales: {
       x: {},
-      y: {
-        min: 0
-      }
+      y: {}
     },
     plugins: {
       legend: {
@@ -73,7 +71,7 @@ export class GraficoPilaComponent implements OnInit {
   public barChartType: ChartType = 'line';
   public barChartData: ChartData<'line'> = {
     labels: [],
-    datasets: []        
+    datasets: []    
   };
 
   constructor(
@@ -87,7 +85,6 @@ export class GraficoPilaComponent implements OnInit {
 
   ngOnInit(): void {
     this.GetZonasToSelect();
-    this.GetVariables();
   }
 
   CreateForm() {
@@ -96,7 +93,7 @@ export class GraficoPilaComponent implements OnInit {
       to: ['', [Validators.required]],
       pilaId:  [0, [Validators.required, Validators.min(1)]],  // FK
       zonaId: [0, [Validators.required, Validators.min(1)]],  // FK
-      variableId: [0],  // FK
+      variableId: [0, [Validators.required, Validators.min(1)]],  // FK
     });
   }
 
@@ -115,105 +112,37 @@ export class GraficoPilaComponent implements OnInit {
     doc.save(this._title + '.pdf')
   }
 
-  // onSubmit(): void {
-  //   this.showChart = false;
-  //   if (this.queryForm.valid) {
-  //     const formValues = <any>this.queryForm.getRawValue();
-  //     this._dynamoDB.getChartData(formValues.from, formValues.to, formValues.pilaId, formValues.variableId).subscribe({
-  //       next: (data) => {
-  //         this.dataSource2 = data.valores.map((obj: any) => ({ ...obj, valorSensor: JSON.parse(obj.valor) }));
-  //         this.barChartData.datasets = [];
-  //         // Buscar Nodos
-  //         const conjuntoDeCombinaciones = new Set<string>();
-  //         const arrayDeObjetosDistintos = this.dataSource2.filter((objeto: any) => {
-  //           const combinacion = `${objeto.nombreNodo}-${objeto.sensor}`;
-  //           if (conjuntoDeCombinaciones.has(combinacion)) {
-  //             return false;
-  //           }
-  //           conjuntoDeCombinaciones.add(combinacion);
-  //           return true;
-  //         });
-
-  //         // Dias
-  //         var arrayOfDates = this.createDates(formValues.from, formValues.to);
-  //         this.barChartData.labels = [];
-  //         arrayOfDates.forEach((fecha:string) => {
-  //           this.barChartData.labels?.push(fecha);
-  //         });  
-
-  //         // Recorrer Sensores
-  //         arrayDeObjetosDistintos.forEach((s:any) => {
-            
-  //           var dataObject:any = [];
-  //           // Recorrer Días
-  //           arrayOfDates.forEach((fecha:string) => {             
-  //             const resultsPerDay = this.dataSource2.filter((item : any)=> item.time == fecha && item.sensor == s.sensor);
-  //             if (resultsPerDay.length == 0){
-  //               dataObject.push(0)    
-  //             }
-  //             else{
-  //               const sum = resultsPerDay.reduce((acc:any, val:any) => acc + parseFloat(val.valorSensor.Value), 0);
-  //               const average = sum / resultsPerDay.length;
-  //               dataObject.push(average)    
-  //             }
-  //           }); 
-  //           this.barChartData.datasets.push({ data: dataObject, label: s.sensor + ' (' + s.nombreNodo + ')'   });         
-  //           this.showChart = true;
-  //         });
-  //       },
-  //       error: (e) => this._util.processError(e)
-  //     });
-  //   }
-  //   else {
-  //     this.queryForm.markAllAsTouched();
-  //   }
-  // }
-
   onSubmit(): void {
     this.showChart = false;
     if (this.queryForm.valid) {
       const formValues = <any>this.queryForm.getRawValue();
       this._dynamoDB.getChartData(formValues.from, formValues.to, formValues.pilaId, formValues.variableId).subscribe({
-        next: (data) => {
+        next: (data) => {          
           this.dataSource2 = data.valores.map((obj: any) => ({ ...obj, valorSensor: JSON.parse(obj.valor) }));
+          // Initialize [ ]
           this.barChartData.datasets = [];
-          // Buscar Nodos
-          const conjuntoDeCombinaciones = new Set<string>();
-          const arrayDeObjetosDistintos = this.dataSource2.filter((objeto: any) => {
-            const combinacion = `${objeto.nombreNodo}-${objeto.sensor}`;
-            if (conjuntoDeCombinaciones.has(combinacion)) {
-              return false;
-            }
-            conjuntoDeCombinaciones.add(combinacion);
-            return true;
-          });
-
-          // Dias
-          var arrayOfDates = this.createDates(formValues.from, formValues.to);
           this.barChartData.labels = [];
-          arrayOfDates.forEach((fecha:string) => {
+          // Lecturas -- Eje X
+          const uniqueDates = Array.from(new Set(this.dataSource2.map((x: any) => x.fechaHora)));       
+          uniqueDates.forEach((fecha:any) => {
             this.barChartData.labels?.push(fecha);
-          });  
-
-          // Recorrer Sensores
-          arrayDeObjetosDistintos.forEach((s:any) => {
-            
-            var dataObject:any = [];
-            // Recorrer Días
-            arrayOfDates.forEach((fecha:string) => {             
-              const resultsPerDay = this.dataSource2.filter((item : any)=> item.time == fecha && item.sensor == s.sensor);
-              if (resultsPerDay.length == 0){
-                dataObject.push(0)    
-              }
-              else{
-                const sum = resultsPerDay.reduce((acc:any, val:any) => acc + parseFloat(val.valorSensor.Value), 0);
-                const average = sum / resultsPerDay.length;
-                dataObject.push(average)    
-              }
-            }); 
-            this.barChartData.datasets.push({ data: dataObject, label: s.sensor + ' (' + s.nombreNodo + ')'   });         
-            this.showChart = true;
           });
+          // Buscar Combinaciones -- Eje Y
+          const conjuntoDeCombinaciones = new Set<string>();
+          const arrayDeObjetosDistintos = this.dataSource2.filter((objeto: any) => 
+            !conjuntoDeCombinaciones.has(`${objeto.nombreNodo}-${objeto.sensor}`) && conjuntoDeCombinaciones.add(`${objeto.nombreNodo}-${objeto.sensor}`)
+          );
+          // Recorrer Sensores
+          arrayDeObjetosDistintos.forEach((s:any) => {            
+            var dataObject = uniqueDates.map((fecha: any) => {
+              const resultsPerDay = this.dataSource2.filter(
+                (item: any) => item.fechaHora === fecha && item.sensor === s.sensor && item.idNodo === s.idNodo
+              );
+              return resultsPerDay.length === 0 ? Number.NaN : resultsPerDay[0].valorSensor.Value;
+            });
+            this.barChartData.datasets.push({ data: dataObject, label: s.sensor + ' (' + s.nombreNodo + ')', spanGaps: true });
+          });          
+          this.showChart = true;
         },
         error: (e) => this._util.processError(e)
       });
@@ -258,8 +187,10 @@ export class GraficoPilaComponent implements OnInit {
     });
   }
 
-  GetVariables(){
-    this._dataVariables = [{id:'o2', text:'O2'}, {id: 'co2', text:'CO2'}, {id: 'n20', text:'N20'}, {id: '%', text:'Humedad'}];
+  GetVariables(pilaId:number){
+    this._dynamoDB.GetVariables(pilaId).subscribe({
+      next: (data) => { this._dataVariables = data.alias; }
+    });
   }
 
   GetPilasToSelect() {
@@ -284,5 +215,9 @@ export class GraficoPilaComponent implements OnInit {
       this.queryForm.get('pilaId')?.removeValidators(Validators.required);
     }
     this.queryForm.get('pilaId')?.updateValueAndValidity();
+  }
+
+  PilaChange(pilaId: any) {
+    this.GetVariables(pilaId);
   }
 }

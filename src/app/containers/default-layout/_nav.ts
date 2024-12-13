@@ -24,7 +24,7 @@ export const navItems: INavData[] = [
     attributes: { security: 99, id: 0 }
   },
   {
-    name: 'Pila Promedio por Día',
+    name: 'Pila - Linear',
     url: '/mediciones/grafico-pila',
     iconComponent: { name: 'cil-list' },
     attributes: { security: 99, id: 1 }
