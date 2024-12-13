@@ -30,7 +30,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class GraficoPilaComponent implements OnInit {
   // PRINCIPAL PROPERTIES
   _entity: string = 'Pila';
-  _title: string = 'Grafico ' + this._entity + ' (promedio por día)';
+  _title: string = 'Grafico ' + this._entity;
   _createName: string = GlobalConstants.createButtonName;
   _searchText: string = GlobalConstants.searchPlaceHolder;
   _pageSizeOptions: number[] = GlobalConstants.pageSizeOptions;
