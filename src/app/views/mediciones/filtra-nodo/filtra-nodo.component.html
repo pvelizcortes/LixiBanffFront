@@ -93,7 +93,7 @@
                     #exporter="matTableExporter" matSort #tableSort="matSort" id="principalTable" #principalTable>                    
                     <ng-container matColumnDef="fechaHora">
                         <th mat-header-cell mat-sort-header *matHeaderCellDef class="table-header-text">FECHA</th>
-                        <td mat-cell *matCellDef="let item" class="p-2 vert-td">{{ item.fechaHora.Value | date:'dd/MM/yyyy hh:mm' }}</td>
+                        <td mat-cell *matCellDef="let item" class="p-2 vert-td">{{ item.fechaHora }}</td>
                     </ng-container>
                     <ng-container matColumnDef="nombreNodo">
                         <th mat-header-cell mat-sort-header *matHeaderCellDef class="table-header-text">NODO</th>
